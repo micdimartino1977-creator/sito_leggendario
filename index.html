@@ -1,0 +1,2172 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FattureSDI → CBI</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161d;
+    --surface2: #1a1e28;
+    --border: #2a2f3f;
+    --accent: #00d4aa;
+    --accent2: #4f8aff;
+    --warn: #ffaa00;
+    --danger: #ff4d6d;
+    --text: #e2e8f0;
+    --text2: #8892a4;
+    --text3: #4a5568;
+    --green: #22c55e;
+    --radius: 8px;
+  }
+
+  [data-theme="light"] {
+    --bg: #f0f2f5;
+    --surface: #ffffff;
+    --surface2: #f7f8fa;
+    --border: #d1d9e0;
+    --accent: #00a882;
+    --accent2: #3b6fd4;
+    --warn: #c47f00;
+    --danger: #d93045;
+    --text: #1a1f2e;
+    --text2: #5a6478;
+    --text3: #9aa0b0;
+    --green: #1a9e49;
+    --radius: 8px;
+  }
+
+  /* Toggle tema */
+  .theme-toggle {
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer; user-select: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text2);
+    font-size: 13px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .theme-toggle-track {
+    width: 32px; height: 18px;
+    background: var(--border);
+    border-radius: 10px;
+    position: relative;
+    transition: background 0.2s;
+  }
+  [data-theme="light"] .theme-toggle-track { background: var(--accent); }
+  .theme-toggle-thumb {
+    position: absolute; top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    background: white;
+    border-radius: 50%;
+    transition: left 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="light"] .theme-toggle-thumb { left: 16px; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    font-size: 14px;
+  }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px; font-weight: 600;
+  }
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .logo span { color: var(--text2); font-weight: 300; }
+  .header-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 3px 10px;
+    border-radius: 20px;
+    opacity: 0.8;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    padding: 16px 28px 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    color: var(--text2);
+    font-size: 13px;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px;
+    user-select: none;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-badge {
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    min-width: 18px;
+    text-align: center;
+  }
+
+  /* MAIN CONTENT */
+  main { padding: 24px 28px; max-width: 1400px; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* IMPORT PANEL */
+  .import-zone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 48px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+  .import-zone::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(0,212,170,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .import-zone:hover, .import-zone.drag-over {
+    border-color: var(--accent);
+    background: rgba(0,212,170,0.03);
+  }
+  .import-icon { font-size: 42px; margin-bottom: 12px; opacity: 0.6; }
+  .import-zone h3 { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+  .import-zone p { color: var(--text2); font-size: 13px; }
+  .import-hint {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+  #fileInput { display: none; }
+
+  /* FATTURE TABLE */
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 24px 0 14px;
+  }
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::before {
+    content: '';
+    width: 3px; height: 14px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary { background: var(--accent); color: var(--bg); }
+  .btn-primary:hover { background: #00f0c4; }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--accent2); color: var(--accent2); }
+  .btn-danger { background: rgba(255,77,109,0.1); color: var(--danger); border: 1px solid rgba(255,77,109,0.3); }
+  .btn-danger:hover { background: rgba(255,77,109,0.2); }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--surface2); }
+  tbody td {
+    padding: 11px 14px;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  .mono { font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+
+  /* STATUS BADGES */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .badge-pending { background: rgba(255,170,0,0.12); color: var(--warn); border: 1px solid rgba(255,170,0,0.25); }
+  .badge-paid { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+  .badge-overdue { background: rgba(255,77,109,0.1); color: var(--danger); border: 1px solid rgba(255,77,109,0.2); }
+  .badge-inbatch { background: rgba(79,138,255,0.1); color: var(--accent2); border: 1px solid rgba(79,138,255,0.2); }
+  .badge-nota    { background: rgba(160,100,255,0.1); color: #a064ff;       border: 1px solid rgba(160,100,255,0.25); }
+  .badge::before { content: '●'; font-size: 8px; }
+
+  /* CHECKBOX */
+  input[type="checkbox"] {
+    width: 15px; height: 15px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  /* CBI PANEL */
+  .config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .field-group {
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .field-group label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .field-group input, .field-group select {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 9px 12px;
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field-group input:focus, .field-group select:focus {
+    border-color: var(--accent);
+  }
+  .field-group .hint { font-size: 11px; color: var(--text3); }
+
+  /* CBI PREVIEW */
+  .cbi-preview {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    overflow-x: auto;
+    white-space: pre;
+    max-height: 300px;
+    overflow-y: auto;
+    line-height: 1.5;
+    margin-top: 12px;
+  }
+  .cbi-preview .comment { color: var(--text3); }
+
+  /* SCADENZARIO DASHBOARD */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .stat-card:hover { border-color: var(--accent2); }
+  .stat-card .stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 8px;
+  }
+  .stat-card .stat-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .stat-card .stat-sub {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+  .stat-card.accent { border-color: rgba(0,212,170,0.3); }
+  .stat-card.accent .stat-value { color: var(--accent); }
+  .stat-card.warn { border-color: rgba(255,170,0,0.3); }
+  .stat-card.warn .stat-value { color: var(--warn); }
+  .stat-card.danger { border-color: rgba(255,77,109,0.3); }
+  .stat-card.danger .stat-value { color: var(--danger); }
+  .stat-card.paid { border-color: rgba(34,197,94,0.3); }
+  .stat-card.paid .stat-value { color: var(--green); }
+
+  /* TIMELINE */
+  .timeline {
+    display: flex;
+    gap: 0;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .timeline-month {
+    min-width: 100px;
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-right: none;
+    background: var(--surface);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .timeline-month:first-child { border-radius: 8px 0 0 8px; }
+  .timeline-month:last-child { border-right: 1px solid var(--border); border-radius: 0 8px 8px 0; }
+  .timeline-month:hover { background: var(--surface2); }
+  .timeline-month.current { background: rgba(0,212,170,0.06); border-color: rgba(0,212,170,0.4); }
+  .timeline-month .month-label { font-size: 11px; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .timeline-month .month-amount { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; margin-top: 4px; color: var(--text); }
+  .timeline-month .month-bar {
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-top: 6px;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+  .timeline-month:hover .month-bar { opacity: 1; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text3);
+  }
+  .empty-state .empty-icon { font-size: 40px; margin-bottom: 14px; opacity: 0.4; }
+  .empty-state h3 { font-size: 15px; color: var(--text2); margin-bottom: 6px; }
+  .empty-state p { font-size: 13px; }
+
+  /* TOAST */
+  .toast-container {
+    position: fixed; bottom: 24px; right: 24px;
+    display: flex; flex-direction: column; gap: 8px;
+    z-index: 9999;
+  }
+  .toast {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-size: 13px;
+    display: flex; align-items: center; gap: 10px;
+    animation: slideIn 0.25s ease;
+    max-width: 320px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .toast.success { border-left: 3px solid var(--green); }
+  .toast.error { border-left: 3px solid var(--danger); }
+  .toast.info { border-left: 3px solid var(--accent2); }
+  @keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7); z-index: 999;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(3px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    width: 480px;
+    max-width: 90vw;
+    animation: modalIn 0.2s ease;
+  }
+  @keyframes modalIn { from { opacity:0; transform: scale(0.95); } to { opacity:1; transform: scale(1); } }
+  .modal-title {
+    font-size: 16px; font-weight: 600; margin-bottom: 16px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .modal-close { cursor: pointer; color: var(--text2); font-size: 20px; line-height: 1; }
+  .modal-close:hover { color: var(--text); }
+
+  .action-bar {
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  }
+  .separator { flex: 1; }
+
+  /* AMOUNT DISPLAY */
+  .amount-positive { color: var(--text); }
+  .amount-warn { color: var(--warn); }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center;
+  }
+  .filter-btn {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    transition: all 0.2s;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+  .filter-btn:hover { color: var(--text); border-color: var(--text3); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 600; }
+  .search-input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 12px;
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    outline: none;
+    width: 220px;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--accent2); }
+  .search-input::placeholder { color: var(--text3); }
+
+  @media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    header { padding: 12px 16px; }
+    main { padding: 16px; }
+    .tabs { padding: 12px 16px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    FattureSDI <span>→ CBI</span>
+  </div>
+  <div class="header-badge">v1.0 · Open Source</div>
+  <div style="display:flex;align-items:center;gap:8px">
+    <button class="btn btn-primary btn-sm" onclick="esportaJSON()" title="Scarica dati.json con ordinante e fatture">
+      💾 Salva dati
+    </button>
+    <label class="btn btn-secondary btn-sm" title="Carica un dati.json salvato in precedenza" style="cursor:pointer;margin:0">
+      📂 Carica dati
+      <input type="file" id="input-json" accept=".json" style="display:none" onchange="importaJSON(this)">
+    </label>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Cambia tema chiaro/scuro">
+      <span id="theme-icon">☀️</span>
+      <div class="theme-toggle-track"><div class="theme-toggle-thumb"></div></div>
+      <span id="theme-label">Chiaro</span>
+    </button>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('import')">📥 Importa XML</div>
+  <div class="tab" onclick="switchTab('fatture')">📋 Fatture <span class="tab-badge" id="badge-fatture">0</span></div>
+  <div class="tab" onclick="switchTab('cbi')">🏦 Genera CBI</div>
+  <div class="tab" onclick="switchTab('scadenzario')">📅 Scadenzario</div>
+  <div class="tab" onclick="switchTab('rubrica')">👥 Rubrica <span class="tab-badge" id="badge-rubrica">0</span></div>
+</div>
+
+<main>
+
+<!-- PANEL: IMPORT -->
+<div class="panel active" id="panel-import">
+  <div class="import-zone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+    <div class="import-icon">📂</div>
+    <h3>Trascina le fatture XML qui</h3>
+    <p>oppure clicca per selezionare i file</p>
+    <div class="import-hint">Formato: FatturaPA · XML SDI · .xml singoli o .zip (anche multipli, nessun limite dimensionale)</div>
+  </div>
+  <input type="file" id="fileInput" accept=".xml,.zip" multiple>
+
+  <div class="section-header" style="margin-top:24px">
+    <div class="section-title">File caricati in questa sessione</div>
+    <button class="btn btn-secondary btn-sm" onclick="loadDemoData()">🎭 Carica dati demo</button>
+  </div>
+
+  <div id="import-log">
+    <div class="empty-state">
+      <div class="empty-icon">📄</div>
+      <h3>Nessun file importato</h3>
+      <p>Carica le tue fatture XML del SDI per iniziare</p>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: FATTURE -->
+<div class="panel" id="panel-fatture">
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterFatture('all', this)">Tutte</button>
+    <button class="filter-btn" onclick="filterFatture('pending', this)">⏳ Da pagare</button>
+    <button class="filter-btn" onclick="filterFatture('overdue', this)">🔴 Scadute</button>
+    <button class="filter-btn" onclick="filterFatture('paid', this)">✅ Pagate</button>
+    <button class="filter-btn" onclick="filterFatture('nota_credito', this)">🟣 Note credito</button>
+    <input type="text" class="search-input" placeholder="🔍 Cerca fornitore, numero..." oninput="searchFatture(this.value)" id="search-fatture">
+    <div class="separator"></div>
+    <button class="btn btn-sm btn-secondary" onclick="selectAll()">Seleziona tutte da pagare</button>
+  </div>
+
+  <div id="fatture-container">
+    <div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <h3>Nessuna fattura</h3>
+      <p>Importa dei file XML nella tab "Importa XML"</p>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: CBI -->
+<div class="panel" id="panel-cbi">
+  <div class="section-header">
+    <div class="section-title">Dati ordinante (la tua azienda)</div>
+  </div>
+
+  <div style="background:rgba(79,138,255,0.07);border:1px solid rgba(79,138,255,0.2);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:var(--text2);line-height:1.6;display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <span>📄 Formato generato: <strong style="color:var(--accent2)">CBIPaymentRequest v00.04.00</strong> — lo stesso schema XML usato dalla tua banca. Compila i campi una sola volta; vengono salvati nel browser.</span>
+    <button class="btn btn-secondary btn-sm" onclick="esportaJSON()" style="white-space:nowrap;flex-shrink:0">💾 Salva dati (JSON)</button>
+  </div>
+
+  <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Dati azienda ordinante</div>
+  <div class="config-grid">
+    <div class="field-group">
+      <label>Ragione Sociale</label>
+      <input type="text" id="cfg-ragione" placeholder="es. AL PELLEGRINO SNC" value="">
+      <span class="hint">Come nel C/C bancario</span>
+    </div>
+    <div class="field-group">
+      <label>P.IVA / Codice Fiscale</label>
+      <input type="text" id="cfg-piva" placeholder="es. 00347630311" maxlength="16" value="">
+    </div>
+    <div class="field-group">
+      <label>Indirizzo (via/piazza)</label>
+      <input type="text" id="cfg-indirizzo" placeholder="es. Piazza G. Marconi, 5" value="">
+    </div>
+    <div class="field-group">
+      <label>CAP</label>
+      <input type="text" id="cfg-cap" placeholder="es. 34072" maxlength="5" value="">
+    </div>
+    <div class="field-group">
+      <label>Città</label>
+      <input type="text" id="cfg-citta" placeholder="es. Gradisca d'Isonzo" value="">
+    </div>
+    <div class="field-group">
+      <label>Provincia (sigla)</label>
+      <input type="text" id="cfg-prov" placeholder="es. GO" maxlength="2" value="" style="text-transform:uppercase">
+    </div>
+  </div>
+
+  <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Dati bancari ordinante</div>
+  <div class="config-grid">
+    <div class="field-group">
+      <label>IBAN Ordinante</label>
+      <input type="text" id="cfg-iban" placeholder="IT66L0887764580000000343387" value="">
+    </div>
+    <div class="field-group">
+      <label>Codice ABI banca (5 cifre)</label>
+      <input type="text" id="cfg-abi" placeholder="es. 08877" maxlength="5" value="">
+      <span class="hint">Trovalo nell'IBAN: IT66L <u>08877</u> 64580…</span>
+    </div>
+    <div class="field-group">
+      <label>Codice CUC / SIA</label>
+      <input type="text" id="cfg-sia" placeholder="es. ICRAITRR" value="">
+      <span class="hint">Assegnato dalla banca per il CBI</span>
+    </div>
+    <div class="field-group">
+      <label>Data esecuzione bonifici</label>
+      <input type="date" id="cfg-data" value="">
+    </div>
+  </div>
+
+  <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Causale</div>
+  <div class="config-grid">
+    <div class="field-group" style="grid-column:1/-1">
+      <label>Testo causale bonifico</label>
+      <input type="text" id="cfg-causale" placeholder="Ft. {num} del {data}" value="Ft. {num} del {data}" style="width:100%">
+      <span class="hint">{num} = numero fattura · {data} = data fattura · Se selezioni più fatture vengono concatenate automaticamente come nell'esempio della tua banca</span>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-title">Fatture selezionate per la distinta</div>
+    <div class="action-bar">
+      <span id="cbi-selected-info" style="font-size:13px; color:var(--text2)">0 fatture selezionate</span>
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:12px">
+        <span style="color:var(--text2)">Stesso fornitore:</span>
+        <label style="display:flex;align-items:center;gap:5px;cursor:pointer">
+          <input type="radio" name="accorpa" id="opt-accorpa" value="accorpa" checked onchange="renderCBIPanel()" style="accent-color:var(--accent)">
+          <span>Accorpa in un bonifico</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:5px;cursor:pointer">
+          <input type="radio" name="accorpa" id="opt-separati" value="separati" onchange="renderCBIPanel()" style="accent-color:var(--accent)">
+          <span>Bonifici separati</span>
+        </label>
+      </div>
+      <button class="btn btn-primary" onclick="generateCBI()" id="btn-genera">⚡ Genera distinta CBI</button>
+    </div>
+  </div>
+
+  <div id="cbi-selected-list">
+    <div class="empty-state">
+      <div class="empty-icon">🏦</div>
+      <h3>Nessuna fattura selezionata</h3>
+      <p>Vai nella tab "Fatture", seleziona quelle da pagare e torna qui</p>
+    </div>
+  </div>
+
+  <div id="cbi-output-section" style="display:none">
+    <div class="section-header" style="margin-top:24px">
+      <div class="section-title">Anteprima file generato</div>
+      <div class="action-bar">
+        <button class="btn btn-primary btn-sm" onclick="downloadCBI()">⬇️ Scarica file</button>
+        <button class="btn btn-secondary btn-sm" onclick="copyClipboard()">📋 Copia</button>
+      </div>
+    </div>
+    <div class="cbi-preview" id="cbi-preview"></div>
+  </div>
+</div>
+
+<!-- PANEL: SCADENZARIO -->
+<div class="panel" id="panel-scadenzario">
+  <div class="stats-grid" id="stats-grid">
+    <div class="stat-card accent">
+      <div class="stat-label">Totale fatture</div>
+      <div class="stat-value" id="stat-total">0</div>
+      <div class="stat-sub">documenti importati</div>
+    </div>
+    <div class="stat-card warn">
+      <div class="stat-label">Da pagare</div>
+      <div class="stat-value" id="stat-pending">€ 0</div>
+      <div class="stat-sub" id="stat-pending-count">0 fatture</div>
+    </div>
+    <div class="stat-card danger">
+      <div class="stat-label">Scadute</div>
+      <div class="stat-value" id="stat-overdue">€ 0</div>
+      <div class="stat-sub" id="stat-overdue-count">0 fatture</div>
+    </div>
+    <div class="stat-card paid">
+      <div class="stat-label">Pagate</div>
+      <div class="stat-value" id="stat-paid">€ 0</div>
+      <div class="stat-sub" id="stat-paid-count">0 fatture</div>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-title">Prossime scadenze (6 mesi)</div>
+    <button class="btn btn-secondary btn-sm" onclick="exportExcel()">📊 Esporta Excel/CSV</button>
+  </div>
+  <div class="timeline" id="timeline"></div>
+
+  <div class="section-header">
+    <div class="section-title">Dettaglio scadenze</div>
+  </div>
+  <div id="scadenzario-container">
+    <div class="empty-state">
+      <div class="empty-icon">📅</div>
+      <h3>Nessuna scadenza</h3>
+      <p>Importa fatture per visualizzare il calendario pagamenti</p>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: RUBRICA -->
+<div class="panel" id="panel-rubrica">
+
+  <div class="section-header">
+    <div class="section-title">Rubrica fornitori</div>
+    <div class="action-bar">
+      <input type="text" class="search-input" id="search-rubrica" placeholder="🔍 Cerca fornitore, P.IVA…" oninput="renderRubrica(this.value)">
+      <button class="btn btn-primary btn-sm" onclick="apriModalFornitore()">＋ Nuovo fornitore</button>
+    </div>
+  </div>
+
+  <div style="background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:8px;padding:11px 16px;margin-bottom:16px;font-size:12px;color:var(--text2);line-height:1.6">
+    💡 Gli IBAN salvati qui vengono proposti automaticamente quando importi una fattura di un fornitore che non riporta l'IBAN nell'XML.
+    I fornitori vengono anche aggiunti automaticamente alla rubrica quando salvi un IBAN da una fattura.
+  </div>
+
+  <div id="rubrica-container">
+    <div class="empty-state">
+      <div class="empty-icon">👥</div>
+      <h3>Rubrica vuota</h3>
+      <p>Aggiungi i tuoi fornitori abituali oppure importa un file JSON già salvato</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Fornitore -->
+<div class="modal-overlay" id="modal-fornitore">
+  <div class="modal" style="width:520px">
+    <div class="modal-title">
+      <span id="modal-fornitore-title">Nuovo fornitore</span>
+      <span class="modal-close" onclick="chiudiModalFornitore()">✕</span>
+    </div>
+    <div style="display:grid;gap:12px" id="modal-fornitore-body">
+      <div class="config-grid" style="grid-template-columns:1fr 1fr">
+        <div class="field-group" style="grid-column:1/-1">
+          <label>Ragione Sociale *</label>
+          <input type="text" id="forn-ragione" placeholder="es. MARR SPA">
+        </div>
+        <div class="field-group">
+          <label>P.IVA</label>
+          <input type="text" id="forn-piva" placeholder="es. 02686290400" maxlength="16" style="font-family:'IBM Plex Mono',monospace">
+        </div>
+        <div class="field-group">
+          <label>Codice Fiscale</label>
+          <input type="text" id="forn-cf" placeholder="se diverso dalla P.IVA" maxlength="16" style="font-family:'IBM Plex Mono',monospace">
+        </div>
+        <div class="field-group" style="grid-column:1/-1">
+          <label>IBAN *</label>
+          <input type="text" id="forn-iban" placeholder="IT60R0306902126100000005594"
+            style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em"
+            oninput="validateIbanFornitore(this)">
+          <span id="forn-iban-hint" style="font-size:11px;color:var(--text2)">27 caratteri: IT + 2 cifre di controllo + 23 alfanumerici</span>
+        </div>
+        <div class="field-group">
+          <label>BIC / SWIFT</label>
+          <input type="text" id="forn-bic" placeholder="es. BNLIITRR" style="font-family:'IBM Plex Mono',monospace">
+        </div>
+        <div class="field-group">
+          <label>Telefono</label>
+          <input type="text" id="forn-tel" placeholder="es. 0541 123456">
+        </div>
+        <div class="field-group" style="grid-column:1/-1">
+          <label>Email</label>
+          <input type="text" id="forn-email" placeholder="es. amministrazione@fornitore.it">
+        </div>
+        <div class="field-group" style="grid-column:1/-1">
+          <label>Note</label>
+          <input type="text" id="forn-note" placeholder="es. Pagamento entro 60gg, sconto 2% se anticipato">
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px;border-top:1px solid var(--border)">
+        <button class="btn btn-secondary" onclick="chiudiModalFornitore()">Annulla</button>
+        <button class="btn btn-primary" id="btn-salva-fornitore" onclick="salvaFornitore()">💾 Salva fornitore</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<div class="toast-container" id="toasts"></div>
+
+<!-- MODAL: Dettaglio fattura -->
+<div class="modal-overlay" id="modal-fattura">
+  <div class="modal">
+    <div class="modal-title">
+      <span>Dettaglio fattura</span>
+      <span class="modal-close" onclick="closeModal()">✕</span>
+    </div>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+// ============================================================
+// STATE
+// ============================================================
+let fatture = [];
+let selectedIds = new Set();
+let currentFilter = 'all';
+let cbiContent = '';
+let cbiFilename = '';
+
+// Tema
+function toggleTheme() {
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
+  document.getElementById('theme-icon').textContent = isLight ? '☀️' : '🌙';
+  document.getElementById('theme-label').textContent = isLight ? 'Chiaro' : 'Scuro';
+}
+
+// Ripristina tema salvato (eseguito dopo che il DOM è pronto)
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('cfg-data').value = new Date().toISOString().split('T')[0];
+});
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const names = ['import','fatture','cbi','scadenzario','rubrica'];
+    t.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+
+  if (name === 'scadenzario') renderScadenzario();
+  if (name === 'cbi') renderCBIPanel();
+  if (name === 'fatture') renderFatture();
+  if (name === 'rubrica') renderRubrica();
+}
+
+// ============================================================
+// FILE INPUT / DRAG DROP
+// ============================================================
+const dropzone = document.getElementById('dropzone');
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+dropzone.addEventListener('drop', e => {
+  e.preventDefault(); dropzone.classList.remove('drag-over');
+  processFiles([...e.dataTransfer.files]);
+});
+document.getElementById('fileInput').addEventListener('change', e => {
+  processFiles([...e.target.files]);
+  e.target.value = ''; // reset per permettere di ricaricare lo stesso file
+});
+
+async function processFiles(files) {
+  const xmlFiles = files.filter(f => f.name.toLowerCase().endsWith('.xml'));
+  const zipFiles = files.filter(f => f.name.toLowerCase().endsWith('.zip'));
+
+  if (!xmlFiles.length && !zipFiles.length) {
+    toast('Nessun file XML o ZIP trovato', 'error'); return;
+  }
+
+  let allXmls = []; // { name, content }
+
+  // Leggi XML diretti
+  for (const file of xmlFiles) {
+    const content = await readFileAsText(file);
+    allXmls.push({ name: file.name, content });
+  }
+
+  // Estrai XML dagli ZIP
+  for (const zipFile of zipFiles) {
+    toast(`📦 Estrazione ZIP: ${zipFile.name}…`, 'info');
+    try {
+      const ab = await readFileAsArrayBuffer(zipFile);
+      const zip = await JSZip.loadAsync(ab);
+      const entries = Object.values(zip.files).filter(e =>
+        !e.dir && e.name.toLowerCase().endsWith('.xml')
+      );
+      if (!entries.length) {
+        toast(`⚠ Nessun XML trovato in ${zipFile.name}`, 'error'); continue;
+      }
+      for (const entry of entries) {
+        const content = await entry.async('string');
+        allXmls.push({ name: entry.name.split('/').pop(), content });
+      }
+      toast(`✅ Estratti ${entries.length} XML da ${zipFile.name}`, 'success');
+    } catch(e) {
+      toast(`❌ Errore apertura ZIP: ${zipFile.name}`, 'error');
+    }
+  }
+
+  if (!allXmls.length) return;
+
+  let importati = 0, duplicati = 0, noteCredito = 0, errori = 0;
+
+  for (const { name, content } of allXmls) {
+    const f = parseXMLFattura(content, name);
+    if (!f) { errori++; continue; }
+
+    // ── DEDUPLICAZIONE ────────────────────────────────────────────────────
+    // Una fattura è duplicata se numero + P.IVA fornitore esistono già
+    const isDuplicate = fatture.some(
+      x => x.numero === f.numero && x.piva === f.piva
+    );
+    if (isDuplicate) { duplicati++; continue; }
+
+    // ── NOTA DI CREDITO: compensa la fattura originale se presente ────────
+    if (f.isNotaCredito) {
+      noteCredito++;
+      // Cerca fatture aperte dello stesso fornitore e segnalale
+      const collegate = fatture.filter(
+        x => x.piva === f.piva && x.stato !== 'paid' && !x.isNotaCredito
+      );
+      f.noteCollegateA = collegate.map(x => x.numero).join(', ') || null;
+      f.stato = 'nota_credito';
+    }
+
+    fatture.push(f);
+    importati++;
+  }
+
+  updateBadge();
+  renderImportLog();
+
+  const parti = [];
+  if (importati)   parti.push(`${importati} importata/e`);
+  if (noteCredito) parti.push(`${noteCredito} nota/e di credito`);
+  if (duplicati)   parti.push(`${duplicati} duplicata/e saltata/e`);
+  if (errori)      parti.push(`${errori} non riconosciuta/e`);
+
+  if (importati || noteCredito)
+    toast(`✅ ${parti.join(' · ')}`, 'success');
+  else if (duplicati)
+    toast(`⚠ Tutte le fatture erano già presenti (${duplicati} duplicate)`, 'info');
+  else
+    toast('❌ Nessuna fattura valida trovata', 'error');
+}
+
+function readFileAsText(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result);
+    r.onerror = () => rej(new Error('Errore lettura file'));
+    r.readAsText(file, 'UTF-8');
+  });
+}
+function readFileAsArrayBuffer(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result);
+    r.onerror = () => rej(new Error('Errore lettura file'));
+    r.readAsArrayBuffer(file);
+  });
+}
+
+// ============================================================
+// XML PARSING (FatturaPA)
+// ============================================================
+function parseXMLFattura(xmlStr, filename) {
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xmlStr, 'text/xml');
+    const get = (sel, ctx) => {
+      ctx = ctx || doc;
+      const el = ctx.querySelector(sel);
+      return el ? el.textContent.trim() : '';
+    };
+
+    const cedente   = doc.querySelector('CedentePrestatore');
+    const header    = doc.querySelector('DatiGeneraliDocumento');
+    const pagamento = doc.querySelector('DettaglioPagamento');
+
+    const numero = get('Numero', header) || '?';
+    const data   = get('Data',   header) || '';
+
+    // ── TIPO DOCUMENTO ──────────────────────────────────────────────────────
+    // TD01=fattura ordinaria, TD04=nota di credito, TD08=nota di debito, ecc.
+    const tipoDoc      = get('TipoDocumento', header) || 'TD01';
+    const isNotaCredito = (tipoDoc === 'TD04');
+
+    // ── IMPORTO DA PAGARE ────────────────────────────────────────────────────
+    // Priorità: ImportoTotalePagare (netto dopo acconti/ritenute)
+    //         > ImportoPagamento (singola rata)
+    //         > ImportoTotaleDocumento (lordo)
+    const impPagare    = parseFloat(get('ImportoTotalePagare',    pagamento) || '0');
+    const impPagamento = parseFloat(get('ImportoPagamento',       pagamento) || '0');
+    const impDoc       = parseFloat(get('ImportoTotaleDocumento', header)    || '0');
+    let importo = impPagare || impPagamento || impDoc;
+    // Le note di credito vengono salvate con importo negativo
+    if (isNotaCredito) importo = -Math.abs(importo);
+
+    // ── DATA SCADENZA ────────────────────────────────────────────────────────
+    let dataScadenza = get('DataScadenzaPagamento', pagamento);
+    if (!dataScadenza && data) {
+      const d = new Date(data);
+      d.setDate(d.getDate() + 30);
+      dataScadenza = d.toISOString().split('T')[0];
+    }
+
+    // ── DATI FORNITORE ───────────────────────────────────────────────────────
+    const iban = get('IBAN', pagamento) || '';
+    const bic  = get('BIC',  pagamento) || '';
+    let ragioneSociale = get('Denominazione', cedente);
+    if (!ragioneSociale)
+      ragioneSociale = (get('Nome', cedente) + ' ' + get('Cognome', cedente)).trim();
+    const piva = get('IdCodice',     cedente);
+    const cf   = get('CodiceFiscale',cedente);
+    const modalitaPagamento = get('ModalitaPagamento', pagamento) || 'MP05';
+
+    const sede = cedente
+      ? (cedente.querySelector('Sede') || cedente.querySelector('SedeLegale'))
+      : null;
+    const indirizzo    = sede ? get('Indirizzo',    sede) : '';
+    const numeroCivico = sede ? get('NumeroCivico', sede) : '';
+    const cap          = sede ? get('CAP',          sede) : '';
+    const citta        = sede ? get('Comune',       sede) : '';
+    const prov         = sede ? get('Provincia',    sede) : '';
+    const indirizzoCompleto = indirizzo + (numeroCivico ? ', ' + numeroCivico : '');
+
+    const id = 'F' + Date.now() + Math.random().toString(36).slice(2,6).toUpperCase();
+
+    // ── SUGGERIMENTO IBAN DA RUBRICA ─────────────────────────────────────────
+    // Se la fattura non ha IBAN ma il fornitore è in rubrica, lo preleva automaticamente
+    let ibanFinale = iban;
+    let bicFinale  = bic;
+    if (!ibanFinale) {
+      const inRubrica = cercaFornitoreInRubrica(piva, ragioneSociale);
+      if (inRubrica && inRubrica.iban) {
+        ibanFinale = inRubrica.iban;
+        bicFinale  = inRubrica.bic || bic;
+      }
+    }
+
+    return {
+      id, filename, numero, data, dataScadenza,
+      tipoDoc, isNotaCredito,
+      importo, ragioneSociale, piva, cf,
+      iban: ibanFinale, bic: bicFinale, modalitaPagamento,
+      indirizzo: indirizzoCompleto, cap, citta, prov,
+      stato: 'pending',
+      dataPagamento: null
+    };
+  } catch(e) {
+    toast('Errore nel parsing di ' + filename, 'error');
+    return null;
+  }
+}
+
+// ============================================================
+// DEMO DATA
+// ============================================================
+function loadDemoData() {
+  const oggi = new Date();
+  const demo = [
+    { fornitore: 'ALFA FORNITURE SRL', piva: '01234567890', iban: 'IT60X0542811101000000123456', num: 'FT-2025-001', importo: 2450.00, scadGG: -5 },
+    { fornitore: 'BETA SERVIZI SNC', piva: '09876543210', iban: 'IT40F0103003200000006107', num: 'TD-0145', importo: 870.50, scadGG: 10 },
+    { fornitore: 'GAMMA LOGISTICA SPA', piva: '11223344556', iban: 'IT15O0300203280000400003521', num: '2025/089', importo: 5200.00, scadGG: 25 },
+    { fornitore: 'DELTA CONSULTING SRL', piva: '55667788990', iban: 'IT91A0100801006000000100500', num: 'FC-2025-012', importo: 1800.00, scadGG: 45 },
+    { fornitore: 'EPSILON IT SOLUTIONS', piva: '33445566778', iban: 'IT40F0103003200000006107', num: 'INV-0042', importo: 650.00, scadGG: -15 },
+    { fornitore: 'ZETA STAMPA SRL', piva: '22334455667', iban: 'IT60X0542811101000000999', num: 'FT2025-055', importo: 320.00, scadGG: 60 },
+  ];
+  const oggi2 = new Date();
+  demo.forEach((d, i) => {
+    const scad = new Date(); scad.setDate(oggi2.getDate() + d.scadGG);
+    const dataDoc = new Date(); dataDoc.setDate(oggi2.getDate() + d.scadGG - 30);
+    fatture.push({
+      id: 'DEMO' + i,
+      filename: d.num + '.xml',
+      numero: d.num,
+      data: dataDoc.toISOString().split('T')[0],
+      dataScadenza: scad.toISOString().split('T')[0],
+      importo: d.importo,
+      ragioneSociale: d.fornitore,
+      piva: d.piva, cf: d.piva,
+      iban: d.iban, bic: '',
+      modalitaPagamento: 'MP05',
+      stato: d.scadGG < -10 ? 'overdue' : 'pending',
+      dataPagamento: null,
+      indirizzo: 'Via Roma, 1', cap: '00100', citta: 'Roma', prov: 'RM'
+    });
+  });
+  // One already paid
+  fatture.push({
+    id: 'DEMOPAID', filename: 'FT-2025-PAID.xml', numero: 'FT-2024-999',
+    data: '2024-11-01', dataScadenza: '2024-12-01',
+    importo: 1500.00, ragioneSociale: 'ETA MARKETING SRL',
+    piva: '44556677889', cf: '44556677889',
+    iban: 'IT60X0542811101000000777', bic: '',
+    modalitaPagamento: 'MP05',
+    stato: 'paid', dataPagamento: '2024-12-01'
+  });
+  updateBadge();
+  renderImportLog();
+  toast('✅ Dati demo caricati (7 fatture)', 'success');
+}
+
+// ============================================================
+// RENDER IMPORT LOG
+// ============================================================
+function renderImportLog() {
+  const container = document.getElementById('import-log');
+  if (!fatture.length) { container.innerHTML = ''; return; }
+  container.innerHTML = `
+    <table>
+      <thead><tr>
+        <th>File</th><th>Fornitore</th><th>N° Fattura</th><th>Data</th><th>Importo</th><th>Stato</th>
+      </tr></thead>
+      <tbody>
+        ${fatture.map(f => `
+          <tr>
+            <td class="mono" style="color:var(--text2)">${f.filename}</td>
+            <td>${f.ragioneSociale}</td>
+            <td class="mono">${f.numero}</td>
+            <td class="mono">${fmtDate(f.data)}</td>
+            <td class="mono">${fmtEur(f.importo)}</td>
+            <td>${badgeStato(f)}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`;
+}
+
+// ============================================================
+// RENDER FATTURE
+// ============================================================
+function renderFatture(filter, search) {
+  filter = filter || currentFilter;
+  search = search || document.getElementById('search-fatture').value.toLowerCase();
+  const container = document.getElementById('fatture-container');
+
+  let list = fatture.filter(f => {
+    if (filter === 'pending')      return f.stato === 'pending' || f.stato === 'inbatch';
+    if (filter === 'overdue')      return f.stato === 'overdue';
+    if (filter === 'paid')         return f.stato === 'paid';
+    if (filter === 'nota_credito') return f.stato === 'nota_credito';
+    return true;
+  });
+
+  if (search) list = list.filter(f =>
+    f.ragioneSociale.toLowerCase().includes(search) ||
+    f.numero.toLowerCase().includes(search) ||
+    (f.piva && f.piva.includes(search))
+  );
+
+  if (!list.length) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><h3>Nessuna fattura trovata</h3><p>Prova a modificare i filtri</p></div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <table>
+      <thead><tr>
+        <th><input type="checkbox" id="check-all" onchange="toggleAll(this.checked)"></th>
+        <th>Fornitore</th>
+        <th>N° Fattura</th>
+        <th>Data Doc.</th>
+        <th>Scadenza</th>
+        <th>IBAN</th>
+        <th>Importo</th>
+        <th>Stato</th>
+        <th>Azioni</th>
+      </tr></thead>
+      <tbody>
+        ${list.map(f => `
+          <tr id="row-${f.id}" class="${selectedIds.has(f.id) ? 'sel' : ''}">
+            <td>
+              ${f.stato !== 'paid' ? `<input type="checkbox" ${selectedIds.has(f.id) ? 'checked' : ''} onchange="toggleSel('${f.id}', this.checked)">` : ''}
+            </td>
+            <td><strong>${f.ragioneSociale}</strong><br><span style="color:var(--text2);font-size:11px;font-family:monospace">${f.piva}</span></td>
+            <td class="mono">${f.numero}</td>
+            <td class="mono">${fmtDate(f.data)}</td>
+            <td class="mono ${isOverdue(f.dataScadenza) && f.stato !== 'paid' ? 'amount-warn' : ''}">${fmtDate(f.dataScadenza)}</td>
+            <td class="mono" style="font-size:11px;color:var(--text2)">
+              ${f.iban
+                ? `<span>${f.iban.slice(0,12)}…</span> <button class="btn btn-sm" style="padding:2px 6px;font-size:10px;background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:4px" onclick="editIban('${f.id}')" title="Modifica IBAN">✏️</button>`
+                : `<span style="color:var(--danger)">⚠ mancante</span> <button class="btn btn-sm" style="padding:2px 8px;font-size:11px;background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.4);color:var(--danger);border-radius:4px" onclick="editIban('${f.id}')">+ Inserisci IBAN</button>`}
+            </td>
+            <td class="mono">${f.isNotaCredito ? `<strong style="color:#a064ff">${fmtEur(f.importo)}</strong>` : `<strong>${fmtEur(f.importo)}</strong>`}</td>
+            <td>${badgeStato(f)}</td>
+            <td>
+              <div style="display:flex;gap:4px">
+                <button class="btn btn-sm btn-secondary" onclick="showDetail('${f.id}')">👁</button>
+                ${f.stato !== 'paid' ? `<button class="btn btn-sm btn-secondary" onclick="markPaid('${f.id}')" title="Segna come pagata">✅</button>` : ''}
+                <button class="btn btn-sm btn-danger" onclick="deleteFattura('${f.id}')" title="Elimina">✕</button>
+              </div>
+            </td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+    <div style="padding:10px 0;color:var(--text2);font-size:12px;text-align:right">
+      ${list.length} fatture · Totale: <strong style="color:var(--text);font-family:monospace">${fmtEur(list.reduce((s,f)=>s+f.importo,0))}</strong>
+      · Selezionate: <strong style="color:var(--accent);font-family:monospace">${fmtEur([...selectedIds].reduce((s,id)=>{const f=fatture.find(x=>x.id===id);return s+(f?f.importo:0)},0))}</strong>
+    </div>
+  `;
+}
+
+// ============================================================
+// RENDER CBI PANEL
+// ============================================================
+function renderCBIPanel() {
+  const sel = fatture.filter(f => selectedIds.has(f.id));
+  const info = document.getElementById('cbi-selected-info');
+  const senzaIban = sel.filter(f => !f.iban);
+  const conIban = sel.filter(f => f.iban);
+  info.textContent = `${sel.length} fatture selezionate · Totale: ${fmtEur(sel.reduce((s,f)=>s+f.importo,0))}`;
+  document.getElementById('btn-genera').disabled = sel.length === 0 || senzaIban.length > 0;
+
+  const container = document.getElementById('cbi-selected-list');
+  if (!sel.length) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">🏦</div><h3>Nessuna fattura selezionata</h3><p>Vai nella tab "Fatture", seleziona quelle da pagare e torna qui</p></div>`;
+    document.getElementById('cbi-output-section').style.display = 'none';
+    return;
+  }
+
+  const accorpa = document.getElementById('opt-accorpa')?.checked !== false;
+
+  // Avviso IBAN mancanti
+  const avvisoIban = senzaIban.length ? `
+    <div style="background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.3);border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:13px;display:flex;align-items:center;gap:10px">
+      <span style="font-size:18px">⚠️</span>
+      <div>
+        <strong style="color:var(--danger)">${senzaIban.length} fattura/e con IBAN mancante</strong> — la distinta non può essere generata.<br>
+        <span style="color:var(--text2);font-size:12px">Vai nella tab "Fatture" e clicca "+ Inserisci IBAN" sulle righe evidenziate, oppure deselezionale.</span>
+        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+          ${senzaIban.map(f => `<button class="btn btn-sm" style="background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.4);color:var(--danger);font-size:11px" onclick="switchTab('fatture');setTimeout(()=>editIban('${f.id}'),100)">✏️ ${f.ragioneSociale.slice(0,20)} — ${f.numero}</button>`).join('')}
+        </div>
+      </div>
+    </div>` : '';
+
+  // Preview raggruppamento
+  let previewRows = '';
+  if (accorpa) {
+    const byIban = {};
+    conIban.forEach(f => {
+      const key = (f.iban||'').replace(/\s/g,'') + '||' + f.ragioneSociale;
+      if (!byIban[key]) byIban[key] = { f0: f, list: [] };
+      byIban[key].list.push(f);
+    });
+    previewRows = Object.values(byIban).map(g => {
+      const tot = g.list.reduce((s,f)=>s+f.importo,0);
+      const numeri = g.list.map(f=>f.numero).join(', ');
+      return `<tr>
+        <td>${g.f0.ragioneSociale}${g.list.length>1?` <span style="color:var(--accent);font-size:11px;font-family:monospace">[${g.list.length} accorpate]</span>`:''}</td>
+        <td class="mono" style="font-size:11px;color:var(--text2)">${numeri}</td>
+        <td class="mono" style="font-size:11px">${(g.f0.iban||'').slice(0,14)}…</td>
+        <td class="mono">${fmtDate(g.f0.dataScadenza)}</td>
+        <td class="mono"><strong>${fmtEur(tot)}</strong></td>
+      </tr>`;
+    }).join('');
+  } else {
+    previewRows = conIban.map(f => `<tr>
+      <td>${f.ragioneSociale}</td>
+      <td class="mono">${f.numero}</td>
+      <td class="mono" style="font-size:11px">${(f.iban||'').slice(0,14)}…</td>
+      <td class="mono">${fmtDate(f.dataScadenza)}</td>
+      <td class="mono"><strong>${fmtEur(f.importo)}</strong></td>
+    </tr>`).join('');
+  }
+
+  const nBonifici = accorpa
+    ? new Set(conIban.map(f => (f.iban||'').replace(/\s/g,'')+f.ragioneSociale)).size
+    : conIban.length;
+
+  container.innerHTML = avvisoIban + `
+    <table>
+      <thead><tr><th>Fornitore</th><th>N° Fattura/e</th><th>IBAN beneficiario</th><th>Scadenza</th><th>Importo</th></tr></thead>
+      <tbody>${previewRows}</tbody>
+    </table>
+    <div style="padding:8px 0;text-align:right;font-size:12px;color:var(--text2)">
+      ${nBonifici} bonifico/i · Totale distinta: <strong style="color:var(--accent);font-family:monospace;font-size:14px">${fmtEur(conIban.reduce((s,f)=>s+f.importo,0))}</strong>
+    </div>
+  `;
+}
+
+// ============================================================
+// GENERATE CBI
+// ============================================================
+function generateCBI() {
+  const ragione  = document.getElementById('cfg-ragione').value.trim();
+  const piva     = document.getElementById('cfg-piva').value.trim();
+  const indirizzo= document.getElementById('cfg-indirizzo').value.trim();
+  const cap      = document.getElementById('cfg-cap').value.trim();
+  const citta    = document.getElementById('cfg-citta').value.trim();
+  const prov     = document.getElementById('cfg-prov').value.trim().toUpperCase();
+  const iban     = document.getElementById('cfg-iban').value.trim().replace(/\s/g,'');
+  const abi      = document.getElementById('cfg-abi').value.trim();
+  const cuc      = document.getElementById('cfg-sia').value.trim();
+  const dataExe  = document.getElementById('cfg-data').value;
+  const causaleTemplate = document.getElementById('cfg-causale').value;
+
+  if (!ragione)  { toast('⚠ Inserisci la Ragione Sociale', 'error'); return; }
+  if (!iban)     { toast('⚠ Inserisci l\'IBAN ordinante', 'error'); return; }
+  if (!cuc)      { toast('⚠ Inserisci il Codice CUC/SIA', 'error'); return; }
+  if (!dataExe)  { toast('⚠ Seleziona la data di esecuzione', 'error'); return; }
+
+  const sel = fatture.filter(f => selectedIds.has(f.id));
+  if (!sel.length) { toast('⚠ Nessuna fattura selezionata', 'error'); return; }
+
+  const senzaIban = sel.filter(f => !f.iban);
+  if (senzaIban.length) { toast(`⚠ ${senzaIban.length} fattura/e senza IBAN — inseriscile prima`, 'error'); return; }
+
+  const accorpa = document.getElementById('opt-accorpa')?.checked !== false;
+
+  // cfg dichiarato PRIMA di usarlo
+  const cfg = { ragione, piva, indirizzo, cap, citta, prov, iban, abi, cuc, dataExe, causaleTemplate, accorpa };
+  cbiContent = generateCBIPaymentRequest(sel, cfg);
+
+  // Nome file identico al formato della tua banca: Sct_DDMMYYYY_xxx.xml
+  const d = new Date(dataExe);
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const yyyy = d.getFullYear();
+  cbiFilename = `Sct_${dd}${mm}${yyyy}_${ragione.replace(/[^A-Z0-9]/gi,'').slice(0,8).toUpperCase()}.xml`;
+
+  document.getElementById('cbi-preview').textContent = cbiContent;
+  document.getElementById('cbi-output-section').style.display = 'block';
+
+  // Mark as inbatch
+  sel.forEach(f => { if (f.stato === 'pending' || f.stato === 'overdue') f.stato = 'inbatch'; });
+  updateBadge();
+
+  toast(`✅ Distinta CBIPaymentRequest generata (${sel.length} bonifici · ${fmtEur(sel.reduce((s,f)=>s+f.importo,0))})`, 'success');
+  document.getElementById('cbi-preview').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ============================================================
+// RUBRICA FORNITORI
+// ============================================================
+let rubrica = []; // array di oggetti fornitore
+
+function updateBadgeRubrica() {
+  const el = document.getElementById('badge-rubrica');
+  if (el) el.textContent = rubrica.length;
+}
+
+function renderRubrica(search) {
+  search = (search || document.getElementById('search-rubrica')?.value || '').toLowerCase();
+  const container = document.getElementById('rubrica-container');
+  if (!container) return;
+
+  let list = rubrica;
+  if (search) list = list.filter(f =>
+    (f.ragione||'').toLowerCase().includes(search) ||
+    (f.piva||'').includes(search) ||
+    (f.iban||'').replace(/\s/g,'').includes(search.replace(/\s/g,''))
+  );
+
+  if (!list.length) {
+    container.innerHTML = rubrica.length
+      ? `<div class="empty-state"><div class="empty-icon">🔍</div><h3>Nessun risultato</h3><p>Prova con un termine diverso</p></div>`
+      : `<div class="empty-state"><div class="empty-icon">👥</div><h3>Rubrica vuota</h3><p>Aggiungi i tuoi fornitori abituali oppure importa un JSON già salvato</p></div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <table>
+      <thead><tr>
+        <th>Fornitore</th>
+        <th>P.IVA</th>
+        <th>IBAN</th>
+        <th>BIC</th>
+        <th>Contatti</th>
+        <th>Note</th>
+        <th>Azioni</th>
+      </tr></thead>
+      <tbody>
+        ${list.map(f => `
+          <tr>
+            <td><strong>${f.ragione}</strong></td>
+            <td class="mono" style="font-size:12px">${f.piva||'—'}</td>
+            <td class="mono" style="font-size:11px">
+              ${f.iban
+                ? `<span title="${f.iban}">${f.iban.slice(0,8)}…${f.iban.slice(-4)}</span>`
+                : `<span style="color:var(--danger)">⚠ mancante</span>`}
+            </td>
+            <td class="mono" style="font-size:11px;color:var(--text2)">${f.bic||'—'}</td>
+            <td style="font-size:12px;color:var(--text2)">
+              ${f.email ? `<div>✉ ${f.email}</div>` : ''}
+              ${f.tel   ? `<div>📞 ${f.tel}</div>`   : ''}
+              ${!f.email && !f.tel ? '—' : ''}
+            </td>
+            <td style="font-size:12px;color:var(--text2);max-width:160px">${f.note||'—'}</td>
+            <td>
+              <div style="display:flex;gap:4px">
+                <button class="btn btn-sm btn-secondary" onclick="modificaFornitore('${f.id}')" title="Modifica">✏️</button>
+                <button class="btn btn-sm btn-secondary" onclick="applicaIbanAFatture('${f.id}')" title="Applica IBAN alle fatture aperte di questo fornitore">🔗</button>
+                <button class="btn btn-sm btn-danger" onclick="eliminaFornitore('${f.id}')" title="Elimina">✕</button>
+              </div>
+            </td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+    <div style="padding:8px 0;font-size:12px;color:var(--text2);text-align:right">${list.length} fornitore/i</div>
+  `;
+}
+
+let _editingFornitoreId = null;
+
+function apriModalFornitore(id) {
+  _editingFornitoreId = id || null;
+  const modal = document.getElementById('modal-fornitore');
+  const title = document.getElementById('modal-fornitore-title');
+
+  // Svuota campi
+  ['forn-ragione','forn-piva','forn-cf','forn-iban','forn-bic','forn-tel','forn-email','forn-note']
+    .forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('forn-iban-hint').textContent = '27 caratteri: IT + 2 cifre di controllo + 23 alfanumerici';
+  document.getElementById('forn-iban-hint').style.color = 'var(--text2)';
+
+  if (id) {
+    const f = rubrica.find(x => x.id === id);
+    if (f) {
+      title.textContent = 'Modifica fornitore';
+      document.getElementById('forn-ragione').value = f.ragione  || '';
+      document.getElementById('forn-piva').value    = f.piva     || '';
+      document.getElementById('forn-cf').value      = f.cf       || '';
+      document.getElementById('forn-iban').value    = f.iban     || '';
+      document.getElementById('forn-bic').value     = f.bic      || '';
+      document.getElementById('forn-tel').value     = f.tel      || '';
+      document.getElementById('forn-email').value   = f.email    || '';
+      document.getElementById('forn-note').value    = f.note     || '';
+      if (f.iban) validateIbanFornitore(document.getElementById('forn-iban'));
+    }
+  } else {
+    title.textContent = 'Nuovo fornitore';
+  }
+  modal.classList.add('open');
+  setTimeout(() => document.getElementById('forn-ragione').focus(), 80);
+}
+
+function modificaFornitore(id) { apriModalFornitore(id); }
+
+function chiudiModalFornitore() {
+  document.getElementById('modal-fornitore').classList.remove('open');
+  _editingFornitoreId = null;
+}
+
+function salvaFornitore() {
+  const ragione = document.getElementById('forn-ragione').value.trim();
+  const iban    = document.getElementById('forn-iban').value.trim().replace(/\s/g,'').toUpperCase();
+  if (!ragione) { toast('⚠ Inserisci la ragione sociale', 'error'); return; }
+
+  const dati = {
+    ragione,
+    piva:  document.getElementById('forn-piva').value.trim(),
+    cf:    document.getElementById('forn-cf').value.trim(),
+    iban,
+    bic:   document.getElementById('forn-bic').value.trim(),
+    tel:   document.getElementById('forn-tel').value.trim(),
+    email: document.getElementById('forn-email').value.trim(),
+    note:  document.getElementById('forn-note').value.trim(),
+  };
+
+  if (_editingFornitoreId) {
+    const idx = rubrica.findIndex(x => x.id === _editingFornitoreId);
+    if (idx !== -1) { rubrica[idx] = { ...rubrica[idx], ...dati }; }
+  } else {
+    dati.id = 'R' + Date.now() + Math.random().toString(36).slice(2,5).toUpperCase();
+    rubrica.push(dati);
+  }
+
+  chiudiModalFornitore();
+  renderRubrica();
+  updateBadgeRubrica();
+  toast(`✅ Fornitore "${ragione}" salvato in rubrica`, 'success');
+}
+
+function eliminaFornitore(id) {
+  const f = rubrica.find(x => x.id === id);
+  if (!f) return;
+  if (!confirm(`Eliminare "${f.ragione}" dalla rubrica?`)) return;
+  rubrica = rubrica.filter(x => x.id !== id);
+  renderRubrica();
+  updateBadgeRubrica();
+  toast(`Fornitore eliminato`, 'info');
+}
+
+// Cerca in rubrica per P.IVA (o ragione sociale come fallback)
+function cercaFornitoreInRubrica(piva, ragione) {
+  if (piva) {
+    const f = rubrica.find(x => x.piva && x.piva === piva);
+    if (f) return f;
+  }
+  if (ragione) {
+    const r = ragione.toLowerCase().trim();
+    return rubrica.find(x => x.ragione && x.ragione.toLowerCase().trim() === r) || null;
+  }
+  return null;
+}
+
+// Aggiunge o aggiorna fornitore in rubrica da dati fattura (chiamato quando si salva un IBAN)
+function aggiornaRubricaDaFattura(fattura) {
+  if (!fattura.iban) return;
+  const esistente = cercaFornitoreInRubrica(fattura.piva, fattura.ragioneSociale);
+  if (esistente) {
+    // Aggiorna IBAN se cambiato
+    if (esistente.iban !== fattura.iban) {
+      esistente.iban = fattura.iban;
+      if (fattura.bic) esistente.bic = fattura.bic;
+      renderRubrica();
+      updateBadgeRubrica();
+    }
+  } else {
+    rubrica.push({
+      id: 'R' + Date.now() + Math.random().toString(36).slice(2,5).toUpperCase(),
+      ragione: fattura.ragioneSociale,
+      piva:    fattura.piva  || '',
+      cf:      fattura.cf    || '',
+      iban:    fattura.iban,
+      bic:     fattura.bic   || '',
+      tel: '', email: '', note: ''
+    });
+    renderRubrica();
+    updateBadgeRubrica();
+    toast(`📒 "${fattura.ragioneSociale}" aggiunto alla rubrica`, 'info');
+  }
+}
+
+// Applica IBAN della rubrica a tutte le fatture aperte dello stesso fornitore
+function applicaIbanAFatture(id) {
+  const forn = rubrica.find(x => x.id === id);
+  if (!forn || !forn.iban) { toast('⚠ Questo fornitore non ha un IBAN salvato', 'error'); return; }
+
+  const daAggiornare = fatture.filter(f =>
+    !f.iban &&
+    f.stato !== 'paid' &&
+    ((forn.piva && f.piva === forn.piva) || f.ragioneSociale === forn.ragione)
+  );
+
+  if (!daAggiornare.length) {
+    toast(`Nessuna fattura aperta senza IBAN per "${forn.ragione}"`, 'info'); return;
+  }
+
+  daAggiornare.forEach(f => { f.iban = forn.iban; if (forn.bic) f.bic = forn.bic; });
+  renderFatture();
+  toast(`✅ IBAN applicato a ${daAggiornare.length} fattura/e di "${forn.ragione}"`, 'success');
+}
+
+function validateIbanFornitore(el) {
+  const v = el.value.replace(/\s/g,'').toUpperCase();
+  const hint = document.getElementById('forn-iban-hint');
+  if (!v) { hint.textContent = '27 caratteri: IT + 2 cifre di controllo + 23 alfanumerici'; hint.style.color = 'var(--text2)'; return; }
+  if (v.length < 27) { hint.textContent = `${v.length}/27 caratteri`; hint.style.color = 'var(--warn)'; return; }
+  if (!/^[A-Z]{2}\d{2}[A-Z0-9]{23}$/.test(v)) { hint.textContent = '⚠ Formato non valido'; hint.style.color = 'var(--danger)'; return; }
+  if (!ibanChecksum(v)) { hint.textContent = '❌ Checksum errato — controlla le cifre'; hint.style.color = 'var(--danger)'; return; }
+  hint.textContent = '✅ IBAN valido (checksum mod97 corretto)'; hint.style.color = 'var(--green)';
+}
+
+
+
+function getOrdinanteDaForm() {
+  return {
+    ragione:   document.getElementById('cfg-ragione').value.trim(),
+    piva:      document.getElementById('cfg-piva').value.trim(),
+    indirizzo: document.getElementById('cfg-indirizzo').value.trim(),
+    cap:       document.getElementById('cfg-cap').value.trim(),
+    citta:     document.getElementById('cfg-citta').value.trim(),
+    prov:      document.getElementById('cfg-prov').value.trim().toUpperCase(),
+    iban:      document.getElementById('cfg-iban').value.trim(),
+    abi:       document.getElementById('cfg-abi').value.trim(),
+    cuc:       document.getElementById('cfg-sia').value.trim(),
+    causale:   document.getElementById('cfg-causale').value.trim(),
+  };
+}
+
+function applicaOrdinante(d) {
+  if (!d) return;
+  const map = {
+    ragione:'cfg-ragione', piva:'cfg-piva', indirizzo:'cfg-indirizzo',
+    cap:'cfg-cap', citta:'cfg-citta', prov:'cfg-prov',
+    iban:'cfg-iban', abi:'cfg-abi', cuc:'cfg-sia', causale:'cfg-causale'
+  };
+  Object.entries(map).forEach(([key, id]) => {
+    if (d[key] !== undefined && d[key] !== '') document.getElementById(id).value = d[key];
+  });
+}
+
+function esportaJSON() {
+  const ordinante = getOrdinanteDaForm();
+  if (!ordinante.ragione && !ordinante.iban && !fatture.length && !rubrica.length) {
+    toast('⚠ Nessun dato da salvare', 'error'); return;
+  }
+  const payload = {
+    _versione: '1.1',
+    _salvato: new Date().toISOString(),
+    ordinante,
+    fatture,
+    rubrica
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dati-fatture-sdi.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast(`💾 Salvato: ordinante + ${fatture.length} fatture + ${rubrica.length} fornitori in rubrica`, 'success');
+}
+
+function importaJSON(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const payload = JSON.parse(e.target.result);
+      let msg = [];
+
+      if (payload.ordinante) {
+        applicaOrdinante(payload.ordinante);
+        msg.push('dati ordinante');
+      }
+      if (Array.isArray(payload.rubrica) && payload.rubrica.length) {
+        // Merge: aggiunge solo fornitori con ID non già presenti
+        const idEsistenti = new Set(rubrica.map(f => f.id));
+        const nuovi = payload.rubrica.filter(f => !idEsistenti.has(f.id));
+        rubrica = [...rubrica, ...nuovi];
+        updateBadgeRubrica();
+        renderRubrica();
+        msg.push(`${payload.rubrica.length} fornitori in rubrica`);
+      }
+      if (Array.isArray(payload.fatture) && payload.fatture.length) {
+        const idEsistenti = new Set(fatture.map(f => f.id));
+        const nuove = payload.fatture.filter(f => !idEsistenti.has(f.id));
+        fatture = [...fatture, ...nuove];
+        updateBadge();
+        renderImportLog();
+        msg.push(`${payload.fatture.length} fatture`);
+      }
+      input.value = '';
+      toast(`📂 Caricati: ${msg.join(' + ')}`, 'success');
+    } catch(err) {
+      toast('❌ File JSON non valido o corrotto', 'error');
+    }
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+// Alias per compatibilità con il pulsante nella tab CBI
+function saveOrdinante() { esportaJSON(); }
+function loadOrdinante() { /* caricamento manuale via pulsante */ }
+
+// ============================================================
+// GENERA CBIPaymentRequest v00.04.00  (formato banca verificato)
+// ============================================================
+function generateCBIPaymentRequest(sel, cfg) {
+  const now = new Date();
+  // MsgId: DDMMYY-HHmmSS  (come nel file originale: 280423-100223)
+  const dd   = String(now.getDate()).padStart(2,'0');
+  const mo   = String(now.getMonth()+1).padStart(2,'0');
+  const yy   = String(now.getFullYear()).slice(2);
+  const hh   = String(now.getHours()).padStart(2,'0');
+  const mi   = String(now.getMinutes()).padStart(2,'0');
+  const ss   = String(now.getSeconds()).padStart(2,'0');
+  const msgId = `${dd}${mo}${yy}-${hh}${mi}${ss}`;
+  const creDtTm = now.toISOString().slice(0,19);
+
+  const totale = sel.reduce((s,f) => s + f.importo, 0).toFixed(2);
+  const ibanOrd = cfg.iban.replace(/\s/g,'');
+  // ABI: se non inserito lo estrae dall'IBAN (posizione 5-9 dopo IT+2check)
+  const abi = cfg.abi || ibanOrd.slice(4,9);
+
+  // Raggruppa per IBAN+fornitore se accorpa=true, altrimenti ogni fattura è un bonifico separato
+  let gruppi;
+  if (cfg.accorpa !== false) {
+    const byIban = {};
+    sel.forEach(f => {
+      const key = (f.iban||'').replace(/\s/g,'') + '||' + f.ragioneSociale;
+      if (!byIban[key]) byIban[key] = { fattura: f, list: [] };
+      byIban[key].list.push(f);
+    });
+    gruppi = Object.values(byIban);
+  } else {
+    // Ogni fattura = un bonifico separato
+    gruppi = sel.map(f => ({ fattura: f, list: [f] }));
+  }
+
+  let txIndex = 0;
+  const txs = gruppi.map(g => {
+    txIndex++;
+    const f0 = g.fattura;
+    const ibanBen = (f0.iban||'').replace(/\s/g,'');
+    // Causale: concatena tutte le fatture del gruppo
+    const causaleRaw = g.list.map(f => {
+      return cfg.causaleTemplate
+        .replace('{num}', f.numero)
+        .replace('{data}', fmtDate(f.data));
+    }).join(', ');
+    const causale = causaleRaw.slice(0, 140); // max 140 car SEPA
+    const importoGruppo = g.list.reduce((s,f) => s + f.importo, 0).toFixed(2);
+    const endToEndId = `${msgId}-D${String(txIndex).padStart(3,'0')}`;
+
+    // Indirizzo beneficiario (se disponibile nella fattura)
+    const pstlBen = f0.indirizzo ? `
+        <PstlAdr>
+          <StrtNm>${escXML(f0.indirizzo||'')}</StrtNm>
+          <PstCd>${escXML(f0.cap||'')}</PstCd>
+          <TwnNm>${escXML(f0.citta||'')}</TwnNm>
+          <CtrySubDvsn>${escXML(f0.prov||'')}</CtrySubDvsn>
+          <Ctry>IT</Ctry>
+        </PstlAdr>` : '';
+
+    const idBen = f0.piva ? `
+        <Id>
+          <OrgId>
+            <Othr>
+              <Id>${escXML(f0.piva)}</Id>
+              <Issr>ADE</Issr>
+            </Othr>
+          </OrgId>
+        </Id>` : '';
+
+    return `    <CdtTrfTxInf>
+      <PmtId>
+        <InstrId>${txIndex}</InstrId>
+        <EndToEndId>${endToEndId}</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+        <CtgyPurp>
+          <Cd>SUPP</Cd>
+        </CtgyPurp>
+      </PmtTpInf>
+      <Amt>
+        <InstdAmt Ccy="EUR">${importoGruppo}</InstdAmt>
+      </Amt>
+      <Cdtr>
+        <Nm>${escXML(f0.ragioneSociale)}</Nm>${pstlBen}${idBen}
+      </Cdtr>
+      <CdtrAcct>
+        <Id>
+          <IBAN>${ibanBen}</IBAN>
+        </Id>
+      </CdtrAcct>
+      <Purp>
+        <Cd>SUPP</Cd>
+      </Purp>
+      <RmtInf>
+        <Ustrd>${escXML(causale)}</Ustrd>
+      </RmtInf>
+    </CdtTrfTxInf>`;
+  }).join('\n');
+
+  // Indirizzo ordinante
+  const pstlOrd = cfg.indirizzo ? `
+      <PstlAdr>
+        <StrtNm>${escXML(cfg.indirizzo)}</StrtNm>
+        <PstCd>${escXML(cfg.cap)}</PstCd>
+        <TwnNm>${escXML(cfg.citta)}</TwnNm>
+        <CtrySubDvsn>${escXML(cfg.prov)}</CtrySubDvsn>
+        <Ctry>IT</Ctry>
+      </PstlAdr>` : '';
+
+  const idOrd = cfg.piva ? `
+      <Id>
+        <OrgId>
+          <Othr>
+            <Id>${escXML(cfg.piva)}</Id>
+            <Issr>ADE</Issr>
+          </Othr>
+        </OrgId>
+      </Id>` : '';
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\r\n<CBIPaymentRequest xmlns="urn:CBI:xsd:CBIPaymentRequest.00.04.00">
+  <GrpHdr>
+    <MsgId>${msgId}</MsgId>
+    <CreDtTm>${creDtTm}</CreDtTm>
+    <NbOfTxs>${gruppi.length}</NbOfTxs>
+    <CtrlSum>${totale}</CtrlSum>
+    <InitgPty>
+      <Nm>${escXML(cfg.ragione)}</Nm>
+      <Id>
+        <OrgId>
+          <Othr>
+            <Id>${escXML(cfg.cuc)}</Id>
+            <Issr>CBI</Issr>
+          </Othr>
+        </OrgId>
+      </Id>
+    </InitgPty>
+  </GrpHdr>
+  <PmtInf>
+    <PmtInfId>${msgId}</PmtInfId>
+    <PmtMtd>TRF</PmtMtd>
+    <PmtTpInf>
+      <SvcLvl>
+        <Cd>SEPA</Cd>
+      </SvcLvl>
+    </PmtTpInf>
+    <ReqdExctnDt>${cfg.dataExe}</ReqdExctnDt>
+    <Dbtr>
+      <Nm>${escXML(cfg.ragione)}</Nm>${pstlOrd}${idOrd}
+    </Dbtr>
+    <DbtrAcct>
+      <Id>
+        <IBAN>${ibanOrd}</IBAN>
+      </Id>
+    </DbtrAcct>
+    <DbtrAgt>
+      <FinInstnId>
+        <ClrSysMmbId>
+          <MmbId>${abi}</MmbId>
+        </ClrSysMmbId>
+      </FinInstnId>
+    </DbtrAgt>
+    <ChrgBr>SLEV</ChrgBr>
+${txs}
+  </PmtInf>
+</CBIPaymentRequest>`;
+}
+
+function escXML(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ============================================================
+// SCADENZARIO
+// ============================================================
+function renderScadenzario() {
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+
+  // Update overdue status
+  fatture.forEach(f => {
+    if (f.stato === 'pending') {
+      const scad = new Date(f.dataScadenza);
+      if (scad < oggi) f.stato = 'overdue';
+    }
+  });
+
+  // Stats
+  const pending = fatture.filter(f => (f.stato === 'pending' || f.stato === 'inbatch') && !f.isNotaCredito);
+  const overdue = fatture.filter(f => f.stato === 'overdue' && !f.isNotaCredito);
+  const paid    = fatture.filter(f => f.stato === 'paid');
+  const noteNC  = fatture.filter(f => f.isNotaCredito);
+
+  document.getElementById('stat-total').textContent = fatture.filter(f => !f.isNotaCredito).length;
+  document.getElementById('stat-pending').textContent = fmtEur(pending.reduce((s,f)=>s+f.importo,0));
+  document.getElementById('stat-pending-count').textContent = pending.length + ' fatture';
+  document.getElementById('stat-overdue').textContent = fmtEur(overdue.reduce((s,f)=>s+f.importo,0));
+  document.getElementById('stat-overdue-count').textContent = overdue.length + ' fatture';
+  document.getElementById('stat-paid').textContent = fmtEur(paid.reduce((s,f)=>s+f.importo,0));
+  document.getElementById('stat-paid-count').textContent = paid.length + ' fatture';
+  // Aggiorna sub-label con info note credito se presenti
+  if (noteNC.length) {
+    document.getElementById('stat-pending-count').textContent +=
+      ` · 🟣 ${noteNC.length} nota/e credito (${fmtEur(noteNC.reduce((s,f)=>s+f.importo,0))})`;
+  }
+
+  // Timeline 6 mesi
+  const mesi = [];
+  for (let i = 0; i < 6; i++) {
+    const d = new Date(oggi.getFullYear(), oggi.getMonth() + i, 1);
+    const y = d.getFullYear(), m = d.getMonth();
+    const tot = fatture.filter(f => {
+      if (f.stato === 'paid') return false;
+      const s = new Date(f.dataScadenza);
+      return s.getFullYear() === y && s.getMonth() === m;
+    }).reduce((s,f)=>s+f.importo,0);
+    mesi.push({ label: d.toLocaleString('it-IT',{month:'short',year:'2-digit'}), tot, isCurrent: i===0 });
+  }
+  const maxTot = Math.max(...mesi.map(m=>m.tot), 1);
+  document.getElementById('timeline').innerHTML = mesi.map(m => `
+    <div class="timeline-month ${m.isCurrent ? 'current' : ''}">
+      <div class="month-label">${m.label}</div>
+      <div class="month-amount">${m.tot > 0 ? fmtEur(m.tot) : '—'}</div>
+      <div class="month-bar" style="width:${Math.max(8, (m.tot/maxTot)*100)}%"></div>
+    </div>
+  `).join('');
+
+  // Dettaglio scadenze (non pagate, ordinate per data)
+  const nonPagate = fatture.filter(f => f.stato !== 'paid').sort((a,b)=>new Date(a.dataScadenza)-new Date(b.dataScadenza));
+  const container = document.getElementById('scadenzario-container');
+  if (!nonPagate.length) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">🎉</div><h3>Nessuna scadenza aperta!</h3><p>Tutte le fatture risultano pagate</p></div>`;
+    return;
+  }
+  container.innerHTML = `
+    <table>
+      <thead><tr>
+        <th>Scadenza</th><th>Gg. mancanti</th><th>Fornitore</th><th>N° Fattura</th><th>Importo</th><th>Stato</th><th></th>
+      </tr></thead>
+      <tbody>
+        ${nonPagate.map(f => {
+          const scad = new Date(f.dataScadenza);
+          const diff = Math.ceil((scad-oggi)/(1000*60*60*24));
+          const diffText = diff < 0 ? `<span style="color:var(--danger)">Scaduta ${Math.abs(diff)}gg fa</span>` :
+                           diff === 0 ? `<span style="color:var(--warn)">Oggi!</span>` :
+                           diff <= 7 ? `<span style="color:var(--warn)">tra ${diff}gg</span>` :
+                           `<span style="color:var(--text2)">tra ${diff}gg</span>`;
+          return `<tr>
+            <td class="mono">${fmtDate(f.dataScadenza)}</td>
+            <td>${diffText}</td>
+            <td><strong>${f.ragioneSociale}</strong></td>
+            <td class="mono">${f.numero}</td>
+            <td class="mono"><strong>${fmtEur(f.importo)}</strong></td>
+            <td>${badgeStato(f)}</td>
+            <td><button class="btn btn-sm btn-secondary" onclick="markPaid('${f.id}');renderScadenzario()">✅ Paga</button></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+// ============================================================
+// EXPORT CSV/EXCEL
+// ============================================================
+function exportExcel() {
+  const header = ['N. Fattura','Fornitore','P.IVA','Data','Scadenza','IBAN','Importo','Stato'];
+  const rows = fatture.map(f => [
+    f.numero, f.ragioneSociale, f.piva,
+    fmtDate(f.data), fmtDate(f.dataScadenza),
+    f.iban, f.importo.toFixed(2), f.stato
+  ]);
+  const csv = [header, ...rows].map(r => r.map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(';')).join('\r\n');
+  const BOM = '\uFEFF';
+  download(BOM + csv, 'fatture_scadenzario.csv', 'text/csv;charset=utf-8');
+  toast('📊 File CSV scaricato', 'success');
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function toggleSel(id, checked) {
+  if (checked) selectedIds.add(id); else selectedIds.delete(id);
+}
+function toggleAll(checked) {
+  fatture.filter(f => f.stato !== 'paid' && f.iban).forEach(f => {
+    if (checked) selectedIds.add(f.id); else selectedIds.delete(f.id);
+  });
+  renderFatture();
+}
+function selectAll() {
+  fatture.filter(f => (f.stato === 'pending' || f.stato === 'overdue')).forEach(f => selectedIds.add(f.id));
+  renderFatture();
+  toast(`Selezionate ${selectedIds.size} fatture da pagare`, 'info');
+}
+function filterFatture(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderFatture(filter);
+}
+function searchFatture(val) { renderFatture(currentFilter, val); }
+
+function markPaid(id) {
+  const f = fatture.find(x => x.id === id);
+  if (!f || f.isNotaCredito) return;
+  f.stato = 'paid'; f.dataPagamento = new Date().toISOString().split('T')[0];
+  selectedIds.delete(id);
+  renderFatture(); updateBadge();
+  toast('✅ Fattura segnata come pagata', 'success');
+}
+function deleteFattura(id) {
+  fatture = fatture.filter(f => f.id !== id);
+  selectedIds.delete(id);
+  renderFatture(); updateBadge();
+  toast('Fattura eliminata', 'info');
+}
+
+function editIban(id) {
+  const f = fatture.find(x => x.id === id);
+  if (!f) return;
+  document.getElementById('modal-content').innerHTML = `
+    <div style="display:grid;gap:12px">
+      <div style="padding:10px 14px;background:var(--surface2);border-radius:6px;font-size:13px">
+        <div style="color:var(--text2);font-size:11px;font-weight:600;text-transform:uppercase;margin-bottom:4px">Fattura</div>
+        <strong>${f.ragioneSociale}</strong> · <span class="mono">${f.numero}</span> · <strong>${fmtEur(f.importo)}</strong>
+      </div>
+      <div class="field-group">
+        <label>IBAN beneficiario</label>
+        <input type="text" id="edit-iban-input"
+          value="${f.iban||''}"
+          placeholder="IT60X0542811101000000123456"
+          style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.05em"
+          oninput="validateIbanInput(this)">
+        <span id="edit-iban-hint" style="font-size:11px;color:var(--text2)">Formato: IT + 2 cifre + 23 caratteri alfanumerici</span>
+      </div>
+      <div class="field-group">
+        <label>BIC / SWIFT (opzionale)</label>
+        <input type="text" id="edit-bic-input" value="${f.bic||''}" placeholder="es. BNLIITRR" style="font-family:'IBM Plex Mono',monospace">
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
+        <button class="btn btn-secondary" onclick="closeModal()">Annulla</button>
+        <button class="btn btn-primary" onclick="saveIban('${id}')">💾 Salva IBAN</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-fattura').classList.add('open');
+  setTimeout(() => {
+    const inp = document.getElementById('edit-iban-input');
+    inp.focus(); inp.select();
+  }, 80);
+}
+
+function ibanChecksum(iban) {
+  // Algoritmo mod97: sposta i primi 4 char in fondo, sostituisci lettere con numeri, mod 97 == 1
+  const rearranged = iban.slice(4) + iban.slice(0, 4);
+  const numeric = rearranged.split('').map(c => {
+    const code = c.charCodeAt(0);
+    return code >= 65 && code <= 90 ? (code - 55).toString() : c;
+  }).join('');
+  // BigInt per gestire numeri grandi
+  let remainder = 0n;
+  for (const ch of numeric) remainder = (remainder * 10n + BigInt(ch)) % 97n;
+  return remainder === 1n;
+}
+
+function validateIbanInput(el) {
+  const v = el.value.replace(/\s/g,'').toUpperCase();
+  const hint = document.getElementById('edit-iban-hint');
+  if (!v) {
+    hint.textContent = 'Formato: IT + 2 cifre di controllo + 23 caratteri';
+    hint.style.color = 'var(--text2)'; return;
+  }
+  if (v.length < 27) {
+    hint.textContent = `${v.length}/27 caratteri`;
+    hint.style.color = 'var(--warn)'; return;
+  }
+  if (!/^[A-Z]{2}\d{2}[A-Z0-9]{23}$/.test(v)) {
+    hint.textContent = '⚠ Formato non valido (atteso IT + 2 cifre + 23 alfanumerici)';
+    hint.style.color = 'var(--danger)'; return;
+  }
+  if (!ibanChecksum(v)) {
+    hint.textContent = '❌ Checksum errato — controlla le cifre (potrebbe essere un errore di battitura)';
+    hint.style.color = 'var(--danger)'; return;
+  }
+  hint.textContent = '✅ IBAN valido (checksum mod97 corretto)';
+  hint.style.color = 'var(--green)';
+}
+
+function saveIban(id) {
+  const f = fatture.find(x => x.id === id);
+  if (!f) return;
+  const nuovoIban = document.getElementById('edit-iban-input').value.replace(/\s/g,'').toUpperCase();
+  const nuovoBic  = document.getElementById('edit-bic-input').value.trim();
+  if (!nuovoIban) { toast('⚠ Inserisci un IBAN valido', 'error'); return; }
+  f.iban = nuovoIban;
+  if (nuovoBic) f.bic = nuovoBic;
+  closeModal();
+  renderFatture();
+  if (document.getElementById('panel-cbi').classList.contains('active')) renderCBIPanel();
+  // Aggiorna/aggiunge il fornitore in rubrica
+  aggiornaRubricaDaFattura(f);
+  toast(`✅ IBAN salvato per ${f.ragioneSociale}`, 'success');
+}
+
+function showDetail(id) {
+  const f = fatture.find(x => x.id === id);
+  if (!f) return;
+  document.getElementById('modal-content').innerHTML = `
+    <div style="display:grid;gap:10px">
+      ${row('Fornitore', f.ragioneSociale)}
+      ${row('P.IVA / CF', f.piva + (f.cf && f.cf !== f.piva ? ' / '+f.cf : ''))}
+      ${row('N° Fattura', f.numero)}
+      ${row('Data documento', fmtDate(f.data))}
+      ${row('Data scadenza', fmtDate(f.dataScadenza))}
+      ${row('IBAN', f.iban || '<span style=color:var(--danger)>Non disponibile</span>')}
+      ${f.bic ? row('BIC', f.bic) : ''}
+      ${row('Importo', '<strong>' + fmtEur(f.importo) + '</strong>')}
+      ${row('Modalità pagamento', f.modalitaPagamento)}
+      ${row('Stato', badgeStato(f))}
+      ${row('File sorgente', f.filename)}
+    </div>
+  `;
+  document.getElementById('modal-fattura').classList.add('open');
+}
+function row(k, v) { return `<div style="display:flex;gap:12px;align-items:start;border-bottom:1px solid var(--border);padding-bottom:8px"><div style="min-width:130px;color:var(--text2);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding-top:2px">${k}</div><div style="font-size:13px">${v}</div></div>`; }
+function closeModal() { document.getElementById('modal-fattura').classList.remove('open'); }
+
+function badgeStato(f) {
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+  let stato = f.stato;
+  if (stato === 'pending' && new Date(f.dataScadenza) < oggi) stato = 'overdue';
+  const m = {
+    pending:      ['badge-pending',  'In attesa'],
+    overdue:      ['badge-overdue',  'Scaduta'],
+    paid:         ['badge-paid',     'Pagata'],
+    inbatch:      ['badge-inbatch',  'In distinta'],
+    nota_credito: ['badge-nota',     'Nota credito'],
+  };
+  const [cls, txt] = m[stato] || m.pending;
+  return `<span class="badge ${cls}">${txt}</span>`;
+}
+function isOverdue(d) { return d && new Date(d) < new Date(); }
+function fmtDate(d) { if (!d) return '—'; try { return new Date(d).toLocaleDateString('it-IT'); } catch(e) { return d; } }
+function fmtEur(v) { return '€\u202f' + Number(v||0).toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+function updateBadge() {
+  document.getElementById('badge-fatture').textContent = fatture.length;
+}
+
+function downloadCBI() {
+  if (!cbiContent) return;
+  const mime = cbiFilename.endsWith('.xml') ? 'application/xml' : 'text/plain';
+  download(cbiContent, cbiFilename, mime);
+  toast(`⬇️ File "${cbiFilename}" scaricato`, 'success');
+}
+function copyClipboard() {
+  navigator.clipboard.writeText(cbiContent).then(() => toast('📋 Copiato negli appunti', 'success'));
+}
+function download(content, filename, mime) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], {type: mime}));
+  a.download = filename; a.click();
+}
+
+function toast(msg, type='info') {
+  const c = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = msg;
+  c.appendChild(el);
+  setTimeout(() => el.remove(), 4000);
+}
+
+// Close modal on overlay click
+document.getElementById('modal-fattura').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>
