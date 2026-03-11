@@ -246,6 +246,87 @@
     background: var(--surface2);
     border-bottom: 1px solid var(--border);
   }
+  thead th.sortable {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  thead th.sortable:hover { color: var(--accent); }
+  thead th.sort-asc::after  { content: ' ↑'; color: var(--accent); font-size: 10px; }
+  thead th.sort-desc::after { content: ' ↓'; color: var(--accent); font-size: 10px; }
+
+  /* Toast notifica auto-save */
+  .autosave-indicator {
+    position: fixed; bottom: 24px; left: 24px;
+    font-size: 11px; color: var(--text3);
+    font-family: 'IBM Plex Mono', monospace;
+    opacity: 0; transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  .autosave-indicator.show { opacity: 1; }
+
+  /* Pill giorni alla scadenza */
+  .days-pill {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-top: 3px;
+    white-space: nowrap;
+  }
+  .days-pill.ok     { background: rgba(34,197,94,0.1);  color: var(--green);   border: 1px solid rgba(34,197,94,0.25); }
+  .days-pill.soon   { background: rgba(255,170,0,0.12); color: var(--warn);    border: 1px solid rgba(255,170,0,0.3); }
+  .days-pill.urgent { background: rgba(255,77,109,0.1); color: var(--danger);  border: 1px solid rgba(255,77,109,0.25); }
+  .days-pill.past   { background: rgba(255,77,109,0.18);color: var(--danger);  border: 1px solid rgba(255,77,109,0.4); font-style: italic; }
+  .days-pill.paid   { background: transparent; color: var(--text3); border: 1px solid var(--border); font-weight: 400; }
+
+  /* Pannello filtri avanzati */
+  .advanced-filters {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+  .advanced-filters.open { display: flex; }
+  .advanced-filters .af-group {
+    display: flex; flex-direction: column; gap: 5px; min-width: 160px;
+  }
+  .advanced-filters .af-group label {
+    font-size: 11px; font-weight: 600; color: var(--text2);
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .advanced-filters .af-group input[type="number"],
+  .advanced-filters .af-group input[type="date"] {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 6px 10px;
+    color: var(--text); font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; outline: none; width: 140px;
+    transition: border-color .2s;
+  }
+  .advanced-filters .af-group input:focus { border-color: var(--accent); }
+  .af-range { display: flex; align-items: center; gap: 6px; }
+  .af-range span { color: var(--text3); font-size: 12px; }
+
+  /* Modal data pagamento personalizzata */
+  .mark-paid-inline {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .mark-paid-inline input[type="date"] {
+    background: transparent; border: none;
+    color: var(--text); font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; outline: none; cursor: pointer;
+  }
   tbody tr {
     border-bottom: 1px solid var(--border);
     transition: background 0.15s;
@@ -529,7 +610,7 @@
     <div class="logo-icon">⚡</div>
     FattureSDI <span>→ CBI</span>
   </div>
-  <div class="header-badge">v1.0 · Open Source</div>
+  <div class="header-badge">v1.5 · Open Source</div>
   <div style="display:flex;align-items:center;gap:8px">
     <button class="btn btn-primary btn-sm" onclick="esportaJSON()" title="Scarica dati.json con ordinante e fatture">
       💾 Salva dati
@@ -538,6 +619,9 @@
       📂 Carica dati
       <input type="file" id="input-json" accept=".json" style="display:none" onchange="importaJSON(this)">
     </label>
+    <button class="btn btn-secondary btn-sm" onclick="cancellaAutosave()" title="Cancella i dati salvati automaticamente nel browser" style="color:var(--text3)">
+      🗑 Cancella sessione
+    </button>
     <button class="theme-toggle" onclick="toggleTheme()" title="Cambia tema chiaro/scuro">
       <span id="theme-icon">☀️</span>
       <div class="theme-toggle-track"><div class="theme-toggle-thumb"></div></div>
@@ -551,7 +635,11 @@
   <div class="tab" onclick="switchTab('fatture')">📋 Fatture <span class="tab-badge" id="badge-fatture">0</span></div>
   <div class="tab" onclick="switchTab('cbi')">🏦 Genera CBI</div>
   <div class="tab" onclick="switchTab('scadenzario')">📅 Scadenzario</div>
+  <div class="tab" onclick="switchTab('flussi')">📊 Flussi mensili</div>
+  <div class="tab" onclick="switchTab('liquidita')">💧 Liquidità & Proiezioni</div>
+  <div class="tab" onclick="switchTab('analisi')">🔬 Analisi mese</div>
   <div class="tab" onclick="switchTab('rubrica')">👥 Rubrica <span class="tab-badge" id="badge-rubrica">0</span></div>
+  <div class="tab" onclick="switchTab('export')">⬇️ Export</div>
 </div>
 
 <main>
@@ -582,15 +670,55 @@
 
 <!-- PANEL: FATTURE -->
 <div class="panel" id="panel-fatture">
-  <div class="filter-bar">
+  <div class="filter-bar" id="filter-bar-stato">
     <button class="filter-btn active" onclick="filterFatture('all', this)">Tutte</button>
     <button class="filter-btn" onclick="filterFatture('pending', this)">⏳ Da pagare</button>
     <button class="filter-btn" onclick="filterFatture('overdue', this)">🔴 Scadute</button>
     <button class="filter-btn" onclick="filterFatture('paid', this)">✅ Pagate</button>
     <button class="filter-btn" onclick="filterFatture('nota_credito', this)">🟣 Note credito</button>
     <input type="text" class="search-input" placeholder="🔍 Cerca fornitore, numero..." oninput="searchFatture(this.value)" id="search-fatture">
+    <button class="btn btn-sm btn-secondary" id="btn-filtri-avanzati" onclick="toggleAdvancedFilters()" title="Filtri per importo e date">⚙ Filtri avanzati</button>
     <div class="separator"></div>
     <button class="btn btn-sm btn-secondary" onclick="selectAll()">Seleziona tutte da pagare</button>
+    <button class="btn btn-sm" style="background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.35);color:var(--green)" onclick="markSelectedPaid()">✅ Segna selezionate come pagate</button>
+  </div>
+  <div class="filter-bar" id="filter-bar-pag" style="margin-top:-6px;padding-top:0">
+    <span style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;align-self:center">Pagamento:</span>
+    <button class="filter-btn active" id="fpag-all"      onclick="filterPag('all',      this)">Tutti</button>
+    <button class="filter-btn"        id="fpag-bonifico" onclick="filterPag('bonifico', this)">🏦 Bonifico</button>
+    <button class="filter-btn"        id="fpag-rid"      onclick="filterPag('rid',      this)">🔄 RID / SDD</button>
+    <button class="filter-btn"        id="fpag-riba"     onclick="filterPag('riba',     this)">📄 Ri.Ba.</button>
+    <button class="filter-btn"        id="fpag-contanti" onclick="filterPag('contanti', this)">💵 Contanti</button>
+    <button class="filter-btn"        id="fpag-altro"    onclick="filterPag('altro',    this)">… Altro</button>
+  </div>
+
+  <!-- Filtri avanzati: importo + date -->
+  <div class="advanced-filters" id="advanced-filters">
+    <div class="af-group">
+      <label>Importo (€)</label>
+      <div class="af-range">
+        <input type="number" id="af-imp-min" placeholder="Min" min="0" step="0.01" oninput="renderFatture()">
+        <span>–</span>
+        <input type="number" id="af-imp-max" placeholder="Max" min="0" step="0.01" oninput="renderFatture()">
+      </div>
+    </div>
+    <div class="af-group">
+      <label>Data scadenza dal</label>
+      <input type="date" id="af-scad-da" oninput="renderFatture()">
+    </div>
+    <div class="af-group">
+      <label>Data scadenza al</label>
+      <input type="date" id="af-scad-a" oninput="renderFatture()">
+    </div>
+    <div class="af-group">
+      <label>Data documento dal</label>
+      <input type="date" id="af-data-da" oninput="renderFatture()">
+    </div>
+    <div class="af-group">
+      <label>Data documento al</label>
+      <input type="date" id="af-data-a" oninput="renderFatture()">
+    </div>
+    <button class="btn btn-sm btn-secondary" onclick="resetAdvancedFilters()" style="align-self:flex-end">✕ Reset</button>
   </div>
 
   <div id="fatture-container">
@@ -714,6 +842,8 @@
 
 <!-- PANEL: SCADENZARIO -->
 <div class="panel" id="panel-scadenzario">
+
+  <!-- STAT CARDS -->
   <div class="stats-grid" id="stats-grid">
     <div class="stat-card accent">
       <div class="stat-label">Totale fatture</div>
@@ -737,14 +867,54 @@
     </div>
   </div>
 
-  <div class="section-header">
-    <div class="section-title">Prossime scadenze (6 mesi)</div>
-    <button class="btn btn-secondary btn-sm" onclick="exportExcel()">📊 Esporta Excel/CSV</button>
+  <!-- FILTRI SCADENZARIO -->
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
+    <span style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em">Stato:</span>
+    <button class="filter-btn active" id="scad-stato-all"       onclick="setScadFiltro('stato','all',this)">Tutti</button>
+    <button class="filter-btn"        id="scad-stato-pending"   onclick="setScadFiltro('stato','pending',this)">⏳ Da pagare</button>
+    <button class="filter-btn"        id="scad-stato-overdue"   onclick="setScadFiltro('stato','overdue',this)">🔴 Scadute</button>
+    <button class="filter-btn"        id="scad-stato-paid"      onclick="setScadFiltro('stato','paid',this)">✅ Pagate</button>
+    <div style="width:1px;height:20px;background:var(--border);margin:0 4px"></div>
+    <span style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em">Pagamento:</span>
+    <button class="filter-btn active" id="scad-pag-all"         onclick="setScadFiltro('pag','all',this)">Tutti</button>
+    <button class="filter-btn"        id="scad-pag-bonifico"    onclick="setScadFiltro('pag','bonifico',this)">🏦 Bonifico</button>
+    <button class="filter-btn"        id="scad-pag-rid"         onclick="setScadFiltro('pag','rid',this)">🔄 RID/SDD</button>
+    <button class="filter-btn"        id="scad-pag-riba"        onclick="setScadFiltro('pag','riba',this)">📄 Ri.Ba.</button>
+    <button class="filter-btn"        id="scad-pag-contanti"    onclick="setScadFiltro('pag','contanti',this)">💵 Contanti</button>
+    <button class="filter-btn"        id="scad-pag-altro"       onclick="setScadFiltro('pag','altro',this)">… Altro</button>
+    <div style="width:1px;height:20px;background:var(--border);margin:0 4px"></div>
+    <span style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em">Periodo:</span>
+    <select id="scad-periodo" onchange="renderScadenzario()" style="font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);cursor:pointer">
+      <option value="6">Prossimi 6 mesi</option>
+      <option value="12">Prossimi 12 mesi</option>
+      <option value="0">Tutto</option>
+    </select>
+    <div style="flex:1"></div>
+    <button class="btn btn-secondary btn-sm" onclick="exportExcel()">📊 Esporta CSV</button>
   </div>
-  <div class="timeline" id="timeline"></div>
 
+  <!-- GRAFICO FLUSSI -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--text)">Flusso di cassa per scadenza</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px">Importi per mese, suddivisi per tipo di pagamento</div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap" id="chart-legend"></div>
+    </div>
+    <div style="position:relative;height:220px">
+      <canvas id="flussi-chart" style="width:100%;height:100%"></canvas>
+      <div id="chart-tooltip" style="display:none;position:absolute;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;pointer-events:none;z-index:10;min-width:160px;box-shadow:0 4px 20px rgba(0,0,0,0.3)"></div>
+    </div>
+    <div id="chart-empty" style="display:none;text-align:center;padding:40px;color:var(--text2);font-size:13px">
+      📊 Nessun dato disponibile per il periodo selezionato
+    </div>
+  </div>
+
+  <!-- TABELLA SCADENZE -->
   <div class="section-header">
     <div class="section-title">Dettaglio scadenze</div>
+    <span id="scad-count-label" style="font-size:12px;color:var(--text2)"></span>
   </div>
   <div id="scadenzario-container">
     <div class="empty-state">
@@ -778,6 +948,127 @@
       <p>Aggiungi i tuoi fornitori abituali oppure importa un file JSON già salvato</p>
     </div>
   </div>
+</div>
+
+
+<!-- PANEL: FLUSSI MENSILI -->
+<div class="panel" id="panel-flussi">
+
+  <!-- SELETTORE MESE + FILTRI -->
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
+    <button class="btn btn-secondary btn-sm" onclick="flussiMeseNav(-1)">‹</button>
+    <select id="flussi-mese-sel" onchange="renderFlussi()" style="font-size:13px;font-weight:600;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);cursor:pointer;font-family:'IBM Plex Sans',sans-serif"></select>
+    <select id="flussi-anno-sel" onchange="renderFlussi()" style="font-size:13px;font-weight:600;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);cursor:pointer;font-family:'IBM Plex Sans',sans-serif"></select>
+    <button class="btn btn-secondary btn-sm" onclick="flussiMeseNav(+1)">›</button>
+    <button class="btn btn-secondary btn-sm" onclick="flussiMeseOggi()" style="margin-left:4px">Oggi</button>
+    <div style="width:1px;height:24px;background:var(--border);margin:0 4px"></div>
+    <span style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em">Stato:</span>
+    <button class="filter-btn active" id="fl-stato-all"     onclick="setFlussoFiltro('stato','all',this)">Tutti</button>
+    <button class="filter-btn"        id="fl-stato-pending" onclick="setFlussoFiltro('stato','pending',this)">⏳ Da pagare</button>
+    <button class="filter-btn"        id="fl-stato-overdue" onclick="setFlussoFiltro('stato','overdue',this)">🔴 Scadute</button>
+    <button class="filter-btn"        id="fl-stato-paid"    onclick="setFlussoFiltro('stato','paid',this)">✅ Pagate</button>
+    <div style="width:1px;height:24px;background:var(--border);margin:0 4px"></div>
+    <span style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em">Tipo:</span>
+    <button class="filter-btn active" id="fl-pag-all"      onclick="setFlussoFiltro('pag','all',this)">Tutti</button>
+    <button class="filter-btn"        id="fl-pag-bonifico" onclick="setFlussoFiltro('pag','bonifico',this)">🏦 Bonifico</button>
+    <button class="filter-btn"        id="fl-pag-rid"      onclick="setFlussoFiltro('pag','rid',this)">🔄 RID/SDD</button>
+    <button class="filter-btn"        id="fl-pag-riba"     onclick="setFlussoFiltro('pag','riba',this)">📄 Ri.Ba.</button>
+    <button class="filter-btn"        id="fl-pag-contanti" onclick="setFlussoFiltro('pag','contanti',this)">💵 Contanti</button>
+    <button class="filter-btn"        id="fl-pag-altro"    onclick="setFlussoFiltro('pag','altro',this)">… Altro</button>
+    <div style="flex:1"></div>
+    <button class="btn btn-secondary btn-sm" onclick="exportFlussiCSV()">📊 Esporta CSV</button>
+  </div>
+
+  <!-- KPI MESE -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
+    <div class="stat-card warn">
+      <div class="stat-label">Totale mese</div>
+      <div class="stat-value" id="fl-kpi-tot">€ 0</div>
+      <div class="stat-sub" id="fl-kpi-tot-n">0 fatture</div>
+    </div>
+    <div class="stat-card danger">
+      <div class="stat-label">Picco giornaliero</div>
+      <div class="stat-value" id="fl-kpi-picco">€ 0</div>
+      <div class="stat-sub" id="fl-kpi-picco-d">—</div>
+    </div>
+    <div class="stat-card accent">
+      <div class="stat-label">Giorni con uscite</div>
+      <div class="stat-value" id="fl-kpi-giorni">0</div>
+      <div class="stat-sub" id="fl-kpi-giorni-sub">nel mese</div>
+    </div>
+    <div class="stat-card paid">
+      <div class="stat-label">Media per giorno attivo</div>
+      <div class="stat-value" id="fl-kpi-media">€ 0</div>
+      <div class="stat-sub">nei giorni con scadenze</div>
+    </div>
+  </div>
+
+  <!-- GRAFICO A BARRE GIORNALIERO -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--text)" id="fl-chart-title">Distribuzione giornaliera</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px">Importo in scadenza per giorno · clicca su una barra per il dettaglio fatture</div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap" id="fl-chart-legend"></div>
+    </div>
+    <div style="position:relative;height:250px">
+      <canvas id="flussi-daily-chart" style="width:100%;height:100%"></canvas>
+      <div id="fl-chart-tooltip" style="display:none;position:absolute;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;pointer-events:none;z-index:10;min-width:200px;box-shadow:0 4px 20px rgba(0,0,0,0.3)"></div>
+    </div>
+    <div id="fl-chart-empty" style="display:none;text-align:center;padding:40px;color:var(--text2);font-size:13px">
+      📊 Nessuna scadenza in questo mese
+    </div>
+    <!-- HEATMAP CALENDARIO -->
+    <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--border)">
+      <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Mappa calore — intensità uscite per giorno</div>
+      <!-- giorni settimana header -->
+      <div style="display:grid;grid-template-columns:repeat(7,36px);gap:4px;margin-bottom:4px;max-width:284px">
+        <div style="font-size:9px;font-weight:700;color:var(--text3);text-align:center">Lun</div>
+        <div style="font-size:9px;font-weight:700;color:var(--text3);text-align:center">Mar</div>
+        <div style="font-size:9px;font-weight:700;color:var(--text3);text-align:center">Mer</div>
+        <div style="font-size:9px;font-weight:700;color:var(--text3);text-align:center">Gio</div>
+        <div style="font-size:9px;font-weight:700;color:var(--text3);text-align:center">Ven</div>
+        <div style="font-size:9px;font-weight:700;color:var(--text3);text-align:center">Sab</div>
+        <div style="font-size:9px;font-weight:700;color:var(--text3);text-align:center">Dom</div>
+      </div>
+      <div id="fl-heatmap" style="display:grid;grid-template-columns:repeat(7,36px);gap:4px;max-width:284px"></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:11px;color:var(--text3)">
+        <span>€ 0</span>
+        <div style="display:flex;gap:3px">
+          <div style="width:16px;height:10px;border-radius:2px;background:var(--surface2);border:1px solid var(--border)"></div>
+          <div style="width:16px;height:10px;border-radius:2px;background:rgba(255,170,0,0.2)"></div>
+          <div style="width:16px;height:10px;border-radius:2px;background:rgba(255,170,0,0.45)"></div>
+          <div style="width:16px;height:10px;border-radius:2px;background:rgba(255,170,0,0.7)"></div>
+          <div style="width:16px;height:10px;border-radius:2px;background:rgba(255,170,0,0.95)"></div>
+        </div>
+        <span>Picco massimo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETTAGLIO FATTURE DEL GIORNO SELEZIONATO -->
+  <div id="fl-day-detail" style="display:none;background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:16px;margin-bottom:20px;animation:modalIn .2s ease">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-size:14px;font-weight:700;color:var(--accent)" id="fl-day-title">Fatture del giorno</div>
+      <button class="btn btn-sm btn-secondary" onclick="chiudiFlussoDettaglio()">✕ Chiudi</button>
+    </div>
+    <div id="fl-day-table"></div>
+  </div>
+
+  <!-- TABELLA RIEPILOGO PER GIORNO -->
+  <div class="section-header">
+    <div class="section-title">Riepilogo per data di scadenza</div>
+    <span id="fl-count-label" style="font-size:12px;color:var(--text2)"></span>
+  </div>
+  <div id="flussi-container">
+    <div class="empty-state">
+      <div class="empty-icon">📊</div>
+      <h3>Nessuna scadenza</h3>
+      <p>Importa fatture o seleziona un mese con scadenze</p>
+    </div>
+  </div>
+
 </div>
 
 <!-- MODAL: Fornitore -->
@@ -833,9 +1124,248 @@
   </div>
 </div>
 
+<!-- PANEL: EXPORT -->
+<div class="panel" id="panel-export">
+
+  <div style="background:rgba(79,138,255,0.07);border:1px solid rgba(79,138,255,0.2);border-radius:8px;padding:12px 18px;margin-bottom:24px;font-size:12px;color:var(--text2);line-height:1.7">
+    📤 Tutti gli export usano il formato <strong style="color:var(--accent2)">CSV</strong> con separatore <code style="background:var(--surface2);padding:1px 5px;border-radius:3px;font-size:11px">;</code> e BOM UTF-8 — compatibile con Excel, LibreOffice e qualsiasi gestionale.
+  </div>
+
+  <!-- ═══ SEZIONE 1: FATTURE ═══ -->
+  <div class="section-header"><div class="section-title">Esporta fatture</div></div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:18px">
+      <div class="field-group">
+        <label>Stato</label>
+        <select id="exp-f-stato" onchange="aggiornaPreviewFatture()" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none">
+          <option value="all">Tutte</option>
+          <option value="pending">Da pagare</option>
+          <option value="overdue">Scadute</option>
+          <option value="paid">Pagate</option>
+          <option value="nota_credito">Note credito</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Scadenza dal</label>
+        <input type="date" id="exp-f-scad-da" oninput="aggiornaPreviewFatture()" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div class="field-group">
+        <label>Scadenza al</label>
+        <input type="date" id="exp-f-scad-a" oninput="aggiornaPreviewFatture()" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div class="field-group">
+        <label>Solo selezionate</label>
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 0">
+          <input type="checkbox" id="exp-f-solo-sel" onchange="aggiornaPreviewFatture()" style="width:16px;height:16px">
+          <span style="font-size:12px;color:var(--text2)">Usa selezione dalla tab Fatture</span>
+        </div>
+      </div>
+    </div>
+    <!-- Preview fatture -->
+    <div id="exp-preview-fatture" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:16px;min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <span style="color:var(--text3);font-size:13px">Configura i filtri per vedere l'anteprima</span>
+    </div>
+    <!-- Scelta colonne -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Colonne da includere</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px" id="exp-col-checks">
+        ${[
+          ['numero','N° Fattura',true],['data','Data doc.',true],['ragioneSociale','Fornitore',true],
+          ['piva','P.IVA',true],['dataScadenza','Scadenza',true],['importo','Importo',true],
+          ['stato','Stato',true],['modalitaPagamento','Tipo pagamento',true],
+          ['iban','IBAN',true],['bic','BIC',false],['dataPagamento','Data pagamento',false],
+          ['filename','File sorgente',false]
+        ].map(([k,l,c]) => `
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:4px 10px;border:1px solid var(--border);border-radius:20px;background:var(--surface);user-select:none;transition:all .15s"
+            onmouseover="this.style.borderColor='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)'">
+            <input type="checkbox" data-col="${k}" ${c?'checked':''} onchange="aggiornaPreviewFatture()" style="width:13px;height:13px;accent-color:var(--accent)">
+            ${l}
+          </label>`).join('')}
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="esportaFattureCSV()" id="btn-exp-fatture">⬇️ Scarica CSV Fatture</button>
+  </div>
+
+  <!-- ═══ SEZIONE 2: SCADENZARIO ═══ -->
+  <div class="section-header"><div class="section-title">Esporta scadenzario</div></div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:18px">
+      <div class="field-group">
+        <label>Periodo — dal</label>
+        <input type="date" id="exp-s-da" oninput="aggiornaPreviewScad()" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none">
+      </div>
+      <div class="field-group">
+        <label>Periodo — al</label>
+        <input type="date" id="exp-s-a" oninput="aggiornaPreviewScad()" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none">
+      </div>
+      <div class="field-group">
+        <label>Includi pagate</label>
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 0">
+          <input type="checkbox" id="exp-s-pagate" onchange="aggiornaPreviewScad()" style="width:16px;height:16px">
+          <span style="font-size:12px;color:var(--text2)">Includi fatture già pagate</span>
+        </div>
+      </div>
+    </div>
+    <div id="exp-preview-scad" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:16px;min-height:54px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <span style="color:var(--text3);font-size:13px">Imposta un intervallo di date</span>
+    </div>
+    <button class="btn btn-primary" onclick="esportaScadenzarioCSV()">⬇️ Scarica CSV Scadenzario</button>
+  </div>
+
+  <!-- ═══ SEZIONE 3: RIEPILOGO FORNITORI ═══ -->
+  <div class="section-header"><div class="section-title">Riepilogo per fornitore</div></div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:18px">
+      <div class="field-group">
+        <label>Includi stati</label>
+        <select id="exp-r-stato" onchange="aggiornaPreviewRiepilogo()" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none">
+          <option value="all">Tutti (incluse pagate)</option>
+          <option value="open">Solo aperte (pending + overdue)</option>
+          <option value="paid">Solo pagate</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Ordina per</label>
+        <select id="exp-r-sort" onchange="aggiornaPreviewRiepilogo()" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none">
+          <option value="importo">Importo totale ↓</option>
+          <option value="nome">Nome fornitore A→Z</option>
+          <option value="count">N° fatture ↓</option>
+        </select>
+      </div>
+    </div>
+    <!-- Anteprima tabella riepilogo -->
+    <div id="exp-preview-riepilogo" style="margin-bottom:16px">
+      <span style="color:var(--text3);font-size:13px">Configura i filtri per vedere l'anteprima</span>
+    </div>
+    <button class="btn btn-primary" onclick="esportaRiepilogoCSV()">⬇️ Scarica CSV Riepilogo fornitori</button>
+  </div>
+
+</div>
+
+<!-- PANEL: LIQUIDITÀ & PROIEZIONI -->
+<div class="panel" id="panel-liquidita">
+
+  <!-- Fatturato disponibile -->
+  <div style="background:var(--surface);border:1px solid rgba(0,212,170,0.3);border-radius:10px;padding:18px 22px;margin-bottom:22px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">💰 Fatturato disponibile (saldo iniziale di cassa)</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--accent)">€</span>
+        <input type="number" id="liq-saldo" value="50000" min="0" step="100"
+          oninput="renderLiquidita()"
+          style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 14px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;width:200px;outline:none;transition:border-color .2s"
+          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+        <div style="font-size:11px;color:var(--text3);line-height:1.5">Modifica il valore per simulare<br>diversi scenari di liquidità</div>
+      </div>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <div class="field-group" style="min-width:140px">
+        <label>Soglia critica (€)</label>
+        <input type="number" id="liq-soglia" value="5000" min="0" step="500"
+          oninput="renderLiquidita()"
+          style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;width:140px;outline:none">
+      </div>
+      <div class="field-group" style="min-width:120px">
+        <label>Orizzonte (mesi)</label>
+        <select id="liq-mesi" onchange="renderLiquidita()" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none">
+          <option value="3">3 mesi</option>
+          <option value="6" selected>6 mesi</option>
+          <option value="12">12 mesi</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI liquidità -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px" id="liq-kpi-grid">
+    <div class="stat-card accent"><div class="stat-label">Saldo attuale</div><div class="stat-value" id="liq-k-saldo">€ 0</div><div class="stat-sub">dopo scadenze già passate</div></div>
+    <div class="stat-card warn"><div class="stat-label">Uscite prossimi 30gg</div><div class="stat-value" id="liq-k-30">€ 0</div><div class="stat-sub" id="liq-k-30-n">0 fatture</div></div>
+    <div class="stat-card danger"><div class="stat-label">Giorni sotto soglia</div><div class="stat-value" id="liq-k-rischio">0</div><div class="stat-sub">nei prossimi mesi</div></div>
+    <div class="stat-card paid"><div class="stat-label">Saldo minimo previsto</div><div class="stat-value" id="liq-k-min">€ 0</div><div class="stat-sub" id="liq-k-min-d">—</div></div>
+  </div>
+
+  <!-- Grafico saldo progressivo -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:22px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--text)">Saldo progressivo di cassa</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px">Evoluzione del saldo giorno per giorno · la linea rossa tratteggiata indica la soglia critica</div>
+      </div>
+    </div>
+    <div style="position:relative;height:260px">
+      <canvas id="liq-chart" style="width:100%;height:100%"></canvas>
+      <div id="liq-chart-tooltip" style="display:none;position:absolute;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;pointer-events:none;z-index:10;min-width:200px;box-shadow:0 4px 20px rgba(0,0,0,0.3)"></div>
+    </div>
+    <div id="liq-chart-empty" style="display:none;text-align:center;padding:40px;color:var(--text2);font-size:13px">Nessuna scadenza nell'orizzonte selezionato</div>
+  </div>
+
+  <!-- Proiezioni mesi futuri -->
+  <div class="section-header"><div class="section-title">Proiezione mesi futuri (media ultimi 6 mesi)</div></div>
+  <div id="liq-proiezioni-container">
+    <div class="empty-state"><div class="empty-icon">📈</div><h3>Dati insufficienti</h3><p>Servono almeno 2 mesi di storico per generare proiezioni</p></div>
+  </div>
+
+</div>
+
+<!-- PANEL: ANALISI MESE -->
+<div class="panel" id="panel-analisi">
+
+  <!-- Selettore mese da analizzare -->
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
+    <button class="btn btn-secondary btn-sm" onclick="analisiMeseNav(-1)">‹</button>
+    <select id="analisi-mese-sel" onchange="renderAnalisi()" style="font-size:13px;font-weight:600;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);cursor:pointer;font-family:'IBM Plex Sans',sans-serif"></select>
+    <select id="analisi-anno-sel" onchange="renderAnalisi()" style="font-size:13px;font-weight:600;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);cursor:pointer;font-family:'IBM Plex Sans',sans-serif"></select>
+    <button class="btn btn-secondary btn-sm" onclick="analisiMeseNav(+1)">›</button>
+    <button class="btn btn-secondary btn-sm" onclick="analisiMeseOggi()" style="margin-left:4px">Mese corrente</button>
+  </div>
+
+  <!-- KPI mese vs mese precedente -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px" id="analisi-kpi-grid">
+    <div class="stat-card warn"><div class="stat-label">Totale mese</div><div class="stat-value" id="an-k-tot">€ 0</div><div class="stat-sub" id="an-k-tot-delta">vs mese prec.</div></div>
+    <div class="stat-card accent"><div class="stat-label">N° fatture</div><div class="stat-value" id="an-k-n">0</div><div class="stat-sub" id="an-k-n-delta">vs mese prec.</div></div>
+    <div class="stat-card danger"><div class="stat-label">Importo medio</div><div class="stat-value" id="an-k-media">€ 0</div><div class="stat-sub" id="an-k-media-delta">per fattura</div></div>
+    <div class="stat-card paid"><div class="stat-label">Fornitori attivi</div><div class="stat-value" id="an-k-forn">0</div><div class="stat-sub" id="an-k-forn-delta">vs mese prec.</div></div>
+  </div>
+
+  <!-- Concentrazione pagamenti (regola 80/20) -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">Concentrazione pagamenti</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:16px">Quanti fornitori coprono l'80% della spesa mensile?</div>
+      <div id="analisi-concentrazione">
+        <div style="color:var(--text3);font-size:13px">Nessun dato</div>
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">Distribuzione per tipo pagamento</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:16px">Ripartizione importi per modalità</div>
+      <div id="analisi-tipo-pag">
+        <div style="color:var(--text3);font-size:13px">Nessun dato</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grafico confronto mese precedente per tipo -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:22px">
+    <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">Confronto con mese precedente</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:16px">Variazione importi per tipo di pagamento</div>
+    <div id="analisi-confronto-container">
+      <div style="color:var(--text3);font-size:13px">Nessun dato</div>
+    </div>
+  </div>
+
+  <!-- Ranking fornitori del mese -->
+  <div class="section-header"><div class="section-title">Ranking fornitori del mese</div></div>
+  <div id="analisi-fornitori-container">
+    <div class="empty-state"><div class="empty-icon">🏆</div><h3>Nessuna fattura</h3><p>Nessuna scadenza nel mese selezionato</p></div>
+  </div>
+
+</div>
+
 </main>
 
 <div class="toast-container" id="toasts"></div>
+<div id="autosave-indicator" class="autosave-indicator">💾 salvato automaticamente</div>
 
 <!-- MODAL: Dettaglio fattura -->
 <div class="modal-overlay" id="modal-fattura">
@@ -855,7 +1385,263 @@
 // ============================================================
 let fatture = [];
 let selectedIds = new Set();
-let currentFilter = 'all';
+let currentFilter    = 'all';
+let currentFilterPag = 'all';
+
+// ---- GIORNI ALLA SCADENZA ----
+function giorniScadenzaPill(f) {
+  if (f.stato === 'paid') {
+    return `<div class="days-pill paid">pagata ${f.dataPagamento ? fmtDate(f.dataPagamento) : ''}</div>`;
+  }
+  if (f.isNotaCredito || f.stato === 'nota_credito') return '';
+  if (!f.dataScadenza) return '';
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+  const scad = new Date(f.dataScadenza); scad.setHours(0,0,0,0);
+  const diff = Math.round((scad - oggi) / (1000*60*60*24));
+  if (diff < 0)  return `<div class="days-pill past">scaduta ${Math.abs(diff)}gg fa</div>`;
+  if (diff === 0) return `<div class="days-pill urgent">⚠ scade oggi!</div>`;
+  if (diff <= 7)  return `<div class="days-pill urgent">tra ${diff}gg</div>`;
+  if (diff <= 30) return `<div class="days-pill soon">tra ${diff}gg</div>`;
+  return `<div class="days-pill ok">tra ${diff}gg</div>`;
+}
+
+// ---- FILTRI AVANZATI ----
+function toggleAdvancedFilters() {
+  const panel = document.getElementById('advanced-filters');
+  const btn   = document.getElementById('btn-filtri-avanzati');
+  const open  = panel.classList.toggle('open');
+  btn.style.borderColor = open ? 'var(--accent)' : '';
+  btn.style.color       = open ? 'var(--accent)' : '';
+}
+
+function resetAdvancedFilters() {
+  ['af-imp-min','af-imp-max','af-scad-da','af-scad-a','af-data-da','af-data-a']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  renderFatture();
+}
+
+function applyAdvancedFilters(list) {
+  const impMin  = parseFloat(document.getElementById('af-imp-min')?.value)  || null;
+  const impMax  = parseFloat(document.getElementById('af-imp-max')?.value)  || null;
+  const scadDa  = document.getElementById('af-scad-da')?.value  || null;
+  const scadA   = document.getElementById('af-scad-a')?.value   || null;
+  const dataDa  = document.getElementById('af-data-da')?.value  || null;
+  const dataA   = document.getElementById('af-data-a')?.value   || null;
+
+  return list.filter(f => {
+    if (impMin  !== null && f.importo < impMin)  return false;
+    if (impMax  !== null && f.importo > impMax)  return false;
+    if (scadDa  && f.dataScadenza < scadDa)      return false;
+    if (scadA   && f.dataScadenza > scadA)       return false;
+    if (dataDa  && f.data < dataDa)              return false;
+    if (dataA   && f.data > dataA)               return false;
+    return true;
+  });
+}
+
+// ---- SEGNA PAGATA CON DATA PERSONALIZZATA ----
+function markPaidWithDate(id) {
+  const f = fatture.find(x => x.id === id);
+  if (!f || f.isNotaCredito) return;
+  const oggi = new Date().toISOString().split('T')[0];
+
+  document.getElementById('modal-content').innerHTML = `
+    <div style="display:grid;gap:14px">
+      <div style="padding:10px 14px;background:var(--surface2);border-radius:6px;font-size:13px">
+        <div style="color:var(--text2);font-size:11px;font-weight:600;text-transform:uppercase;margin-bottom:4px">Fattura</div>
+        <strong>${f.ragioneSociale}</strong> · <span class="mono">${f.numero}</span> · <strong>${fmtEur(f.importo)}</strong>
+      </div>
+      <div class="field-group">
+        <label>Data di pagamento</label>
+        <input type="date" id="paid-date-input" value="${oggi}"
+          style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:9px 12px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none;transition:border-color .2s;width:100%"
+          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+        <span style="font-size:11px;color:var(--text2)">Lascia la data odierna oppure inserisci quella effettiva del pagamento</span>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
+        <button class="btn btn-secondary" onclick="closeModal()">Annulla</button>
+        <button class="btn btn-primary" onclick="confirmMarkPaid('${id}')">✅ Conferma pagamento</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-fattura').classList.add('open');
+  setTimeout(() => document.getElementById('paid-date-input')?.focus(), 80);
+}
+
+function confirmMarkPaid(id) {
+  const f = fatture.find(x => x.id === id);
+  if (!f) return;
+  const dataPag = document.getElementById('paid-date-input')?.value
+    || new Date().toISOString().split('T')[0];
+  f.stato = 'paid';
+  f.dataPagamento = dataPag;
+  selectedIds.delete(id);
+  closeModal();
+  renderFatture(); updateBadge();
+  autoSave();
+  toast(`✅ Fattura segnata come pagata il ${fmtDate(dataPag)}`, 'success');
+}
+let sortCol = null;   // 'fornitore' | 'scadenza' | 'stato' | 'importo' | null
+let sortDir = 'asc';  // 'asc' | 'desc'
+
+function setSortCol(col) {
+  if (sortCol === col) {
+    sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+  } else {
+    sortCol = col;
+    sortDir = 'asc';
+  }
+  renderFatture();
+}
+
+function applySort(list) {
+  if (!sortCol) return list;
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+  return [...list].sort((a, b) => {
+    let va, vb;
+    if (sortCol === 'fornitore') {
+      va = (a.ragioneSociale || '').toLowerCase();
+      vb = (b.ragioneSociale || '').toLowerCase();
+    } else if (sortCol === 'scadenza') {
+      va = a.dataScadenza ? new Date(a.dataScadenza).getTime() : 0;
+      vb = b.dataScadenza ? new Date(b.dataScadenza).getTime() : 0;
+    } else if (sortCol === 'stato') {
+      const order = { overdue: 0, pending: 1, inbatch: 2, nota_credito: 3, paid: 4 };
+      const statoA = (a.stato === 'pending' && new Date(a.dataScadenza) < oggi) ? 'overdue' : a.stato;
+      const statoB = (b.stato === 'pending' && new Date(b.dataScadenza) < oggi) ? 'overdue' : b.stato;
+      va = order[statoA] ?? 5;
+      vb = order[statoB] ?? 5;
+    } else if (sortCol === 'importo') {
+      va = a.importo || 0;
+      vb = b.importo || 0;
+    } else {
+      return 0;
+    }
+    if (va < vb) return sortDir === 'asc' ? -1 : 1;
+    if (va > vb) return sortDir === 'asc' ? 1 : -1;
+    return 0;
+  });
+}
+
+function thSort(col, label) {
+  const isActive = sortCol === col;
+  const cls = isActive ? (sortDir === 'asc' ? 'sort-asc' : 'sort-desc') : '';
+  return `<th class="sortable ${cls}" onclick="setSortCol('${col}')" title="Ordina per ${label}">${label}</th>`;
+}
+
+// ---- AUTO-SALVATAGGIO localStorage ----
+const LS_KEY = 'fatture_sdi_autosave';
+let _autosaveTimer = null;
+
+function autoSave() {
+  clearTimeout(_autosaveTimer);
+  _autosaveTimer = setTimeout(() => {
+    try {
+      const payload = {
+        _versione: '1.5',
+        _salvato: new Date().toISOString(),
+        ordinante: getOrdinanteDaFormSafe(),
+        fatture,
+        rubrica,
+        tema: document.documentElement.getAttribute('data-theme') || '',
+        liqSaldo: document.getElementById('liq-saldo')?.value || '50000',
+        liqSoglia: document.getElementById('liq-soglia')?.value || '5000'
+      };
+      localStorage.setItem(LS_KEY, JSON.stringify(payload));
+      const ind = document.getElementById('autosave-indicator');
+      if (ind) {
+        ind.classList.add('show');
+        clearTimeout(ind._hideTimer);
+        ind._hideTimer = setTimeout(() => ind.classList.remove('show'), 2500);
+      }
+    } catch(e) { /* storage pieno o non disponibile */ }
+  }, 800);
+}
+
+function getOrdinanteDaFormSafe() {
+  try { return getOrdinanteDaForm(); } catch(e) { return {}; }
+}
+
+function ripristinaAutosave() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return false;
+    const payload = JSON.parse(raw);
+    if (!payload) return false;
+
+    let ripristinato = [];
+    if (payload.tema !== undefined) {
+      document.documentElement.setAttribute('data-theme', payload.tema);
+      document.getElementById('theme-icon').textContent  = payload.tema === 'light' ? '🌙' : '☀️';
+      document.getElementById('theme-label').textContent = payload.tema === 'light' ? 'Scuro' : 'Chiaro';
+    }
+    if (payload.ordinante) {
+      try { applicaOrdinante(payload.ordinante); ripristinato.push('dati ordinante'); } catch(e) {}
+    }
+    if (Array.isArray(payload.rubrica) && payload.rubrica.length) {
+      rubrica = payload.rubrica;
+      updateBadgeRubrica(); renderRubrica();
+      ripristinato.push(`${rubrica.length} fornitori`);
+    }
+    if (Array.isArray(payload.fatture) && payload.fatture.length) {
+      fatture = payload.fatture;
+      updateBadge(); renderImportLog(); renderFatture();
+      ripristinato.push(`${fatture.length} fatture`);
+    }
+    if (payload.liqSaldo) { const el = document.getElementById('liq-saldo'); if (el) el.value = payload.liqSaldo; }
+    if (payload.liqSoglia) { const el = document.getElementById('liq-soglia'); if (el) el.value = payload.liqSoglia; }
+    if (ripristinato.length) {
+      const data = payload._salvato ? new Date(payload._salvato).toLocaleString('it-IT') : '?';
+      toast(`📂 Ripristinati: ${ripristinato.join(' · ')} <span style="color:var(--text3);font-size:11px">(ultima sessione: ${data})</span>`, 'info');
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+function cancellaAutosave() {
+  localStorage.removeItem(LS_KEY);
+  toast('🗑 Dati sessione cancellati dal browser', 'info');
+}
+
+// Mappa codici SDI → categoria pagamento
+const PAG_MAP = {
+  bonifico: ['MP05','MP06','MP17','MP23'],
+  rid:      ['MP09','MP10','MP19','MP20','MP21','MP22','MP24'],
+  riba:     ['MP12'],
+  contanti: ['MP01'],
+};
+
+function categoriaPagamento(mp) {
+  if (!mp) return 'altro';
+  for (const [cat, codes] of Object.entries(PAG_MAP)) {
+    if (codes.includes(mp.toUpperCase())) return cat;
+  }
+  return 'altro';
+}
+
+const MP_LABEL = {
+  MP01:'Contanti', MP02:'Assegno', MP03:'Ass. circolare', MP04:'Contanti Banca',
+  MP05:'Bonifico', MP06:'Vaglia', MP07:'Bollett. postale', MP08:'Pagamento POS',
+  MP09:'RID', MP10:'RID utenze', MP11:'RID veloce', MP12:'Ri.Ba.',
+  MP13:'MAV', MP14:'Quietanza erario', MP15:'Giroconto', MP16:'Domiciliazione',
+  MP17:'Domiciliazione postale', MP18:'Bollettino MAV', MP19:'SEPA DD core',
+  MP20:'SEPA DD B2B', MP21:'Trattenuta', MP22:'PagoPA', MP23:'SEPA CT',
+  MP24:'SEPA DD COR1',
+};
+
+function badgePagamento(mp) {
+  const label = MP_LABEL[mp] || mp || '—';
+  const cat   = categoriaPagamento(mp);
+  const colors = {
+    bonifico: 'color:var(--accent2);background:rgba(79,138,255,0.1);border-color:rgba(79,138,255,0.25)',
+    rid:      'color:#f97316;background:rgba(249,115,22,0.1);border-color:rgba(249,115,22,0.25)',
+    riba:     'color:#ec4899;background:rgba(236,72,153,0.1);border-color:rgba(236,72,153,0.25)',
+    contanti: 'color:var(--green);background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2)',
+    altro:    'color:var(--text2);background:var(--surface2);border-color:var(--border)',
+  };
+  return `<span class="badge" style="${colors[cat]||colors.altro}">${label}</span>`;
+}
 let cbiContent = '';
 let cbiFilename = '';
 
@@ -865,9 +1651,18 @@ function toggleTheme() {
   document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
   document.getElementById('theme-icon').textContent = isLight ? '☀️' : '🌙';
   document.getElementById('theme-label').textContent = isLight ? 'Chiaro' : 'Scuro';
+  if (document.getElementById('panel-scadenzario')?.classList.contains('active')) {
+    setTimeout(renderScadenzario, 50);
+  }
 }
 
-// Ripristina tema salvato (eseguito dopo che il DOM è pronto)
+window.addEventListener('resize', () => {
+  if (document.getElementById('panel-scadenzario')?.classList.contains('active')) {
+    clearTimeout(window._resizeTimer);
+    window._resizeTimer = setTimeout(renderScadenzario, 150);
+  }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('cfg-data').value = new Date().toISOString().split('T')[0];
 });
@@ -877,7 +1672,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ============================================================
 function switchTab(name) {
   document.querySelectorAll('.tab').forEach((t,i) => {
-    const names = ['import','fatture','cbi','scadenzario','rubrica'];
+    const names = ['import','fatture','cbi','scadenzario','flussi','liquidita','analisi','rubrica','export'];
     t.classList.toggle('active', names[i] === name);
   });
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -887,6 +1682,10 @@ function switchTab(name) {
   if (name === 'cbi') renderCBIPanel();
   if (name === 'fatture') renderFatture();
   if (name === 'rubrica') renderRubrica();
+  if (name === 'flussi') renderFlussi();
+  if (name === 'liquidita') renderLiquidita();
+  if (name === 'analisi') { initAnalisiSelettori(); renderAnalisi(); }
+  if (name === 'export') renderExportPanel();
 }
 
 // ============================================================
@@ -901,7 +1700,7 @@ dropzone.addEventListener('drop', e => {
 });
 document.getElementById('fileInput').addEventListener('change', e => {
   processFiles([...e.target.files]);
-  e.target.value = ''; // reset per permettere di ricaricare lo stesso file
+  e.target.value = '';
 });
 
 async function processFiles(files) {
@@ -912,15 +1711,13 @@ async function processFiles(files) {
     toast('Nessun file XML o ZIP trovato', 'error'); return;
   }
 
-  let allXmls = []; // { name, content }
+  let allXmls = [];
 
-  // Leggi XML diretti
   for (const file of xmlFiles) {
     const content = await readFileAsText(file);
     allXmls.push({ name: file.name, content });
   }
 
-  // Estrai XML dagli ZIP
   for (const zipFile of zipFiles) {
     toast(`📦 Estrazione ZIP: ${zipFile.name}…`, 'info');
     try {
@@ -950,17 +1747,13 @@ async function processFiles(files) {
     const f = parseXMLFattura(content, name);
     if (!f) { errori++; continue; }
 
-    // ── DEDUPLICAZIONE ────────────────────────────────────────────────────
-    // Una fattura è duplicata se numero + P.IVA fornitore esistono già
     const isDuplicate = fatture.some(
       x => x.numero === f.numero && x.piva === f.piva
     );
     if (isDuplicate) { duplicati++; continue; }
 
-    // ── NOTA DI CREDITO: compensa la fattura originale se presente ────────
     if (f.isNotaCredito) {
       noteCredito++;
-      // Cerca fatture aperte dello stesso fornitore e segnalale
       const collegate = fatture.filter(
         x => x.piva === f.piva && x.stato !== 'paid' && !x.isNotaCredito
       );
@@ -974,6 +1767,7 @@ async function processFiles(files) {
 
   updateBadge();
   renderImportLog();
+  if (importati || noteCredito) autoSave();
 
   const parti = [];
   if (importati)   parti.push(`${importati} importata/e`);
@@ -1026,23 +1820,15 @@ function parseXMLFattura(xmlStr, filename) {
     const numero = get('Numero', header) || '?';
     const data   = get('Data',   header) || '';
 
-    // ── TIPO DOCUMENTO ──────────────────────────────────────────────────────
-    // TD01=fattura ordinaria, TD04=nota di credito, TD08=nota di debito, ecc.
     const tipoDoc      = get('TipoDocumento', header) || 'TD01';
     const isNotaCredito = (tipoDoc === 'TD04');
 
-    // ── IMPORTO DA PAGARE ────────────────────────────────────────────────────
-    // Priorità: ImportoTotalePagare (netto dopo acconti/ritenute)
-    //         > ImportoPagamento (singola rata)
-    //         > ImportoTotaleDocumento (lordo)
     const impPagare    = parseFloat(get('ImportoTotalePagare',    pagamento) || '0');
     const impPagamento = parseFloat(get('ImportoPagamento',       pagamento) || '0');
     const impDoc       = parseFloat(get('ImportoTotaleDocumento', header)    || '0');
     let importo = impPagare || impPagamento || impDoc;
-    // Le note di credito vengono salvate con importo negativo
     if (isNotaCredito) importo = -Math.abs(importo);
 
-    // ── DATA SCADENZA ────────────────────────────────────────────────────────
     let dataScadenza = get('DataScadenzaPagamento', pagamento);
     if (!dataScadenza && data) {
       const d = new Date(data);
@@ -1050,7 +1836,6 @@ function parseXMLFattura(xmlStr, filename) {
       dataScadenza = d.toISOString().split('T')[0];
     }
 
-    // ── DATI FORNITORE ───────────────────────────────────────────────────────
     const iban = get('IBAN', pagamento) || '';
     const bic  = get('BIC',  pagamento) || '';
     let ragioneSociale = get('Denominazione', cedente);
@@ -1072,8 +1857,6 @@ function parseXMLFattura(xmlStr, filename) {
 
     const id = 'F' + Date.now() + Math.random().toString(36).slice(2,6).toUpperCase();
 
-    // ── SUGGERIMENTO IBAN DA RUBRICA ─────────────────────────────────────────
-    // Se la fattura non ha IBAN ma il fornitore è in rubrica, lo preleva automaticamente
     let ibanFinale = iban;
     let bicFinale  = bic;
     if (!ibanFinale) {
@@ -1103,7 +1886,7 @@ function parseXMLFattura(xmlStr, filename) {
 // DEMO DATA
 // ============================================================
 function loadDemoData() {
-  const oggi = new Date();
+  const oggi2 = new Date();
   const demo = [
     { fornitore: 'ALFA FORNITURE SRL', piva: '01234567890', iban: 'IT60X0542811101000000123456', num: 'FT-2025-001', importo: 2450.00, scadGG: -5 },
     { fornitore: 'BETA SERVIZI SNC', piva: '09876543210', iban: 'IT40F0103003200000006107', num: 'TD-0145', importo: 870.50, scadGG: 10 },
@@ -1112,7 +1895,6 @@ function loadDemoData() {
     { fornitore: 'EPSILON IT SOLUTIONS', piva: '33445566778', iban: 'IT40F0103003200000006107', num: 'INV-0042', importo: 650.00, scadGG: -15 },
     { fornitore: 'ZETA STAMPA SRL', piva: '22334455667', iban: 'IT60X0542811101000000999', num: 'FT2025-055', importo: 320.00, scadGG: 60 },
   ];
-  const oggi2 = new Date();
   demo.forEach((d, i) => {
     const scad = new Date(); scad.setDate(oggi2.getDate() + d.scadGG);
     const dataDoc = new Date(); dataDoc.setDate(oggi2.getDate() + d.scadGG - 30);
@@ -1132,7 +1914,6 @@ function loadDemoData() {
       indirizzo: 'Via Roma, 1', cap: '00100', citta: 'Roma', prov: 'RM'
     });
   });
-  // One already paid
   fatture.push({
     id: 'DEMOPAID', filename: 'FT-2025-PAID.xml', numero: 'FT-2024-999',
     data: '2024-11-01', dataScadenza: '2024-12-01',
@@ -1178,7 +1959,7 @@ function renderImportLog() {
 // ============================================================
 function renderFatture(filter, search) {
   filter = filter || currentFilter;
-  search = search || document.getElementById('search-fatture').value.toLowerCase();
+  search = (search !== undefined ? search : document.getElementById('search-fatture').value).toLowerCase();
   const container = document.getElementById('fatture-container');
 
   let list = fatture.filter(f => {
@@ -1189,11 +1970,20 @@ function renderFatture(filter, search) {
     return true;
   });
 
+  if (currentFilterPag !== 'all') {
+    list = list.filter(f => categoriaPagamento(f.modalitaPagamento) === currentFilterPag);
+  }
+
   if (search) list = list.filter(f =>
     f.ragioneSociale.toLowerCase().includes(search) ||
     f.numero.toLowerCase().includes(search) ||
     (f.piva && f.piva.includes(search))
   );
+
+  // Filtri avanzati importo + date
+  list = applyAdvancedFilters(list);
+
+  list = applySort(list);
 
   if (!list.length) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><h3>Nessuna fattura trovata</h3><p>Prova a modificare i filtri</p></div>`;
@@ -1204,25 +1994,30 @@ function renderFatture(filter, search) {
     <table>
       <thead><tr>
         <th><input type="checkbox" id="check-all" onchange="toggleAll(this.checked)"></th>
-        <th>Fornitore</th>
+        ${thSort('fornitore', 'Fornitore')}
         <th>N° Fattura</th>
         <th>Data Doc.</th>
-        <th>Scadenza</th>
+        ${thSort('scadenza', 'Scadenza')}
+        <th>Pagamento</th>
         <th>IBAN</th>
-        <th>Importo</th>
-        <th>Stato</th>
+        ${thSort('importo', 'Importo')}
+        ${thSort('stato', 'Stato')}
         <th>Azioni</th>
       </tr></thead>
       <tbody>
         ${list.map(f => `
           <tr id="row-${f.id}" class="${selectedIds.has(f.id) ? 'sel' : ''}">
             <td>
-              ${f.stato !== 'paid' ? `<input type="checkbox" ${selectedIds.has(f.id) ? 'checked' : ''} onchange="toggleSel('${f.id}', this.checked)">` : ''}
+              ${f.stato !== 'paid' && f.stato !== 'nota_credito' ? `<input type="checkbox" ${selectedIds.has(f.id) ? 'checked' : ''} onchange="toggleSel('${f.id}', this.checked)">` : ''}
             </td>
             <td><strong>${f.ragioneSociale}</strong><br><span style="color:var(--text2);font-size:11px;font-family:monospace">${f.piva}</span></td>
             <td class="mono">${f.numero}</td>
             <td class="mono">${fmtDate(f.data)}</td>
-            <td class="mono ${isOverdue(f.dataScadenza) && f.stato !== 'paid' ? 'amount-warn' : ''}">${fmtDate(f.dataScadenza)}</td>
+            <td>
+              <div class="mono ${isOverdue(f.dataScadenza) && f.stato !== 'paid' ? 'amount-warn' : ''}">${fmtDate(f.dataScadenza)}</div>
+              ${giorniScadenzaPill(f)}
+            </td>
+            <td>${badgePagamento(f.modalitaPagamento)}</td>
             <td class="mono" style="font-size:11px;color:var(--text2)">
               ${f.iban
                 ? `<span>${f.iban.slice(0,12)}…</span> <button class="btn btn-sm" style="padding:2px 6px;font-size:10px;background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:4px" onclick="editIban('${f.id}')" title="Modifica IBAN">✏️</button>`
@@ -1233,7 +2028,7 @@ function renderFatture(filter, search) {
             <td>
               <div style="display:flex;gap:4px">
                 <button class="btn btn-sm btn-secondary" onclick="showDetail('${f.id}')">👁</button>
-                ${f.stato !== 'paid' ? `<button class="btn btn-sm btn-secondary" onclick="markPaid('${f.id}')" title="Segna come pagata">✅</button>` : ''}
+                ${f.stato !== 'paid' ? `<button class="btn btn-sm btn-secondary" onclick="markPaidWithDate('${f.id}')" title="Segna come pagata (scegli data)">✅</button>` : ''}
                 <button class="btn btn-sm btn-danger" onclick="deleteFattura('${f.id}')" title="Elimina">✕</button>
               </div>
             </td>
@@ -1245,6 +2040,7 @@ function renderFatture(filter, search) {
       · Selezionate: <strong style="color:var(--accent);font-family:monospace">${fmtEur([...selectedIds].reduce((s,id)=>{const f=fatture.find(x=>x.id===id);return s+(f?f.importo:0)},0))}</strong>
     </div>
   `;
+  autoSave();
 }
 
 // ============================================================
@@ -1265,9 +2061,9 @@ function renderCBIPanel() {
     return;
   }
 
-  const accorpa = document.getElementById('opt-accorpa')?.checked !== false;
+  // FIX: legge il valore del radio selezionato in modo affidabile
+  const accorpa = (document.querySelector('input[name="accorpa"]:checked')?.value ?? 'accorpa') === 'accorpa';
 
-  // Avviso IBAN mancanti
   const avvisoIban = senzaIban.length ? `
     <div style="background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.3);border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:13px;display:flex;align-items:center;gap:10px">
       <span style="font-size:18px">⚠️</span>
@@ -1280,7 +2076,6 @@ function renderCBIPanel() {
       </div>
     </div>` : '';
 
-  // Preview raggruppamento
   let previewRows = '';
   if (accorpa) {
     const byIban = {};
@@ -1352,13 +2147,12 @@ function generateCBI() {
   const senzaIban = sel.filter(f => !f.iban);
   if (senzaIban.length) { toast(`⚠ ${senzaIban.length} fattura/e senza IBAN — inseriscile prima`, 'error'); return; }
 
-  const accorpa = document.getElementById('opt-accorpa')?.checked !== false;
+  // FIX: legge il valore del radio selezionato in modo affidabile
+  const accorpa = (document.querySelector('input[name="accorpa"]:checked')?.value ?? 'accorpa') === 'accorpa';
 
-  // cfg dichiarato PRIMA di usarlo
   const cfg = { ragione, piva, indirizzo, cap, citta, prov, iban, abi, cuc, dataExe, causaleTemplate, accorpa };
   cbiContent = generateCBIPaymentRequest(sel, cfg);
 
-  // Nome file identico al formato della tua banca: Sct_DDMMYYYY_xxx.xml
   const d = new Date(dataExe);
   const dd = String(d.getDate()).padStart(2,'0');
   const mm = String(d.getMonth()+1).padStart(2,'0');
@@ -1368,7 +2162,6 @@ function generateCBI() {
   document.getElementById('cbi-preview').textContent = cbiContent;
   document.getElementById('cbi-output-section').style.display = 'block';
 
-  // Mark as inbatch
   sel.forEach(f => { if (f.stato === 'pending' || f.stato === 'overdue') f.stato = 'inbatch'; });
   updateBadge();
 
@@ -1379,7 +2172,7 @@ function generateCBI() {
 // ============================================================
 // RUBRICA FORNITORI
 // ============================================================
-let rubrica = []; // array di oggetti fornitore
+let rubrica = [];
 
 function updateBadgeRubrica() {
   const el = document.getElementById('badge-rubrica');
@@ -1454,7 +2247,6 @@ function apriModalFornitore(id) {
   const modal = document.getElementById('modal-fornitore');
   const title = document.getElementById('modal-fornitore-title');
 
-  // Svuota campi
   ['forn-ragione','forn-piva','forn-cf','forn-iban','forn-bic','forn-tel','forn-email','forn-note']
     .forEach(id => { document.getElementById(id).value = ''; });
   document.getElementById('forn-iban-hint').textContent = '27 caratteri: IT + 2 cifre di controllo + 23 alfanumerici';
@@ -1528,7 +2320,6 @@ function eliminaFornitore(id) {
   toast(`Fornitore eliminato`, 'info');
 }
 
-// Cerca in rubrica per P.IVA (o ragione sociale come fallback)
 function cercaFornitoreInRubrica(piva, ragione) {
   if (piva) {
     const f = rubrica.find(x => x.piva && x.piva === piva);
@@ -1541,12 +2332,10 @@ function cercaFornitoreInRubrica(piva, ragione) {
   return null;
 }
 
-// Aggiunge o aggiorna fornitore in rubrica da dati fattura (chiamato quando si salva un IBAN)
 function aggiornaRubricaDaFattura(fattura) {
   if (!fattura.iban) return;
   const esistente = cercaFornitoreInRubrica(fattura.piva, fattura.ragioneSociale);
   if (esistente) {
-    // Aggiorna IBAN se cambiato
     if (esistente.iban !== fattura.iban) {
       esistente.iban = fattura.iban;
       if (fattura.bic) esistente.bic = fattura.bic;
@@ -1569,7 +2358,6 @@ function aggiornaRubricaDaFattura(fattura) {
   }
 }
 
-// Applica IBAN della rubrica a tutte le fatture aperte dello stesso fornitore
 function applicaIbanAFatture(id) {
   const forn = rubrica.find(x => x.id === id);
   if (!forn || !forn.iban) { toast('⚠ Questo fornitore non ha un IBAN salvato', 'error'); return; }
@@ -1598,8 +2386,6 @@ function validateIbanFornitore(el) {
   if (!ibanChecksum(v)) { hint.textContent = '❌ Checksum errato — controlla le cifre'; hint.style.color = 'var(--danger)'; return; }
   hint.textContent = '✅ IBAN valido (checksum mod97 corretto)'; hint.style.color = 'var(--green)';
 }
-
-
 
 function getOrdinanteDaForm() {
   return {
@@ -1663,7 +2449,6 @@ function importaJSON(input) {
         msg.push('dati ordinante');
       }
       if (Array.isArray(payload.rubrica) && payload.rubrica.length) {
-        // Merge: aggiunge solo fornitori con ID non già presenti
         const idEsistenti = new Set(rubrica.map(f => f.id));
         const nuovi = payload.rubrica.filter(f => !idEsistenti.has(f.id));
         rubrica = [...rubrica, ...nuovi];
@@ -1680,6 +2465,7 @@ function importaJSON(input) {
         msg.push(`${payload.fatture.length} fatture`);
       }
       input.value = '';
+      autoSave();
       toast(`📂 Caricati: ${msg.join(' + ')}`, 'success');
     } catch(err) {
       toast('❌ File JSON non valido o corrotto', 'error');
@@ -1688,16 +2474,14 @@ function importaJSON(input) {
   reader.readAsText(file, 'UTF-8');
 }
 
-// Alias per compatibilità con il pulsante nella tab CBI
 function saveOrdinante() { esportaJSON(); }
-function loadOrdinante() { /* caricamento manuale via pulsante */ }
+function loadOrdinante() { }
 
 // ============================================================
-// GENERA CBIPaymentRequest v00.04.00  (formato banca verificato)
+// GENERA CBIPaymentRequest v00.04.00
 // ============================================================
 function generateCBIPaymentRequest(sel, cfg) {
   const now = new Date();
-  // MsgId: DDMMYY-HHmmSS  (come nel file originale: 280423-100223)
   const dd   = String(now.getDate()).padStart(2,'0');
   const mo   = String(now.getMonth()+1).padStart(2,'0');
   const yy   = String(now.getFullYear()).slice(2);
@@ -1709,10 +2493,8 @@ function generateCBIPaymentRequest(sel, cfg) {
 
   const totale = sel.reduce((s,f) => s + f.importo, 0).toFixed(2);
   const ibanOrd = cfg.iban.replace(/\s/g,'');
-  // ABI: se non inserito lo estrae dall'IBAN (posizione 5-9 dopo IT+2check)
   const abi = cfg.abi || ibanOrd.slice(4,9);
 
-  // Raggruppa per IBAN+fornitore se accorpa=true, altrimenti ogni fattura è un bonifico separato
   let gruppi;
   if (cfg.accorpa !== false) {
     const byIban = {};
@@ -1723,7 +2505,6 @@ function generateCBIPaymentRequest(sel, cfg) {
     });
     gruppi = Object.values(byIban);
   } else {
-    // Ogni fattura = un bonifico separato
     gruppi = sel.map(f => ({ fattura: f, list: [f] }));
   }
 
@@ -1732,17 +2513,15 @@ function generateCBIPaymentRequest(sel, cfg) {
     txIndex++;
     const f0 = g.fattura;
     const ibanBen = (f0.iban||'').replace(/\s/g,'');
-    // Causale: concatena tutte le fatture del gruppo
     const causaleRaw = g.list.map(f => {
       return cfg.causaleTemplate
         .replace('{num}', f.numero)
         .replace('{data}', fmtDate(f.data));
     }).join(', ');
-    const causale = causaleRaw.slice(0, 140); // max 140 car SEPA
+    const causale = causaleRaw.slice(0, 140);
     const importoGruppo = g.list.reduce((s,f) => s + f.importo, 0).toFixed(2);
     const endToEndId = `${msgId}-D${String(txIndex).padStart(3,'0')}`;
 
-    // Indirizzo beneficiario (se disponibile nella fattura)
     const pstlBen = f0.indirizzo ? `
         <PstlAdr>
           <StrtNm>${escXML(f0.indirizzo||'')}</StrtNm>
@@ -1792,7 +2571,6 @@ function generateCBIPaymentRequest(sel, cfg) {
     </CdtTrfTxInf>`;
   }).join('\n');
 
-  // Indirizzo ordinante
   const pstlOrd = cfg.indirizzo ? `
       <PstlAdr>
         <StrtNm>${escXML(cfg.indirizzo)}</StrtNm>
@@ -1865,18 +2643,36 @@ function escXML(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').r
 // ============================================================
 // SCADENZARIO
 // ============================================================
+let scadFiltroStato = 'all';
+let scadFiltroPag   = 'all';
+
+function setScadFiltro(tipo, val, btn) {
+  if (tipo === 'stato') {
+    scadFiltroStato = val;
+    document.querySelectorAll('[id^="scad-stato-"]').forEach(b => b.classList.remove('active'));
+  } else {
+    scadFiltroPag = val;
+    document.querySelectorAll('[id^="scad-pag-"]').forEach(b => b.classList.remove('active'));
+  }
+  if (btn) btn.classList.add('active');
+  renderScadenzario();
+}
+
+const CHART_COLORS = {
+  bonifico: { fill: 'rgba(79,138,255,0.75)',   border: '#4f8aff',  label: '🏦 Bonifico'  },
+  rid:      { fill: 'rgba(249,115,22,0.75)',   border: '#f97316',  label: '🔄 RID/SDD'   },
+  riba:     { fill: 'rgba(236,72,153,0.75)',   border: '#ec4899',  label: '📄 Ri.Ba.'    },
+  contanti: { fill: 'rgba(34,197,94,0.75)',    border: '#22c55e',  label: '💵 Contanti'  },
+  altro:    { fill: 'rgba(148,163,184,0.65)',  border: '#94a3b8',  label: '… Altro'      },
+};
+
 function renderScadenzario() {
   const oggi = new Date(); oggi.setHours(0,0,0,0);
 
-  // Update overdue status
   fatture.forEach(f => {
-    if (f.stato === 'pending') {
-      const scad = new Date(f.dataScadenza);
-      if (scad < oggi) f.stato = 'overdue';
-    }
+    if (f.stato === 'pending' && new Date(f.dataScadenza) < oggi) f.stato = 'overdue';
   });
 
-  // Stats
   const pending = fatture.filter(f => (f.stato === 'pending' || f.stato === 'inbatch') && !f.isNotaCredito);
   const overdue = fatture.filter(f => f.stato === 'overdue' && !f.isNotaCredito);
   const paid    = fatture.filter(f => f.stato === 'paid');
@@ -1889,70 +2685,820 @@ function renderScadenzario() {
   document.getElementById('stat-overdue-count').textContent = overdue.length + ' fatture';
   document.getElementById('stat-paid').textContent = fmtEur(paid.reduce((s,f)=>s+f.importo,0));
   document.getElementById('stat-paid-count').textContent = paid.length + ' fatture';
-  // Aggiorna sub-label con info note credito se presenti
   if (noteNC.length) {
     document.getElementById('stat-pending-count').textContent +=
-      ` · 🟣 ${noteNC.length} nota/e credito (${fmtEur(noteNC.reduce((s,f)=>s+f.importo,0))})`;
+      ` · 🟣 ${noteNC.length} NC (${fmtEur(noteNC.reduce((s,f)=>s+f.importo,0))})`;
   }
 
-  // Timeline 6 mesi
-  const mesi = [];
-  for (let i = 0; i < 6; i++) {
-    const d = new Date(oggi.getFullYear(), oggi.getMonth() + i, 1);
-    const y = d.getFullYear(), m = d.getMonth();
-    const tot = fatture.filter(f => {
-      if (f.stato === 'paid') return false;
-      const s = new Date(f.dataScadenza);
-      return s.getFullYear() === y && s.getMonth() === m;
-    }).reduce((s,f)=>s+f.importo,0);
-    mesi.push({ label: d.toLocaleString('it-IT',{month:'short',year:'2-digit'}), tot, isCurrent: i===0 });
-  }
-  const maxTot = Math.max(...mesi.map(m=>m.tot), 1);
-  document.getElementById('timeline').innerHTML = mesi.map(m => `
-    <div class="timeline-month ${m.isCurrent ? 'current' : ''}">
-      <div class="month-label">${m.label}</div>
-      <div class="month-amount">${m.tot > 0 ? fmtEur(m.tot) : '—'}</div>
-      <div class="month-bar" style="width:${Math.max(8, (m.tot/maxTot)*100)}%"></div>
-    </div>
-  `).join('');
+  let dataset = fatture.filter(f => !f.isNotaCredito);
 
-  // Dettaglio scadenze (non pagate, ordinate per data)
-  const nonPagate = fatture.filter(f => f.stato !== 'paid').sort((a,b)=>new Date(a.dataScadenza)-new Date(b.dataScadenza));
+  if (scadFiltroStato === 'pending') dataset = dataset.filter(f => f.stato === 'pending' || f.stato === 'inbatch');
+  else if (scadFiltroStato === 'overdue') dataset = dataset.filter(f => f.stato === 'overdue');
+  else if (scadFiltroStato === 'paid')    dataset = dataset.filter(f => f.stato === 'paid');
+
+  if (scadFiltroPag !== 'all') dataset = dataset.filter(f => categoriaPagamento(f.modalitaPagamento) === scadFiltroPag);
+
+  // FIX: parseInt con radix 10 e fallback a 6 se NaN
+  const periodoMesi = parseInt(document.getElementById('scad-periodo')?.value ?? '6', 10);
+  const periodoMesiSafe = isNaN(periodoMesi) ? 6 : periodoMesi;
+
+  let dataFine = null;
+  if (periodoMesiSafe > 0) {
+    dataFine = new Date(oggi.getFullYear(), oggi.getMonth() + periodoMesiSafe, 1);
+    dataset = dataset.filter(f => new Date(f.dataScadenza) < dataFine);
+  }
+
+  renderFlussiChart(dataset, oggi, periodoMesiSafe);
+
+  const sorted = [...dataset].sort((a,b) => new Date(a.dataScadenza) - new Date(b.dataScadenza));
   const container = document.getElementById('scadenzario-container');
-  if (!nonPagate.length) {
-    container.innerHTML = `<div class="empty-state"><div class="empty-icon">🎉</div><h3>Nessuna scadenza aperta!</h3><p>Tutte le fatture risultano pagate</p></div>`;
+  const countLabel = document.getElementById('scad-count-label');
+
+  if (!sorted.length) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">${dataset.length === 0 && fatture.length > 0 ? '🔍' : '🎉'}</div><h3>${fatture.length === 0 ? 'Nessuna scadenza' : dataset.length === 0 ? 'Nessun risultato' : 'Tutto pagato!'}</h3><p>${fatture.length === 0 ? 'Importa fatture per visualizzare il calendario pagamenti' : 'Prova a cambiare i filtri'}</p></div>`;
+    if (countLabel) countLabel.textContent = '';
     return;
   }
+
+  const totFiltrato = sorted.reduce((s,f) => s + f.importo, 0);
+  if (countLabel) countLabel.textContent = `${sorted.length} fatture · ${fmtEur(totFiltrato)}`;
+
   container.innerHTML = `
     <table>
       <thead><tr>
-        <th>Scadenza</th><th>Gg. mancanti</th><th>Fornitore</th><th>N° Fattura</th><th>Importo</th><th>Stato</th><th></th>
+        <th>Scadenza</th>
+        <th>Gg. mancanti</th>
+        <th>Fornitore</th>
+        <th>N° Fattura</th>
+        <th>Tipo pagamento</th>
+        <th>Importo</th>
+        <th>Stato</th>
+        <th></th>
       </tr></thead>
       <tbody>
-        ${nonPagate.map(f => {
+        ${sorted.map(f => {
           const scad = new Date(f.dataScadenza);
-          const diff = Math.ceil((scad-oggi)/(1000*60*60*24));
-          const diffText = diff < 0 ? `<span style="color:var(--danger)">Scaduta ${Math.abs(diff)}gg fa</span>` :
-                           diff === 0 ? `<span style="color:var(--warn)">Oggi!</span>` :
-                           diff <= 7 ? `<span style="color:var(--warn)">tra ${diff}gg</span>` :
-                           `<span style="color:var(--text2)">tra ${diff}gg</span>`;
+          const diff = Math.ceil((scad - oggi) / (1000*60*60*24));
+          const diffText = diff < 0
+            ? `<span style="color:var(--danger);font-weight:600">Scaduta ${Math.abs(diff)}gg fa</span>`
+            : diff === 0 ? `<span style="color:var(--warn);font-weight:600">⚠ Oggi!</span>`
+            : diff <= 7  ? `<span style="color:var(--warn)">tra ${diff}gg</span>`
+            : `<span style="color:var(--text2)">tra ${diff}gg</span>`;
           return `<tr>
-            <td class="mono">${fmtDate(f.dataScadenza)}</td>
-            <td>${diffText}</td>
-            <td><strong>${f.ragioneSociale}</strong></td>
+            <td class="mono" style="white-space:nowrap">${fmtDate(f.dataScadenza)}</td>
+            <td style="white-space:nowrap">${diffText}</td>
+            <td><strong>${f.ragioneSociale}</strong>
+              <br><span style="font-size:11px;color:var(--text3);font-family:monospace">${f.piva||''}</span></td>
             <td class="mono">${f.numero}</td>
+            <td>${badgePagamento(f.modalitaPagamento)}</td>
             <td class="mono"><strong>${fmtEur(f.importo)}</strong></td>
             <td>${badgeStato(f)}</td>
-            <td><button class="btn btn-sm btn-secondary" onclick="markPaid('${f.id}');renderScadenzario()">✅ Paga</button></td>
+            <td>
+              ${f.stato !== 'paid' && f.stato !== 'nota_credito'
+                ? `<button class="btn btn-sm btn-secondary" onclick="markPaid('${f.id}');renderScadenzario()">✅ Paga</button>`
+                : ''}
+            </td>
           </tr>`;
         }).join('')}
       </tbody>
     </table>
+    <div style="padding:10px 0;font-size:12px;color:var(--text2);text-align:right">
+      Totale filtrato: <strong style="color:var(--text);font-family:monospace">${fmtEur(totFiltrato)}</strong>
+    </div>
   `;
 }
 
+function renderFlussiChart(dataset, oggi, periodoMesi) {
+  const canvas  = document.getElementById('flussi-chart');
+  const empty   = document.getElementById('chart-empty');
+  const legend  = document.getElementById('chart-legend');
+  const tooltip = document.getElementById('chart-tooltip');
+  if (!canvas) return;
+
+  const nMesi = periodoMesi > 0 ? periodoMesi : 24;
+  let startMese = oggi;
+  if (periodoMesi === 0 && dataset.length) {
+    const dates = dataset.map(f => new Date(f.dataScadenza));
+    startMese = new Date(Math.min(...dates));
+    startMese = new Date(startMese.getFullYear(), startMese.getMonth(), 1);
+  } else {
+    startMese = new Date(oggi.getFullYear(), oggi.getMonth(), 1);
+  }
+
+  const categorie = Object.keys(CHART_COLORS);
+  const mesi = [];
+  for (let i = 0; i < nMesi; i++) {
+    const d = new Date(startMese.getFullYear(), startMese.getMonth() + i, 1);
+    const y = d.getFullYear(), m = d.getMonth();
+    const vals = {};
+    categorie.forEach(cat => {
+      vals[cat] = dataset.filter(f => {
+        const s = new Date(f.dataScadenza);
+        return s.getFullYear() === y && s.getMonth() === m && categoriaPagamento(f.modalitaPagamento) === cat;
+      }).reduce((s,f) => s + f.importo, 0);
+    });
+    const totMese = categorie.reduce((s,c) => s + vals[c], 0);
+    mesi.push({ d, label: d.toLocaleString('it-IT',{month:'short',year:'2-digit'}), vals, tot: totMese });
+  }
+
+  if (periodoMesi === 0) {
+    while (mesi.length > 1 && mesi[mesi.length-1].tot === 0) mesi.pop();
+  }
+
+  const hasData = mesi.some(m => m.tot > 0);
+  canvas.style.display = hasData ? 'block' : 'none';
+  empty.style.display  = hasData ? 'none'  : 'block';
+
+  const catAttive = categorie.filter(c => mesi.some(m => m.vals[c] > 0));
+
+  legend.innerHTML = catAttive.map(c => `
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)">
+      <span style="width:10px;height:10px;border-radius:2px;background:${CHART_COLORS[c].border};display:inline-block;flex-shrink:0"></span>
+      ${CHART_COLORS[c].label}
+    </div>`).join('');
+
+  if (!hasData) return;
+
+  const dpr    = window.devicePixelRatio || 1;
+  const W      = canvas.parentElement.clientWidth;
+  const H      = 220;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const PAD_L = 72, PAD_R = 16, PAD_T = 16, PAD_B = 36;
+  const chartW = W - PAD_L - PAD_R;
+  const chartH = H - PAD_T - PAD_B;
+
+  const maxVal = Math.max(...mesi.map(m => m.tot), 1);
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const gridColor  = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
+  const textColor  = isDark ? '#94a3b8' : '#6b7280';
+  const barW = Math.min(48, (chartW / mesi.length) * 0.65);
+  const barGap = chartW / mesi.length;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const steps = 4;
+  for (let i = 0; i <= steps; i++) {
+    const y = PAD_T + chartH - (chartH * i / steps);
+    ctx.beginPath();
+    ctx.moveTo(PAD_L, y);
+    ctx.lineTo(PAD_L + chartW, y);
+    ctx.strokeStyle = gridColor;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    const val = (maxVal * i / steps);
+    ctx.fillStyle = textColor;
+    ctx.font = `10px 'IBM Plex Mono', monospace`;
+    ctx.textAlign = 'right';
+    ctx.fillText(val >= 1000 ? `€${(val/1000).toFixed(0)}k` : `€${val.toFixed(0)}`, PAD_L - 6, y + 3);
+  }
+
+  const barData = [];
+  mesi.forEach((m, i) => {
+    const x = PAD_L + barGap * i + (barGap - barW) / 2;
+    let yBottom = PAD_T + chartH;
+
+    const barInfo = { x: PAD_L + barGap * i, w: barGap, mese: m, segs: [] };
+
+    catAttive.forEach(cat => {
+      const v = m.vals[cat];
+      if (v <= 0) { barInfo.segs.push({cat, v:0, y1:yBottom, y2:yBottom}); return; }
+      const h = (v / maxVal) * chartH;
+      const y1 = yBottom - h;
+      const r = 3;
+      ctx.beginPath();
+      ctx.moveTo(x + r, y1);
+      ctx.lineTo(x + barW - r, y1);
+      ctx.quadraticCurveTo(x + barW, y1, x + barW, y1 + r);
+      ctx.lineTo(x + barW, yBottom);
+      ctx.lineTo(x, yBottom);
+      ctx.lineTo(x, y1 + r);
+      ctx.quadraticCurveTo(x, y1, x + r, y1);
+      ctx.closePath();
+      ctx.fillStyle = CHART_COLORS[cat].fill;
+      ctx.fill();
+      barInfo.segs.push({ cat, v, y1, y2: yBottom });
+      yBottom = y1;
+    });
+    barData.push(barInfo);
+
+    ctx.fillStyle = textColor;
+    ctx.font = `10px 'IBM Plex Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText(m.label, x + barW / 2, PAD_T + chartH + 16);
+
+    const isCurrentMonth = m.d.getFullYear() === oggi.getFullYear() && m.d.getMonth() === oggi.getMonth();
+    if (isCurrentMonth) {
+      ctx.strokeStyle = isDark ? 'rgba(0,212,170,0.4)' : 'rgba(0,168,130,0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([3,3]);
+      ctx.strokeRect(x - 3, PAD_T, barW + 6, chartH);
+      ctx.setLineDash([]);
+    }
+
+    if (m.tot > 0 && chartH * (m.tot / maxVal) > 18) {
+      ctx.fillStyle = isDark ? 'rgba(226,232,240,0.7)' : 'rgba(26,31,46,0.6)';
+      ctx.font = `bold 10px 'IBM Plex Mono', monospace`;
+      ctx.textAlign = 'center';
+      const topY = PAD_T + chartH - (m.tot / maxVal) * chartH - 4;
+      ctx.fillText(m.tot >= 1000 ? `€${(m.tot/1000).toFixed(1)}k` : `€${m.tot.toFixed(0)}`, x + barW/2, topY);
+    }
+  });
+
+  canvas.onmousemove = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx   = e.clientX - rect.left;
+    const my   = e.clientY - rect.top;
+    const bar  = barData.find(b => mx >= b.x && mx <= b.x + b.w);
+    if (!bar || bar.mese.tot === 0) { tooltip.style.display = 'none'; return; }
+
+    const rows = catAttive
+      .filter(c => bar.mese.vals[c] > 0)
+      .map(c => `<div style="display:flex;justify-content:space-between;gap:16px;margin-top:4px">
+        <span style="color:${CHART_COLORS[c].border}">${CHART_COLORS[c].label}</span>
+        <span style="font-family:monospace;font-weight:600;color:var(--text)">${fmtEur(bar.mese.vals[c])}</span>
+      </div>`).join('');
+
+    tooltip.innerHTML = `
+      <div style="font-weight:700;color:var(--text);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:6px">${bar.mese.d.toLocaleString('it-IT',{month:'long',year:'numeric'})}</div>
+      ${rows}
+      <div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:16px">
+        <span style="color:var(--text2)">Totale</span>
+        <span style="font-family:monospace;font-weight:700;color:var(--accent)">${fmtEur(bar.mese.tot)}</span>
+      </div>`;
+
+    let tx = e.clientX - rect.left + 12;
+    if (tx + 180 > W) tx = e.clientX - rect.left - 190;
+    tooltip.style.left = tx + 'px';
+    tooltip.style.top  = Math.max(0, my - 20) + 'px';
+    tooltip.style.display = 'block';
+  };
+  canvas.onmouseleave = () => { tooltip.style.display = 'none'; };
+}
+
+
 // ============================================================
-// EXPORT CSV/EXCEL
+// FLUSSI MENSILI — selettore mese, grafico giornaliero, heatmap
+// ============================================================
+let flussoFiltroStato = 'all';
+let flussoFiltroPag   = 'all';
+let _flussiMese = null; // { anno, mese } corrente
+let _flussiGiornoSel = null; // giorno selezionato per dettaglio
+
+const MESI_IT = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
+                 'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+
+function initFlussiSelettori() {
+  const selMese = document.getElementById('flussi-mese-sel');
+  const selAnno = document.getElementById('flussi-anno-sel');
+  if (!selMese || !selAnno) return;
+
+  // Popola mesi
+  if (!selMese.options.length) {
+    MESI_IT.forEach((m, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = m;
+      selMese.appendChild(opt);
+    });
+  }
+
+  // Popola anni: da un anno fa a due anni avanti (se non già popolato)
+  if (!selAnno.options.length) {
+    const oggiA = new Date().getFullYear();
+    for (let y = oggiA - 2; y <= oggiA + 3; y++) {
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      selAnno.appendChild(opt);
+    }
+  }
+
+  // Se non impostato, usa il mese corrente
+  if (!_flussiMese) {
+    const n = new Date();
+    _flussiMese = { anno: n.getFullYear(), mese: n.getMonth() };
+  }
+  selMese.value = _flussiMese.mese;
+  selAnno.value = _flussiMese.anno;
+}
+
+function flussiMeseNav(delta) {
+  if (!_flussiMese) {
+    const n = new Date();
+    _flussiMese = { anno: n.getFullYear(), mese: n.getMonth() };
+  }
+  let { anno, mese } = _flussiMese;
+  mese += delta;
+  if (mese < 0)  { mese = 11; anno--; }
+  if (mese > 11) { mese = 0;  anno++; }
+  _flussiMese = { anno, mese };
+  document.getElementById('flussi-mese-sel').value = mese;
+  document.getElementById('flussi-anno-sel').value = anno;
+  _flussiGiornoSel = null;
+  renderFlussi();
+}
+
+function flussiMeseOggi() {
+  const n = new Date();
+  _flussiMese = { anno: n.getFullYear(), mese: n.getMonth() };
+  document.getElementById('flussi-mese-sel').value = _flussiMese.mese;
+  document.getElementById('flussi-anno-sel').value = _flussiMese.anno;
+  _flussiGiornoSel = null;
+  renderFlussi();
+}
+
+function setFlussoFiltro(tipo, val, btn) {
+  if (tipo === 'stato') {
+    flussoFiltroStato = val;
+    document.querySelectorAll('[id^="fl-stato-"]').forEach(b => b.classList.remove('active'));
+  } else {
+    flussoFiltroPag = val;
+    document.querySelectorAll('[id^="fl-pag-"]').forEach(b => b.classList.remove('active'));
+  }
+  if (btn) btn.classList.add('active');
+  renderFlussi();
+}
+
+function renderFlussi() {
+  initFlussiSelettori();
+
+  const mese = parseInt(document.getElementById('flussi-mese-sel').value, 10);
+  const anno = parseInt(document.getElementById('flussi-anno-sel').value, 10);
+  _flussiMese = { anno, mese };
+
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+
+  // Aggiorna stato overdue
+  fatture.forEach(f => {
+    if (f.stato === 'pending' && new Date(f.dataScadenza) < oggi) f.stato = 'overdue';
+  });
+
+  // Dataset filtrato
+  let dataset = fatture.filter(f => !f.isNotaCredito);
+
+  if (flussoFiltroStato === 'pending') dataset = dataset.filter(f => f.stato === 'pending' || f.stato === 'inbatch');
+  else if (flussoFiltroStato === 'overdue') dataset = dataset.filter(f => f.stato === 'overdue');
+  else if (flussoFiltroStato === 'paid')    dataset = dataset.filter(f => f.stato === 'paid');
+
+  if (flussoFiltroPag !== 'all') dataset = dataset.filter(f => categoriaPagamento(f.modalitaPagamento) === flussoFiltroPag);
+
+  // Filtra per mese/anno selezionato
+  const nelMese = dataset.filter(f => {
+    const d = new Date(f.dataScadenza);
+    return d.getFullYear() === anno && d.getMonth() === mese;
+  });
+
+  // Giorni nel mese
+  const giorniTot = new Date(anno, mese + 1, 0).getDate();
+
+  // Aggrega per giorno
+  const perGiorno = {}; // { 1: { tot, fatture: [], perCat: {} }, ... }
+  for (let g = 1; g <= giorniTot; g++) perGiorno[g] = { tot: 0, count: 0, fatture: [], perCat: {} };
+
+  nelMese.forEach(f => {
+    const g = new Date(f.dataScadenza).getDate();
+    const cat = categoriaPagamento(f.modalitaPagamento);
+    perGiorno[g].tot += f.importo;
+    perGiorno[g].count++;
+    perGiorno[g].fatture.push(f);
+    perGiorno[g].perCat[cat] = (perGiorno[g].perCat[cat] || 0) + f.importo;
+  });
+
+  const maxGiorno = Math.max(...Object.values(perGiorno).map(g => g.tot), 1);
+  const giorniAttivi = Object.values(perGiorno).filter(g => g.tot > 0);
+  const totMese = nelMese.reduce((s,f) => s+f.importo, 0);
+  const piccoGiorno = Object.entries(perGiorno).reduce((best, [g, d]) =>
+    d.tot > (best.tot||0) ? { g: parseInt(g), tot: d.tot } : best, {});
+
+  // KPI
+  document.getElementById('fl-kpi-tot').textContent    = fmtEur(totMese);
+  document.getElementById('fl-kpi-tot-n').textContent  = nelMese.length + ' fatture';
+  document.getElementById('fl-kpi-picco').textContent  = fmtEur(piccoGiorno.tot || 0);
+  document.getElementById('fl-kpi-picco-d').textContent = piccoGiorno.g
+    ? `${piccoGiorno.g} ${MESI_IT[mese].slice(0,3)} ${anno}`
+    : '—';
+  document.getElementById('fl-kpi-giorni').textContent    = giorniAttivi.length;
+  document.getElementById('fl-kpi-giorni-sub').textContent = `su ${giorniTot} giorni del mese`;
+  document.getElementById('fl-kpi-media').textContent     = fmtEur(
+    giorniAttivi.length ? totMese / giorniAttivi.length : 0
+  );
+
+  // Chart title
+  document.getElementById('fl-chart-title').textContent =
+    `Flussi giornalieri — ${MESI_IT[mese]} ${anno}`;
+
+  // Grafico
+  renderFlussiDailyChart(perGiorno, giorniTot, anno, mese, maxGiorno, oggi);
+
+  // Heatmap
+  renderFlussiHeatmap(perGiorno, giorniTot, anno, mese, maxGiorno, oggi);
+
+  // Tabella riepilogo per giorno
+  renderFlussiTabella(perGiorno, giorniTot, anno, mese, oggi);
+}
+
+function renderFlussiDailyChart(perGiorno, giorniTot, anno, mese, maxVal, oggi) {
+  const canvas  = document.getElementById('flussi-daily-chart');
+  const empty   = document.getElementById('fl-chart-empty');
+  const legend  = document.getElementById('fl-chart-legend');
+  const tooltip = document.getElementById('fl-chart-tooltip');
+  if (!canvas) return;
+
+  const hasData = Object.values(perGiorno).some(g => g.tot > 0);
+  canvas.style.display = hasData ? 'block' : 'none';
+  empty.style.display  = hasData ? 'none'  : 'block';
+
+  const categorie = Object.keys(CHART_COLORS);
+  const catAttive = categorie.filter(c => Object.values(perGiorno).some(g => (g.perCat[c]||0) > 0));
+
+  legend.innerHTML = catAttive.map(c => `
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)">
+      <span style="width:10px;height:10px;border-radius:2px;background:${CHART_COLORS[c].border};display:inline-block;flex-shrink:0"></span>
+      ${CHART_COLORS[c].label}
+    </div>`).join('');
+
+  if (!hasData) return;
+
+  const dpr = window.devicePixelRatio || 1;
+  const W   = canvas.parentElement.clientWidth;
+  const H   = 250;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const PAD_L = 72, PAD_R = 10, PAD_T = 20, PAD_B = 32;
+  const chartW = W - PAD_L - PAD_R;
+  const chartH = H - PAD_T - PAD_B;
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
+  const textColor = isDark ? '#94a3b8' : '#6b7280';
+  const barGap    = chartW / giorniTot;
+  const barW      = Math.max(2, barGap * 0.72);
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Griglia
+  const steps = 4;
+  for (let i = 0; i <= steps; i++) {
+    const y = PAD_T + chartH - (chartH * i / steps);
+    ctx.beginPath(); ctx.moveTo(PAD_L, y); ctx.lineTo(PAD_L + chartW, y);
+    ctx.strokeStyle = gridColor; ctx.lineWidth = 1; ctx.stroke();
+    const val = maxVal * i / steps;
+    ctx.fillStyle = textColor; ctx.font = "10px 'IBM Plex Mono', monospace";
+    ctx.textAlign = 'right';
+    ctx.fillText(val >= 1000 ? `€${(val/1000).toFixed(0)}k` : `€${val.toFixed(0)}`, PAD_L - 6, y + 3);
+  }
+
+  const barRects = []; // per tooltip/click
+
+  for (let g = 1; g <= giorniTot; g++) {
+    const dg   = perGiorno[g];
+    const xCtr = PAD_L + barGap * (g - 1) + barGap / 2;
+    const x    = xCtr - barW / 2;
+    let yBottom = PAD_T + chartH;
+
+    const isTodayDay = (new Date(anno, mese, g).getTime() === oggi.getTime());
+    const isSelected = (_flussiGiornoSel === g);
+    const isWeekend  = [0,6].includes(new Date(anno, mese, g).getDay());
+
+    // Sfondo weekend
+    if (isWeekend) {
+      ctx.fillStyle = isDark ? 'rgba(255,255,255,0.025)' : 'rgba(0,0,0,0.025)';
+      ctx.fillRect(PAD_L + barGap * (g - 1), PAD_T, barGap, chartH);
+    }
+
+    // Barre impilate per categoria
+    catAttive.forEach(cat => {
+      const v = dg.perCat[cat] || 0;
+      if (!v) return;
+      const h  = (v / maxVal) * chartH;
+      const y1 = yBottom - h;
+      const r  = 2;
+      ctx.beginPath();
+      ctx.moveTo(x + r, y1); ctx.lineTo(x + barW - r, y1);
+      ctx.quadraticCurveTo(x + barW, y1, x + barW, y1 + r);
+      ctx.lineTo(x + barW, yBottom); ctx.lineTo(x, yBottom);
+      ctx.lineTo(x, y1 + r); ctx.quadraticCurveTo(x, y1, x + r, y1);
+      ctx.closePath();
+      ctx.fillStyle = isSelected
+        ? CHART_COLORS[cat].border  // più saturo se selezionato
+        : CHART_COLORS[cat].fill;
+      ctx.fill();
+      yBottom = y1;
+    });
+
+    // Etichetta giorno asse X — ogni 5 giorni o weekday
+    if (g === 1 || g % 5 === 0 || g === giorniTot) {
+      ctx.fillStyle = isTodayDay ? (isDark ? '#00d4aa' : '#00a882') : textColor;
+      ctx.font = isTodayDay ? "bold 10px 'IBM Plex Mono', monospace" : "10px 'IBM Plex Mono', monospace";
+      ctx.textAlign = 'center';
+      ctx.fillText(g, xCtr, PAD_T + chartH + 16);
+    }
+
+    // Linea "oggi"
+    if (isTodayDay) {
+      ctx.strokeStyle = isDark ? 'rgba(0,212,170,0.5)' : 'rgba(0,168,130,0.5)';
+      ctx.lineWidth = 1.5; ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(xCtr, PAD_T); ctx.lineTo(xCtr, PAD_T + chartH);
+      ctx.stroke(); ctx.setLineDash([]);
+    }
+
+    // Contorno selezione
+    if (isSelected && dg.tot > 0) {
+      ctx.strokeStyle = isDark ? '#00d4aa' : '#00a882';
+      ctx.lineWidth = 2; ctx.setLineDash([]);
+      const topH = (dg.tot / maxVal) * chartH;
+      ctx.strokeRect(x - 1, PAD_T + chartH - topH - 1, barW + 2, topH + 2);
+    }
+
+    barRects.push({ g, x: PAD_L + barGap * (g-1), w: barGap, data: dg });
+  }
+
+  // ── TOOLTIP ─────────────────────────────────────────────────────────────
+  canvas.onmousemove = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const bar = barRects.find(b => mx >= b.x && mx < b.x + b.w);
+    if (!bar || bar.data.tot === 0) { tooltip.style.display = 'none'; return; }
+
+    const d = new Date(anno, mese, bar.g);
+    const gg = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
+    const rows = catAttive
+      .filter(c => (bar.data.perCat[c]||0) > 0)
+      .map(c => `<div style="display:flex;justify-content:space-between;gap:16px;margin-top:4px">
+        <span style="color:${CHART_COLORS[c].border}">${CHART_COLORS[c].label}</span>
+        <span style="font-family:monospace;font-weight:600;color:var(--text)">${fmtEur(bar.data.perCat[c])}</span>
+      </div>`).join('');
+
+    tooltip.innerHTML = `
+      <div style="font-weight:700;color:var(--text);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:6px;text-transform:capitalize">${gg}</div>
+      ${rows}
+      <div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:16px">
+        <span style="color:var(--text2)">${bar.data.count} fatture</span>
+        <span style="font-family:monospace;font-weight:700;color:var(--accent)">${fmtEur(bar.data.tot)}</span>
+      </div>
+      <div style="margin-top:4px;font-size:10px;color:var(--text3)">Clicca per vedere le fatture</div>`;
+
+    let tx = e.clientX - rect.left + 14;
+    if (tx + 220 > W) tx = e.clientX - rect.left - 230;
+    tooltip.style.left = tx + 'px';
+    tooltip.style.top  = Math.max(0, (e.clientY - rect.top) - 20) + 'px';
+    tooltip.style.display = 'block';
+  };
+  canvas.onmouseleave = () => { tooltip.style.display = 'none'; };
+
+  // ── CLICK → dettaglio fatture del giorno ─────────────────────────────────
+  canvas.onclick = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const bar = barRects.find(b => mx >= b.x && mx < b.x + b.w);
+    if (!bar || bar.data.tot === 0) { chiudiFlussoDettaglio(); return; }
+    _flussiGiornoSel = bar.g;
+    mostraFlussoDettaglio(bar.g, bar.data.fatture, anno, mese);
+    renderFlussiDailyChart(perGiorno, giorniTot, anno, mese, maxVal, oggi); // ridisegna con selezione
+  };
+}
+
+function renderFlussiHeatmap(perGiorno, giorniTot, anno, mese, maxVal, oggi) {
+  const container = document.getElementById('fl-heatmap');
+  if (!container) return;
+
+  // Primo giorno del mese (0=Dom, 1=Lun, ...)
+  // Vogliamo partire da Lunedì → offset
+  const primoGiorno = new Date(anno, mese, 1).getDay(); // 0=Dom
+  const offsetLun = (primoGiorno === 0) ? 6 : primoGiorno - 1; // celle vuote prima del 1°
+
+  let html = '';
+  // Celle vuote per allineamento
+  for (let i = 0; i < offsetLun; i++) {
+    html += `<div style="width:36px;height:36px"></div>`;
+  }
+
+  for (let g = 1; g <= giorniTot; g++) {
+    const d    = new Date(anno, mese, g);
+    const dg   = perGiorno[g];
+    const frac = maxVal > 0 ? dg.tot / maxVal : 0;
+    const isTodayDay = d.getTime() === oggi.getTime();
+    const isWeekend  = [0,6].includes(d.getDay());
+    const isSel      = _flussiGiornoSel === g;
+
+    // Colore intensità: giallo-arancio
+    let bg = 'var(--surface2)';
+    let border = '1px solid var(--border)';
+    if (dg.tot > 0) {
+      const alpha = 0.15 + frac * 0.85;
+      bg = `rgba(255,170,0,${alpha.toFixed(2)})`;
+      border = `1px solid rgba(255,170,0,${Math.min(1, alpha + 0.2).toFixed(2)})`;
+    }
+    if (isSel) border = '2px solid var(--accent)';
+    if (isTodayDay) border = '2px solid var(--accent2)';
+
+    const labelColor = dg.tot > 0 && frac > 0.5
+      ? (document.documentElement.getAttribute('data-theme') === 'light' ? '#6b3a00' : '#fff8e0')
+      : 'var(--text2)';
+
+    html += `<div
+      onclick="heatmapClickGiorno(${g})"
+      title="${g} ${MESI_IT[mese]}: ${fmtEur(dg.tot)} (${dg.count} fatture)"
+      style="width:36px;height:36px;border-radius:5px;background:${bg};border:${border};
+             display:flex;flex-direction:column;align-items:center;justify-content:center;
+             cursor:${dg.tot > 0 ? 'pointer' : 'default'};transition:transform .1s;
+             ${isWeekend ? 'opacity:0.65' : ''}"
+      onmouseover="this.style.transform='scale(1.15)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="font-size:11px;font-weight:700;color:${labelColor};line-height:1">${g}</span>
+      ${dg.tot > 0 ? `<span style="font-size:8px;color:${labelColor};line-height:1;margin-top:1px;font-family:monospace">${dg.tot>=1000?'€'+(dg.tot/1000).toFixed(0)+'k':'€'+Math.round(dg.tot)}</span>` : ''}
+    </div>`;
+  }
+  container.innerHTML = html;
+}
+
+function heatmapClickGiorno(g) {
+  const dg = (() => {
+    // rebuild perGiorno for current filter state
+    const mese = parseInt(document.getElementById('flussi-mese-sel').value, 10);
+    const anno = parseInt(document.getElementById('flussi-anno-sel').value, 10);
+    const oggi = new Date(); oggi.setHours(0,0,0,0);
+    let dataset = fatture.filter(f => !f.isNotaCredito);
+    if (flussoFiltroStato === 'pending') dataset = dataset.filter(f => f.stato==='pending'||f.stato==='inbatch');
+    else if (flussoFiltroStato === 'overdue') dataset = dataset.filter(f => f.stato==='overdue');
+    else if (flussoFiltroStato === 'paid')    dataset = dataset.filter(f => f.stato==='paid');
+    if (flussoFiltroPag !== 'all') dataset = dataset.filter(f => categoriaPagamento(f.modalitaPagamento)===flussoFiltroPag);
+    const nelMese = dataset.filter(f => {
+      const d = new Date(f.dataScadenza);
+      return d.getFullYear()===anno && d.getMonth()===mese;
+    });
+    const dayFatture = nelMese.filter(f => new Date(f.dataScadenza).getDate() === g);
+    return { tot: dayFatture.reduce((s,f)=>s+f.importo,0), fatture: dayFatture };
+  })();
+
+  if (!dg.fatture.length) return;
+  _flussiGiornoSel = g;
+  const mese = parseInt(document.getElementById('flussi-mese-sel').value, 10);
+  const anno = parseInt(document.getElementById('flussi-anno-sel').value, 10);
+  mostraFlussoDettaglio(g, dg.fatture, anno, mese);
+  renderFlussi(); // ridisegna con selezione aggiornata
+}
+
+function mostraFlussoDettaglio(g, fattureGiorno, anno, mese) {
+  const d = new Date(anno, mese, g);
+  const label = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  document.getElementById('fl-day-title').textContent = '📅 ' + label.charAt(0).toUpperCase() + label.slice(1);
+
+  const tot = fattureGiorno.reduce((s,f) => s+f.importo, 0);
+  const rows = fattureGiorno
+    .sort((a,b) => b.importo - a.importo)
+    .map(f => `<tr>
+      <td><strong>${f.ragioneSociale}</strong><br><span style="font-size:11px;color:var(--text3);font-family:monospace">${f.piva||''}</span></td>
+      <td class="mono">${f.numero}</td>
+      <td>${badgePagamento(f.modalitaPagamento)}</td>
+      <td class="mono" style="font-size:11px;color:var(--text2)">${f.iban ? f.iban.slice(0,12)+'…' : '<span style="color:var(--danger)">⚠ mancante</span>'}</td>
+      <td class="mono"><strong>${fmtEur(f.importo)}</strong></td>
+      <td>${badgeStato(f)}</td>
+      <td>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-sm btn-secondary" onclick="showDetail('${f.id}')">👁</button>
+          ${f.stato !== 'paid' ? `<button class="btn btn-sm btn-secondary" onclick="markPaid('${f.id}');renderFlussi()" title="Segna pagata">✅</button>` : ''}
+        </div>
+      </td>
+    </tr>`).join('');
+
+  document.getElementById('fl-day-table').innerHTML = `
+    <table>
+      <thead><tr><th>Fornitore</th><th>N° Fattura</th><th>Pagamento</th><th>IBAN</th><th>Importo</th><th>Stato</th><th></th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div style="padding:8px 0;text-align:right;font-size:12px;color:var(--text2)">
+      ${fattureGiorno.length} fatture · Totale: <strong style="color:var(--accent);font-family:monospace">${fmtEur(tot)}</strong>
+    </div>`;
+
+  const detail = document.getElementById('fl-day-detail');
+  detail.style.display = 'block';
+  detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function chiudiFlussoDettaglio() {
+  document.getElementById('fl-day-detail').style.display = 'none';
+  _flussiGiornoSel = null;
+  renderFlussi();
+}
+
+function renderFlussiTabella(perGiorno, giorniTot, anno, mese, oggi) {
+  const container   = document.getElementById('flussi-container');
+  const countLabel  = document.getElementById('fl-count-label');
+  const giorniConDati = Object.entries(perGiorno)
+    .filter(([,d]) => d.tot > 0)
+    .sort(([a],[b]) => parseInt(a) - parseInt(b));
+
+  if (!giorniConDati.length) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📊</div><h3>Nessuna scadenza</h3><p>Nessuna fattura in scadenza in ${MESI_IT[mese]} ${anno}</p></div>`;
+    if (countLabel) countLabel.textContent = '';
+    return;
+  }
+
+  const totTot = giorniConDati.reduce((s,[,d]) => s+d.tot, 0);
+  if (countLabel) countLabel.textContent = `${giorniConDati.length} giorni con scadenze · ${fmtEur(totTot)}`;
+
+  const categorie = Object.keys(CHART_COLORS);
+  const catAttive = categorie.filter(c => giorniConDati.some(([,d]) => (d.perCat[c]||0) > 0));
+  const maxGiornoTot = Math.max(...giorniConDati.map(([,d]) => d.tot));
+
+  const rows = giorniConDati.map(([g, dg]) => {
+    const gi = parseInt(g);
+    const d  = new Date(anno, mese, gi);
+    const isToday   = d.getTime() === oggi.getTime();
+    const isOverdue = d < oggi && !isToday;
+    const isSel     = _flussiGiornoSel === gi;
+    const diff      = Math.ceil((d - oggi) / (1000*60*60*24));
+    const diffText  = diff < 0
+      ? `<span style="color:var(--danger);font-size:11px">Scaduta ${Math.abs(diff)}gg fa</span>`
+      : diff === 0 ? `<span style="color:var(--warn);font-size:11px;font-weight:600">⚠ Oggi!</span>`
+      : `<span style="color:var(--text3);font-size:11px">tra ${diff}gg</span>`;
+
+    // Mini-barra proporzionale
+    const barPct = (dg.tot / maxGiornoTot * 100).toFixed(1);
+    const catBars = catAttive.map(c => {
+      const v = dg.perCat[c] || 0;
+      if (!v) return '';
+      const pct = (v / dg.tot * barPct).toFixed(1);
+      return `<div style="width:${pct}%;height:100%;background:${CHART_COLORS[c].border};min-width:2px" title="${CHART_COLORS[c].label}: ${fmtEur(v)}"></div>`;
+    }).join('');
+
+    return `<tr
+      onclick="heatmapClickGiorno(${gi})"
+      style="cursor:pointer;${isSel ? 'background:rgba(0,212,170,0.06)!important;outline:1px solid var(--accent)' : ''}"
+      title="Clicca per dettaglio fatture del ${gi} ${MESI_IT[mese]}">
+      <td class="mono" style="white-space:nowrap;${isOverdue?'color:var(--danger)':isToday?'color:var(--warn);font-weight:700':''}">
+        ${d.toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'short'})}
+      </td>
+      <td>${diffText}</td>
+      <td>
+        <div style="display:flex;height:6px;border-radius:3px;overflow:hidden;background:var(--surface2);border:1px solid var(--border);min-width:80px;max-width:160px">${catBars}</div>
+      </td>
+      <td style="text-align:center;color:var(--text2)">${dg.count}</td>
+      <td class="mono"><strong style="font-size:14px">${fmtEur(dg.tot)}</strong></td>
+      <td style="text-align:right;color:var(--text3);font-size:11px">${(dg.tot/totTot*100).toFixed(1)}%</td>
+    </tr>`;
+  }).join('');
+
+  // Riga totale
+  const totRow = `<tr style="background:var(--surface2);font-weight:700;border-top:2px solid var(--border)">
+    <td colspan="3" style="color:var(--text2);font-size:12px;text-transform:uppercase;letter-spacing:.06em">Totale mese</td>
+    <td style="text-align:center;font-family:monospace">${giorniConDati.reduce((s,[,d])=>s+d.count,0)}</td>
+    <td class="mono" style="font-size:15px;color:var(--accent)">${fmtEur(totTot)}</td>
+    <td style="text-align:right;font-family:monospace">100%</td>
+  </tr>`;
+
+  container.innerHTML = `
+    <table>
+      <thead><tr>
+        <th>Data scadenza</th>
+        <th>Distanza</th>
+        <th>Composizione</th>
+        <th style="text-align:center">N° fatture</th>
+        <th>Importo</th>
+        <th style="text-align:right">% mese</th>
+      </tr></thead>
+      <tbody>${rows}${totRow}</tbody>
+    </table>`;
+}
+
+function exportFlussiCSV() {
+  const mese = parseInt(document.getElementById('flussi-mese-sel').value, 10);
+  const anno = parseInt(document.getElementById('flussi-anno-sel').value, 10);
+  let dataset = fatture.filter(f => !f.isNotaCredito);
+  if (flussoFiltroStato === 'pending') dataset = dataset.filter(f => f.stato==='pending'||f.stato==='inbatch');
+  else if (flussoFiltroStato === 'overdue') dataset = dataset.filter(f => f.stato==='overdue');
+  else if (flussoFiltroStato === 'paid')    dataset = dataset.filter(f => f.stato==='paid');
+  if (flussoFiltroPag !== 'all') dataset = dataset.filter(f => categoriaPagamento(f.modalitaPagamento)===flussoFiltroPag);
+  const nelMese = dataset.filter(f => {
+    const d = new Date(f.dataScadenza);
+    return d.getFullYear()===anno && d.getMonth()===mese;
+  }).sort((a,b) => new Date(a.dataScadenza)-new Date(b.dataScadenza));
+
+  const header = ['Data scadenza','Fornitore','P.IVA','N° Fattura','Tipo pagamento','IBAN','Importo','Stato'];
+  const rows = nelMese.map(f => [
+    fmtDate(f.dataScadenza), f.ragioneSociale, f.piva, f.numero,
+    MP_LABEL[f.modalitaPagamento]||f.modalitaPagamento, f.iban||'',
+    f.importo.toFixed(2), f.stato
+  ]);
+  const csv = [header,...rows].map(r => r.map(v => `"${String(v==null?'':v).replace(/"/g,'""')}"`).join(';')).join('\r\n');
+  download('\uFEFF'+csv, `flussi_${MESI_IT[mese].toLowerCase()}_${anno}.csv`, 'text/csv;charset=utf-8');
+  toast(`📊 CSV flussi ${MESI_IT[mese]} ${anno} scaricato`, 'success');
+}
+
+// ============================================================
+// EXPORT CSV
 // ============================================================
 function exportExcel() {
   const header = ['N. Fattura','Fornitore','P.IVA','Data','Scadenza','IBAN','Importo','Stato'];
@@ -1961,7 +3507,8 @@ function exportExcel() {
     fmtDate(f.data), fmtDate(f.dataScadenza),
     f.iban, f.importo.toFixed(2), f.stato
   ]);
-  const csv = [header, ...rows].map(r => r.map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(';')).join('\r\n');
+  // FIX: gestione null/undefined sicura nei valori CSV
+  const csv = [header, ...rows].map(r => r.map(v => `"${String(v == null ? '' : v).replace(/"/g,'""')}"`).join(';')).join('\r\n');
   const BOM = '\uFEFF';
   download(BOM + csv, 'fatture_scadenzario.csv', 'text/csv;charset=utf-8');
   toast('📊 File CSV scaricato', 'success');
@@ -1973,23 +3520,59 @@ function exportExcel() {
 function toggleSel(id, checked) {
   if (checked) selectedIds.add(id); else selectedIds.delete(id);
 }
+
+// FIX: toggleAll ora deseleziona correttamente TUTTI gli id (non solo quelli con IBAN)
 function toggleAll(checked) {
-  fatture.filter(f => f.stato !== 'paid' && f.iban).forEach(f => {
-    if (checked) selectedIds.add(f.id); else selectedIds.delete(f.id);
-  });
+  if (!checked) {
+    fatture.forEach(f => selectedIds.delete(f.id));
+  } else {
+    fatture.filter(f => f.stato !== 'paid' && f.iban).forEach(f => selectedIds.add(f.id));
+  }
   renderFatture();
 }
+
 function selectAll() {
   fatture.filter(f => (f.stato === 'pending' || f.stato === 'overdue')).forEach(f => selectedIds.add(f.id));
   renderFatture();
   toast(`Selezionate ${selectedIds.size} fatture da pagare`, 'info');
 }
+
+function markSelectedPaid() {
+  if (!selectedIds.size) { toast('⚠ Nessuna fattura selezionata', 'error'); return; }
+  const oggi = new Date().toISOString().split('T')[0];
+  let count = 0;
+  selectedIds.forEach(id => {
+    const f = fatture.find(x => x.id === id);
+    if (f && f.stato !== 'paid' && !f.isNotaCredito) {
+      f.stato = 'paid';
+      f.dataPagamento = oggi;
+      count++;
+    }
+  });
+  selectedIds.clear();
+  renderFatture();
+  updateBadge();
+  autoSave();
+  toast(`✅ ${count} fattura/e segnate come pagate`, 'success');
+}
+
+// FIX: filterFatture non azzera più i btn della seconda riga (filtro pagamento)
 function filterFatture(filter, btn) {
   currentFilter = filter;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn && btn.parentElement) {
+    btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  }
   if (btn) btn.classList.add('active');
   renderFatture(filter);
 }
+
+function filterPag(cat, btn) {
+  currentFilterPag = cat;
+  document.querySelectorAll('[id^="fpag-"]').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderFatture();
+}
+
 function searchFatture(val) { renderFatture(currentFilter, val); }
 
 function markPaid(id) {
@@ -1998,12 +3581,14 @@ function markPaid(id) {
   f.stato = 'paid'; f.dataPagamento = new Date().toISOString().split('T')[0];
   selectedIds.delete(id);
   renderFatture(); updateBadge();
+  autoSave();
   toast('✅ Fattura segnata come pagata', 'success');
 }
 function deleteFattura(id) {
   fatture = fatture.filter(f => f.id !== id);
   selectedIds.delete(id);
   renderFatture(); updateBadge();
+  autoSave();
   toast('Fattura eliminata', 'info');
 }
 
@@ -2043,13 +3628,11 @@ function editIban(id) {
 }
 
 function ibanChecksum(iban) {
-  // Algoritmo mod97: sposta i primi 4 char in fondo, sostituisci lettere con numeri, mod 97 == 1
   const rearranged = iban.slice(4) + iban.slice(0, 4);
   const numeric = rearranged.split('').map(c => {
     const code = c.charCodeAt(0);
     return code >= 65 && code <= 90 ? (code - 55).toString() : c;
   }).join('');
-  // BigInt per gestire numeri grandi
   let remainder = 0n;
   for (const ch of numeric) remainder = (remainder * 10n + BigInt(ch)) % 97n;
   return remainder === 1n;
@@ -2089,8 +3672,8 @@ function saveIban(id) {
   closeModal();
   renderFatture();
   if (document.getElementById('panel-cbi').classList.contains('active')) renderCBIPanel();
-  // Aggiorna/aggiunge il fornitore in rubrica
   aggiornaRubricaDaFattura(f);
+  autoSave();
   toast(`✅ IBAN salvato per ${f.ragioneSociale}`, 'success');
 }
 
@@ -2107,7 +3690,7 @@ function showDetail(id) {
       ${row('IBAN', f.iban || '<span style=color:var(--danger)>Non disponibile</span>')}
       ${f.bic ? row('BIC', f.bic) : ''}
       ${row('Importo', '<strong>' + fmtEur(f.importo) + '</strong>')}
-      ${row('Modalità pagamento', f.modalitaPagamento)}
+      ${row('Modalità pagamento', badgePagamento(f.modalitaPagamento) + ' <span style="color:var(--text3);font-size:11px;font-family:monospace">' + (f.modalitaPagamento||'') + '</span>')}
       ${row('Stato', badgeStato(f))}
       ${row('File sorgente', f.filename)}
     </div>
@@ -2163,10 +3746,936 @@ function toast(msg, type='info') {
   setTimeout(() => el.remove(), 4000);
 }
 
-// Close modal on overlay click
+// FIX: Chiudi modal-fattura cliccando sull'overlay
 document.getElementById('modal-fattura').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
+// FIX: Chiudi modal-fornitore cliccando sull'overlay
+document.getElementById('modal-fornitore').addEventListener('click', function(e) {
+  if (e.target === this) chiudiModalFornitore();
+});
+// FIX: Chiudi qualsiasi modal con il tasto ESC
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeModal();
+    chiudiModalFornitore();
+  }
+});
+
+// ---- RIPRISTINO AUTOMATICO ALL'AVVIO ----
+document.addEventListener('DOMContentLoaded', () => {
+  ripristinaAutosave();
+});
+
+// ============================================================
+// LIQUIDITÀ & PROIEZIONI
+// ============================================================
+
+function getSaldoIniziale()  { return parseFloat(document.getElementById('liq-saldo')?.value)  || 0; }
+function getSogliaCritica()  { return parseFloat(document.getElementById('liq-soglia')?.value) || 0; }
+function getOrizzonteMesi()  { return parseInt(document.getElementById('liq-mesi')?.value)     || 6; }
+
+function renderLiquidita() {
+  // Salva saldo in autosave
+  autoSave();
+
+  const saldo0   = getSaldoIniziale();
+  const soglia   = getSogliaCritica();
+  const mesiOriz = getOrizzonteMesi();
+  const oggi     = new Date(); oggi.setHours(0,0,0,0);
+  const fine     = new Date(oggi); fine.setMonth(fine.getMonth() + mesiOriz);
+
+  // Costruisci timeline giornaliera
+  const fattureAttive = fatture.filter(f =>
+    !f.isNotaCredito &&
+    f.dataScadenza &&
+    new Date(f.dataScadenza) <= fine
+  ).sort((a, b) => a.dataScadenza.localeCompare(b.dataScadenza));
+
+  // Calcola saldo corrente (dopo le scadenze già passate e non pagate)
+  const scadenzePast = fattureAttive.filter(f => new Date(f.dataScadenza) < oggi && f.stato !== 'paid');
+  const saldoCorrente = saldo0 - scadenzePast.reduce((s, f) => s + f.importo, 0);
+
+  // Timeline dal giorno corrente in poi
+  const future = fattureAttive.filter(f => {
+    const d = new Date(f.dataScadenza); d.setHours(0,0,0,0);
+    return d >= oggi && f.stato !== 'paid';
+  });
+
+  // Raggruppa per giorno
+  const byDay = {};
+  future.forEach(f => {
+    const d = f.dataScadenza;
+    if (!byDay[d]) byDay[d] = 0;
+    byDay[d] += f.importo;
+  });
+
+  // Costruisci serie progressiva
+  const days = Object.keys(byDay).sort();
+  let saldoRun = saldoCorrente;
+  let saldoMin = saldoCorrente;
+  let saldoMinDate = oggi.toISOString().slice(0,10);
+  let giorniSottoSoglia = 0;
+
+  const serieX = [oggi.toISOString().slice(0,10)];
+  const serieY = [saldoCorrente];
+
+  days.forEach(d => {
+    saldoRun -= byDay[d];
+    serieX.push(d);
+    serieY.push(saldoRun);
+    if (saldoRun < saldoMin) { saldoMin = saldoRun; saldoMinDate = d; }
+    if (saldoRun < soglia) giorniSottoSoglia++;
+  });
+
+  // KPI
+  const uscite30 = future.filter(f => {
+    const d = new Date(f.dataScadenza); d.setHours(0,0,0,0);
+    const lim = new Date(oggi); lim.setDate(lim.getDate()+30);
+    return d <= lim;
+  });
+  document.getElementById('liq-k-saldo').textContent  = fmtEur(saldoCorrente);
+  document.getElementById('liq-k-saldo').style.color  = saldoCorrente < soglia ? 'var(--danger)' : 'var(--accent)';
+  document.getElementById('liq-k-30').textContent     = fmtEur(uscite30.reduce((s,f)=>s+f.importo,0));
+  document.getElementById('liq-k-30-n').textContent   = `${uscite30.length} fatture`;
+  document.getElementById('liq-k-rischio').textContent = giorniSottoSoglia;
+  document.getElementById('liq-k-rischio').style.color = giorniSottoSoglia > 0 ? 'var(--danger)' : 'var(--green)';
+  document.getElementById('liq-k-min').textContent    = fmtEur(saldoMin);
+  document.getElementById('liq-k-min').style.color    = saldoMin < soglia ? 'var(--danger)' : 'var(--green)';
+  document.getElementById('liq-k-min-d').textContent  = saldoMin < saldoCorrente ? `il ${fmtDate(saldoMinDate)}` : 'saldo stabile';
+
+  // Grafico
+  if (!days.length) {
+    document.getElementById('liq-chart-empty').style.display = 'block';
+    document.getElementById('liq-chart').style.display = 'none';
+  } else {
+    document.getElementById('liq-chart-empty').style.display = 'none';
+    document.getElementById('liq-chart').style.display = 'block';
+    drawLiqChart(serieX, serieY, soglia);
+  }
+
+  // Proiezioni
+  renderProiezioni(mesiOriz);
+}
+
+function drawLiqChart(labels, values, soglia) {
+  const canvas = document.getElementById('liq-chart');
+  const ctx    = canvas.getContext('2d');
+  const W = canvas.offsetWidth; const H = canvas.offsetHeight;
+  canvas.width = W; canvas.height = H;
+  ctx.clearRect(0,0,W,H);
+
+  const PAD = { top:20, right:20, bottom:50, left:90 };
+  const w = W - PAD.left - PAD.right;
+  const h = H - PAD.top  - PAD.bottom;
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  const textCol = isLight ? '#5a6478' : '#8892a4';
+  const gridCol = isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.05)';
+
+  const minV = Math.min(...values, soglia) * 1.05;
+  const maxV = Math.max(...values, soglia) * 1.05 + 1;
+  const scaleY = v => PAD.top + h - ((v - minV) / (maxV - minV)) * h;
+  const scaleX = i => PAD.left + (i / (labels.length - 1)) * w;
+
+  // Grid Y
+  const steps = 5;
+  for (let i = 0; i <= steps; i++) {
+    const v = minV + (maxV - minV) * (i / steps);
+    const y = scaleY(v);
+    ctx.strokeStyle = gridCol; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left + w, y); ctx.stroke();
+    ctx.fillStyle = textCol; ctx.font = '10px IBM Plex Mono, monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText('€' + Math.round(v).toLocaleString('it-IT'), PAD.left - 6, y + 4);
+  }
+
+  // Soglia critica (linea rossa tratteggiata)
+  const ySoglia = scaleY(soglia);
+  ctx.strokeStyle = 'rgba(255,77,109,0.7)'; ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath(); ctx.moveTo(PAD.left, ySoglia); ctx.lineTo(PAD.left + w, ySoglia); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = 'rgba(255,77,109,0.8)'; ctx.font = '10px IBM Plex Mono, monospace'; ctx.textAlign = 'left';
+  ctx.fillText('soglia critica', PAD.left + 4, ySoglia - 4);
+
+  // Area sotto la curva (sfumatura verde/rossa in base alla soglia)
+  ctx.beginPath();
+  ctx.moveTo(scaleX(0), scaleY(values[0]));
+  for (let i = 1; i < values.length; i++) ctx.lineTo(scaleX(i), scaleY(values[i]));
+  ctx.lineTo(scaleX(values.length-1), H - PAD.bottom);
+  ctx.lineTo(scaleX(0), H - PAD.bottom);
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(0, PAD.top, 0, H - PAD.bottom);
+  grad.addColorStop(0, 'rgba(0,212,170,0.18)');
+  grad.addColorStop(1, 'rgba(0,212,170,0.01)');
+  ctx.fillStyle = grad; ctx.fill();
+
+  // Linea principale
+  ctx.beginPath();
+  ctx.strokeStyle = '#00d4aa'; ctx.lineWidth = 2.5;
+  for (let i = 0; i < values.length; i++) {
+    const x = scaleX(i); const y = scaleY(values[i]);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Punti sotto soglia evidenziati in rosso
+  for (let i = 0; i < values.length; i++) {
+    if (values[i] < soglia) {
+      ctx.beginPath();
+      ctx.arc(scaleX(i), scaleY(values[i]), 4, 0, Math.PI*2);
+      ctx.fillStyle = 'var(--danger)'; ctx.fill();
+    }
+  }
+
+  // Etichette X (ogni N giorni)
+  const step = Math.max(1, Math.floor(labels.length / 8));
+  ctx.fillStyle = textCol; ctx.font = '10px IBM Plex Mono, monospace'; ctx.textAlign = 'center';
+  for (let i = 0; i < labels.length; i += step) {
+    const d = new Date(labels[i]);
+    const lbl = `${d.getDate()}/${d.getMonth()+1}`;
+    ctx.fillText(lbl, scaleX(i), H - PAD.bottom + 14);
+  }
+
+  // Tooltip
+  canvas.onmousemove = e => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    let closest = 0;
+    for (let i = 0; i < labels.length; i++) {
+      if (Math.abs(scaleX(i) - mx) < Math.abs(scaleX(closest) - mx)) closest = i;
+    }
+    const tip = document.getElementById('liq-chart-tooltip');
+    tip.style.display = 'block';
+    tip.style.left = (scaleX(closest) + 10) + 'px';
+    tip.style.top  = (scaleY(values[closest]) - 10) + 'px';
+    const col = values[closest] < soglia ? 'var(--danger)' : 'var(--accent)';
+    tip.innerHTML = `<div style="font-weight:700;color:var(--text);margin-bottom:4px">${fmtDate(labels[closest])}</div>
+      <div>Saldo: <strong style="color:${col}">${fmtEur(values[closest])}</strong></div>
+      ${values[closest] < soglia ? `<div style="color:var(--danger);font-size:11px;margin-top:2px">⚠ Sotto soglia critica</div>` : ''}`;
+  };
+  canvas.onmouseleave = () => { document.getElementById('liq-chart-tooltip').style.display = 'none'; };
+}
+
+function renderProiezioni(mesiOriz) {
+  const container = document.getElementById('liq-proiezioni-container');
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+
+  // Calcola storico ultimi 6 mesi per fornitore
+  const storico = {};
+  for (let m = 1; m <= 6; m++) {
+    const ref = new Date(oggi); ref.setDate(1); ref.setMonth(ref.getMonth() - m);
+    const anno = ref.getFullYear(); const mese = ref.getMonth();
+    fatture.filter(f => {
+      if (!f.dataScadenza || f.isNotaCredito) return false;
+      const d = new Date(f.dataScadenza);
+      return d.getFullYear() === anno && d.getMonth() === mese;
+    }).forEach(f => {
+      const key = f.piva || f.ragioneSociale;
+      if (!storico[key]) storico[key] = { ragione: f.ragioneSociale, mesi: {}, totale: 0 };
+      const mk = `${anno}-${String(mese+1).padStart(2,'0')}`;
+      storico[key].mesi[mk] = (storico[key].mesi[mk] || 0) + f.importo;
+      storico[key].totale += f.importo;
+    });
+  }
+
+  const fornitori = Object.values(storico).filter(f => Object.keys(f.mesi).length >= 2);
+  if (fornitori.length < 1) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📈</div><h3>Storico insufficiente</h3><p>Servono almeno 2 mesi di fatture storiche per generare proiezioni</p></div>`;
+    return;
+  }
+
+  // Calcola media mensile per fornitore
+  fornitori.forEach(f => {
+    f.media = f.totale / Object.keys(f.mesi).length;
+  });
+  fornitori.sort((a, b) => b.media - a.media);
+
+  // Genera proiezione per i prossimi N mesi
+  const proiezioniMesi = [];
+  for (let m = 1; m <= mesiOriz; m++) {
+    const ref = new Date(oggi); ref.setDate(1); ref.setMonth(ref.getMonth() + m);
+    const anno = ref.getFullYear(); const mese = ref.getMonth();
+    const mk = `${anno}-${String(mese+1).padStart(2,'0')}`;
+    // Fatture già presenti in quel mese
+    const reali = fatture.filter(f => {
+      if (!f.dataScadenza || f.isNotaCredito) return false;
+      const d = new Date(f.dataScadenza);
+      return d.getFullYear() === anno && d.getMonth() === mese;
+    }).reduce((s, f) => s + f.importo, 0);
+    // Proiezione basata sulla media storica
+    const stima = fornitori.reduce((s, f) => s + f.media, 0);
+    proiezioniMesi.push({ label: `${MESI_IT[mese]} ${anno}`, mk, reali, stima, hasReali: reali > 0 });
+  }
+
+  const maxVal = Math.max(...proiezioniMesi.map(m => Math.max(m.reali, m.stima)), 1);
+
+  const rows = proiezioniMesi.map(m => {
+    const pctReali = (m.reali / maxVal * 100).toFixed(1);
+    const pctStima = (m.stima / maxVal * 100).toFixed(1);
+    const diff = m.reali > 0 ? m.reali - m.stima : null;
+    const diffHtml = diff !== null
+      ? `<span style="font-size:11px;color:${diff > 0 ? 'var(--danger)' : 'var(--green)'};font-family:monospace">${diff > 0 ? '+' : ''}${fmtEur(diff)}</span>`
+      : `<span style="font-size:11px;color:var(--text3);font-style:italic">stima</span>`;
+    return `
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:10px 14px;font-weight:600;white-space:nowrap">${m.label}</td>
+        <td style="padding:10px 14px;min-width:200px">
+          ${m.hasReali ? `
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden">
+                <div style="width:${pctReali}%;height:100%;background:var(--accent);border-radius:4px"></div>
+              </div>
+              <span style="font-family:monospace;font-size:12px;min-width:80px;text-align:right;color:var(--accent);font-weight:700">${fmtEur(m.reali)}</span>
+            </div>` : `<span style="color:var(--text3);font-size:12px;font-style:italic">nessuna fattura importata</span>`}
+        </td>
+        <td style="padding:10px 14px;min-width:200px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden">
+              <div style="width:${pctStima}%;height:100%;background:rgba(79,138,255,0.5);border-radius:4px;border:1px dashed var(--accent2)"></div>
+            </div>
+            <span style="font-family:monospace;font-size:12px;min-width:80px;text-align:right;color:var(--accent2)">${fmtEur(m.stima)}</span>
+          </div>
+        </td>
+        <td style="padding:10px 14px;text-align:right">${diffHtml}</td>
+      </tr>`;
+  }).join('');
+
+  container.innerHTML = `
+    <div style="background:rgba(79,138,255,0.06);border:1px solid rgba(79,138,255,0.2);border-radius:8px;padding:10px 16px;margin-bottom:14px;font-size:12px;color:var(--text2)">
+      📊 Proiezione basata su <strong style="color:var(--accent2)">${fornitori.length} fornitori</strong> con storico negli ultimi 6 mesi · media mensile totale: <strong style="font-family:monospace">${fmtEur(fornitori.reduce((s,f)=>s+f.media,0))}</strong>
+    </div>
+    <table style="width:100%;border-collapse:collapse;background:var(--surface);border-radius:10px;overflow:hidden;border:1px solid var(--border)">
+      <thead style="background:var(--surface2)">
+        <tr>
+          <th style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;text-align:left">Mese</th>
+          <th style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;text-align:left">
+            <span style="color:var(--accent)">●</span> Fatture reali importate
+          </th>
+          <th style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;text-align:left">
+            <span style="color:var(--accent2)">●</span> Stima (media 6 mesi)
+          </th>
+          <th style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;text-align:right">Δ Scostamento</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+// ============================================================
+// ANALISI MESE
+// ============================================================
+
+let analisiMese = new Date().getMonth();
+let analisiAnno = new Date().getFullYear();
+
+function initAnalisiSelettori() {
+  const selMese = document.getElementById('analisi-mese-sel');
+  const selAnno = document.getElementById('analisi-anno-sel');
+  if (!selMese || selMese.options.length) return;
+  MESI_IT.forEach((m, i) => {
+    const o = document.createElement('option');
+    o.value = i; o.textContent = m;
+    if (i === analisiMese) o.selected = true;
+    selMese.appendChild(o);
+  });
+  const years = [...new Set(fatture.map(f => f.dataScadenza ? new Date(f.dataScadenza).getFullYear() : null).filter(Boolean))];
+  const yr = new Date().getFullYear();
+  const range = [...new Set([...years, yr-1, yr, yr+1])].sort();
+  range.forEach(y => {
+    const o = document.createElement('option');
+    o.value = y; o.textContent = y;
+    if (y === analisiAnno) o.selected = true;
+    selAnno.appendChild(o);
+  });
+}
+
+function analisiMeseNav(delta) {
+  const sel = document.getElementById('analisi-mese-sel');
+  const selA = document.getElementById('analisi-anno-sel');
+  let m = parseInt(sel.value) + delta;
+  let a = parseInt(selA.value);
+  if (m < 0)  { m = 11; a--; }
+  if (m > 11) { m = 0;  a++; }
+  sel.value = m; selA.value = a;
+  renderAnalisi();
+}
+function analisiMeseOggi() {
+  document.getElementById('analisi-mese-sel').value = new Date().getMonth();
+  document.getElementById('analisi-anno-sel').value = new Date().getFullYear();
+  renderAnalisi();
+}
+
+function getFattureDelMese(mese, anno) {
+  return fatture.filter(f => {
+    if (!f.dataScadenza || f.isNotaCredito) return false;
+    const d = new Date(f.dataScadenza);
+    return d.getFullYear() === anno && d.getMonth() === mese;
+  });
+}
+
+function renderAnalisi() {
+  const mese = parseInt(document.getElementById('analisi-mese-sel')?.value ?? new Date().getMonth());
+  const anno = parseInt(document.getElementById('analisi-anno-sel')?.value ?? new Date().getFullYear());
+
+  const mesePrecM = mese === 0 ? 11 : mese - 1;
+  const mesePrecA = mese === 0 ? anno - 1 : anno;
+
+  const curr = getFattureDelMese(mese, anno);
+  const prev = getFattureDelMese(mesePrecM, mesePrecA);
+
+  const totCurr = curr.reduce((s, f) => s + f.importo, 0);
+  const totPrev = prev.reduce((s, f) => s + f.importo, 0);
+  const nCurr   = curr.length;
+  const nPrev   = prev.length;
+
+  const fornCurr = new Set(curr.map(f => f.piva || f.ragioneSociale)).size;
+  const fornPrev = new Set(prev.map(f => f.piva || f.ragioneSociale)).size;
+
+  function delta(curr, prev) {
+    if (!prev) return '';
+    const d = curr - prev;
+    const pct = ((d / prev) * 100).toFixed(1);
+    const col = d > 0 ? 'var(--danger)' : 'var(--green)';
+    return `<span style="color:${col};font-size:11px">${d > 0 ? '▲' : '▼'} ${Math.abs(d) > 100 ? fmtEur(Math.abs(d)) : Math.abs(d)} (${Math.abs(pct)}%)</span>`;
+  }
+
+  // KPI
+  document.getElementById('an-k-tot').textContent       = fmtEur(totCurr);
+  document.getElementById('an-k-tot-delta').innerHTML   = delta(totCurr, totPrev) || 'vs mese prec.';
+  document.getElementById('an-k-n').textContent         = nCurr;
+  document.getElementById('an-k-n-delta').innerHTML     = delta(nCurr, nPrev) || 'vs mese prec.';
+  document.getElementById('an-k-media').textContent     = fmtEur(nCurr ? totCurr / nCurr : 0);
+  document.getElementById('an-k-media-delta').innerHTML = 'per fattura';
+  document.getElementById('an-k-forn').textContent      = fornCurr;
+  document.getElementById('an-k-forn-delta').innerHTML  = delta(fornCurr, fornPrev) || 'vs mese prec.';
+
+  // Concentrazione 80/20
+  renderConcentrazione(curr, totCurr);
+
+  // Distribuzione per tipo pagamento
+  renderTipoPagamento(curr, totCurr);
+
+  // Confronto mese precedente
+  renderConfrontoMese(curr, prev, mese, anno, mesePrecM, mesePrecA);
+
+  // Ranking fornitori
+  renderRankingFornitori(curr, totCurr);
+}
+
+function renderConcentrazione(curr, totCurr) {
+  const el = document.getElementById('analisi-concentrazione');
+  if (!curr.length) { el.innerHTML = `<div style="color:var(--text3);font-size:13px">Nessuna fattura nel mese</div>`; return; }
+
+  // Raggruppa per fornitore
+  const byForn = {};
+  curr.forEach(f => {
+    const k = f.piva || f.ragioneSociale;
+    if (!byForn[k]) byForn[k] = { ragione: f.ragioneSociale, tot: 0 };
+    byForn[k].tot += f.importo;
+  });
+  const lista = Object.values(byForn).sort((a, b) => b.tot - a.tot);
+
+  let cum = 0; let n80 = 0;
+  for (const f of lista) {
+    cum += f.tot;
+    n80++;
+    if (cum >= totCurr * 0.8) break;
+  }
+
+  const pct80 = ((n80 / lista.length) * 100).toFixed(0);
+  const isConcentrato = n80 <= Math.ceil(lista.length * 0.2);
+
+  el.innerHTML = `
+    <div style="text-align:center;padding:10px 0 16px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:42px;font-weight:700;color:${isConcentrato?'var(--danger)':'var(--warn)'};line-height:1">${n80}</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:4px">fornitore${n80>1?'i':''} su <strong>${lista.length}</strong> coprono l'80% della spesa</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:3px">(${pct80}% dei fornitori)</div>
+    </div>
+    <div style="background:var(--surface2);border-radius:6px;overflow:hidden;height:8px;margin-bottom:8px">
+      <div style="width:${pct80}%;height:100%;background:${isConcentrato?'var(--danger)':'var(--warn)'};border-radius:6px"></div>
+    </div>
+    <div style="font-size:11px;color:var(--text3)">${isConcentrato ? '⚠ Alta concentrazione: considera di diversificare i fornitori' : '✅ Buona distribuzione della spesa tra i fornitori'}</div>`;
+}
+
+function renderTipoPagamento(curr, totCurr) {
+  const el = document.getElementById('analisi-tipo-pag');
+  if (!curr.length) { el.innerHTML = `<div style="color:var(--text3);font-size:13px">Nessuna fattura nel mese</div>`; return; }
+
+  const byType = {};
+  curr.forEach(f => {
+    const cat = categoriaPagamento(f.modalitaPagamento);
+    if (!byType[cat]) byType[cat] = 0;
+    byType[cat] += f.importo;
+  });
+
+  const colori = { bonifico:'var(--accent2)', rid:'#f97316', riba:'#ec4899', contanti:'var(--green)', altro:'var(--text3)' };
+  const labels = { bonifico:'Bonifico', rid:'RID/SDD', riba:'Ri.Ba.', contanti:'Contanti', altro:'Altro' };
+
+  const rows = Object.entries(byType)
+    .sort((a, b) => b[1] - a[1])
+    .map(([cat, val]) => {
+      const pct = (val / totCurr * 100).toFixed(1);
+      return `
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span style="font-size:12px;color:${colori[cat]||'var(--text2)'};font-weight:600">${labels[cat]||cat}</span>
+            <span style="font-family:monospace;font-size:12px;font-weight:700">${fmtEur(val)} <span style="color:var(--text3);font-weight:400">(${pct}%)</span></span>
+          </div>
+          <div style="background:var(--surface2);border-radius:4px;overflow:hidden;height:6px">
+            <div style="width:${pct}%;height:100%;background:${colori[cat]||'var(--text3)'};border-radius:4px"></div>
+          </div>
+        </div>`;
+    }).join('');
+
+  el.innerHTML = rows;
+}
+
+function renderConfrontoMese(curr, prev, mese, anno, mesePrecM, mesePrecA) {
+  const el = document.getElementById('analisi-confronto-container');
+
+  const cats = ['bonifico','rid','riba','contanti','altro'];
+  const labels = { bonifico:'Bonifico', rid:'RID/SDD', riba:'Ri.Ba.', contanti:'Contanti', altro:'Altro' };
+  const colori  = { bonifico:'var(--accent2)', rid:'#f97316', riba:'#ec4899', contanti:'var(--green)', altro:'var(--text3)' };
+
+  const totByCatCurr = {}, totByCatPrev = {};
+  cats.forEach(c => { totByCatCurr[c] = 0; totByCatPrev[c] = 0; });
+  curr.forEach(f => { const c = categoriaPagamento(f.modalitaPagamento); totByCatCurr[c] = (totByCatCurr[c]||0) + f.importo; });
+  prev.forEach(f => { const c = categoriaPagamento(f.modalitaPagamento); totByCatPrev[c] = (totByCatPrev[c]||0) + f.importo; });
+
+  const activeCats = cats.filter(c => totByCatCurr[c] > 0 || totByCatPrev[c] > 0);
+  if (!activeCats.length) {
+    el.innerHTML = `<div style="color:var(--text3);font-size:13px">Nessuna fattura disponibile per il confronto</div>`;
+    return;
+  }
+
+  const maxVal = Math.max(...activeCats.flatMap(c => [totByCatCurr[c], totByCatPrev[c]]), 1);
+  const meseCurrLabel = `${MESI_IT[mese]} ${anno}`;
+  const mesePrecLabel = `${MESI_IT[mesePrecM]} ${mesePrecA}`;
+
+  const rows = activeCats.map(cat => {
+    const vc = totByCatCurr[cat]; const vp = totByCatPrev[cat];
+    const pc = (vc / maxVal * 100).toFixed(1); const pp = (vp / maxVal * 100).toFixed(1);
+    const diff = vc - vp;
+    const diffHtml = vp > 0 ? `<span style="font-size:11px;color:${diff > 0 ? 'var(--danger)' : 'var(--green)'}">
+      ${diff > 0 ? '▲' : '▼'} ${fmtEur(Math.abs(diff))}
+    </span>` : '';
+    return `
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span style="font-size:12px;font-weight:600;color:${colori[cat]}">${labels[cat]}</span>
+          ${diffHtml}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <span style="font-size:10px;color:var(--text3);min-width:70px">${meseCurrLabel}</span>
+          <div style="flex:1;background:var(--surface2);border-radius:4px;overflow:hidden;height:10px">
+            <div style="width:${pc}%;height:100%;background:${colori[cat]};border-radius:4px;opacity:.9"></div>
+          </div>
+          <span style="font-family:monospace;font-size:11px;min-width:80px;text-align:right;font-weight:700">${fmtEur(vc)}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:10px;color:var(--text3);min-width:70px">${mesePrecLabel}</span>
+          <div style="flex:1;background:var(--surface2);border-radius:4px;overflow:hidden;height:10px">
+            <div style="width:${pp}%;height:100%;background:${colori[cat]};border-radius:4px;opacity:.35"></div>
+          </div>
+          <span style="font-family:monospace;font-size:11px;min-width:80px;text-align:right;color:var(--text2)">${fmtEur(vp)}</span>
+        </div>
+      </div>`;
+  }).join('');
+
+  el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0 24px">${rows}</div>`;
+}
+
+// ---- RIPRISTINO AUTOMATICO ALL'AVVIO ----
+// ---- RIPRISTINO AUTOMATICO ALL'AVVIO ----
+document.addEventListener('DOMContentLoaded', () => {
+  ripristinaAutosave();
+});
+
+function renderRankingFornitori(curr, totCurr) {
+  const el = document.getElementById('analisi-fornitori-container');
+  if (!curr.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">🏆</div><h3>Nessuna fattura</h3><p>Nessuna scadenza nel mese selezionato</p></div>`;
+    return;
+  }
+
+  const byForn = {};
+  curr.forEach(f => {
+    const k = f.piva || f.ragioneSociale;
+    if (!byForn[k]) byForn[k] = { ragione: f.ragioneSociale, piva: f.piva||'', iban: f.iban||'', tot: 0, n: 0, fatture: [] };
+    byForn[k].tot += f.importo;
+    byForn[k].n++;
+    byForn[k].fatture.push(f.numero);
+  });
+
+  const lista = Object.values(byForn).sort((a, b) => b.tot - a.tot);
+  const maxTot = lista[0].tot;
+
+  const rows = lista.map((f, i) => {
+    const pct = (f.tot / totCurr * 100).toFixed(1);
+    const barPct = (f.tot / maxTot * 100).toFixed(1);
+    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `<span style="color:var(--text3);font-size:12px">${i+1}</span>`;
+    return `
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:10px 14px;text-align:center;width:40px">${medal}</td>
+        <td style="padding:10px 14px">
+          <div style="font-weight:600">${f.ragione}</div>
+          <div style="font-size:11px;color:var(--text2);font-family:monospace">${f.piva}</div>
+        </td>
+        <td style="padding:10px 14px;text-align:center;color:var(--text2);font-size:13px">${f.n}</td>
+        <td style="padding:10px 14px;min-width:200px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="flex:1;background:var(--surface2);border-radius:4px;overflow:hidden;height:8px">
+              <div style="width:${barPct}%;height:100%;background:var(--accent);border-radius:4px"></div>
+            </div>
+            <span style="font-family:monospace;font-size:13px;font-weight:700;min-width:90px;text-align:right">${fmtEur(f.tot)}</span>
+          </div>
+        </td>
+        <td style="padding:10px 14px;text-align:right;font-family:monospace;font-size:12px;color:var(--text2)">${pct}%</td>
+        <td style="padding:10px 14px;font-size:11px;color:var(--text3)">${f.iban ? f.iban.slice(0,16)+'…' : '—'}</td>
+      </tr>`;
+  }).join('');
+
+  el.innerHTML = `
+    <table style="width:100%;border-collapse:collapse;background:var(--surface);border-radius:10px;overflow:hidden;border:1px solid var(--border)">
+      <thead style="background:var(--surface2)">
+        <tr>
+          <th style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">#</th>
+          <th style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;text-align:left">Fornitore</th>
+          <th style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;text-align:center">N° Ft.</th>
+          <th style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">Importo</th>
+          <th style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;text-align:right">% mese</th>
+          <th style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">IBAN</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div style="padding:10px 0;text-align:right;font-size:12px;color:var(--text2)">
+      ${lista.length} fornitori · Totale: <strong style="font-family:monospace;color:var(--accent)">${fmtEur(totCurr)}</strong>
+    </div>`;
+}
+
+// ============================================================
+// EXPORT PANEL
+// ============================================================
+
+function renderExportPanel() {
+  aggiornaPreviewFatture();
+  aggiornaPreviewScad();
+  aggiornaPreviewRiepilogo();
+}
+
+// ---- Helpers ----
+function getColonneFatture() {
+  return [...document.querySelectorAll('#exp-col-checks input[type=checkbox]')]
+    .filter(c => c.checked)
+    .map(c => c.dataset.col);
+}
+
+const COLONNE_LABEL = {
+  numero: 'N° Fattura', data: 'Data documento', ragioneSociale: 'Fornitore',
+  piva: 'P.IVA / CF', dataScadenza: 'Data scadenza', importo: 'Importo (€)',
+  stato: 'Stato', modalitaPagamento: 'Tipo pagamento', iban: 'IBAN',
+  bic: 'BIC', dataPagamento: 'Data pagamento', filename: 'File sorgente'
+};
+
+function statoLabel(f) {
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+  let s = f.stato;
+  if (s === 'pending' && f.dataScadenza && new Date(f.dataScadenza) < oggi) s = 'overdue';
+  const m = { pending:'Da pagare', overdue:'Scaduta', paid:'Pagata', inbatch:'In distinta', nota_credito:'Nota credito' };
+  return m[s] || s;
+}
+
+function csvRow(arr) {
+  return arr.map(v => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`).join(';');
+}
+
+function downloadCSV(content, filename) {
+  download('\uFEFF' + content, filename, 'text/csv;charset=utf-8');
+}
+
+// ---- Filtro fatture per export ----
+function getFatturePerExport() {
+  const stato   = document.getElementById('exp-f-stato')?.value || 'all';
+  const scadDa  = document.getElementById('exp-f-scad-da')?.value || null;
+  const scadA   = document.getElementById('exp-f-scad-a')?.value  || null;
+  const soloSel = document.getElementById('exp-f-solo-sel')?.checked;
+  const oggi    = new Date(); oggi.setHours(0,0,0,0);
+
+  return fatture.filter(f => {
+    if (soloSel && !selectedIds.has(f.id)) return false;
+    if (stato === 'pending' && f.stato !== 'pending' && f.stato !== 'inbatch') return false;
+    if (stato === 'overdue') {
+      const isOv = (f.stato === 'pending' || f.stato === 'overdue') && f.dataScadenza && new Date(f.dataScadenza) < oggi;
+      if (!isOv && f.stato !== 'overdue') return false;
+    }
+    if (stato === 'paid' && f.stato !== 'paid') return false;
+    if (stato === 'nota_credito' && f.stato !== 'nota_credito') return false;
+    if (scadDa && f.dataScadenza && f.dataScadenza < scadDa) return false;
+    if (scadA  && f.dataScadenza && f.dataScadenza > scadA)  return false;
+    return true;
+  });
+}
+
+// ---- Preview fatture ----
+function aggiornaPreviewFatture() {
+  const list   = getFatturePerExport();
+  const colonne = getColonneFatture();
+  const totale = list.reduce((s, f) => s + (f.importo || 0), 0);
+  const el     = document.getElementById('exp-preview-fatture');
+  if (!el) return;
+
+  if (!list.length) {
+    el.innerHTML = `<span style="color:var(--text3);font-size:13px">⚠ Nessuna fattura corrisponde ai filtri selezionati</span>`;
+    document.getElementById('btn-exp-fatture').disabled = true;
+    return;
+  }
+  document.getElementById('btn-exp-fatture').disabled = false;
+
+  // mini tabella anteprima (prime 5 righe)
+  const preview = list.slice(0, 5);
+  const colsPreview = colonne.length ? colonne.slice(0, 6) : ['ragioneSociale','numero','dataScadenza','importo','stato'];
+  const thCells = colsPreview.map(c => `<th style="padding:5px 10px;font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap">${COLONNE_LABEL[c]||c}</th>`).join('');
+  const rows = preview.map(f => {
+    const cells = colsPreview.map(c => {
+      let v = f[c];
+      if (c === 'importo') v = fmtEur(v);
+      else if (c === 'data' || c === 'dataScadenza' || c === 'dataPagamento') v = fmtDate(v);
+      else if (c === 'stato') v = statoLabel(f);
+      return `<td style="padding:5px 10px;font-size:12px;white-space:nowrap;font-family:'IBM Plex Mono',monospace">${v||'—'}</td>`;
+    }).join('');
+    return `<tr style="border-bottom:1px solid var(--border)">${cells}</tr>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div style="width:100%">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:10px;flex-wrap:wrap">
+        <span style="font-size:13px;color:var(--text)"><strong style="color:var(--accent);font-family:monospace">${list.length}</strong> fatture · Totale: <strong style="font-family:monospace">${fmtEur(totale)}</strong></span>
+        <span style="font-size:11px;color:var(--text3)">${colonne.length} colonne selezionate</span>
+        ${list.length > 5 ? `<span style="font-size:11px;color:var(--text3);font-style:italic">Anteprima prime 5 righe su ${list.length}</span>` : ''}
+      </div>
+      <div style="overflow-x:auto;border-radius:6px;border:1px solid var(--border)">
+        <table style="width:100%;border-collapse:collapse;background:var(--surface)">
+          <thead style="background:var(--surface2)"><tr>${thCells}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+// ---- Export fatture CSV ----
+function esportaFattureCSV() {
+  const list    = getFatturePerExport();
+  const colonne = getColonneFatture();
+  if (!list.length) { toast('⚠ Nessuna fattura da esportare', 'error'); return; }
+  if (!colonne.length) { toast('⚠ Seleziona almeno una colonna', 'error'); return; }
+
+  const header = colonne.map(c => COLONNE_LABEL[c] || c);
+  const rows = list.map(f => colonne.map(c => {
+    if (c === 'importo')      return f.importo?.toFixed(2) ?? '';
+    if (c === 'stato')        return statoLabel(f);
+    if (c === 'data' || c === 'dataScadenza' || c === 'dataPagamento') return fmtDate(f[c]);
+    if (c === 'modalitaPagamento') return MP_LABEL[f[c]] || f[c] || '';
+    return f[c] ?? '';
+  }));
+
+  const csv = [header, ...rows].map(r => csvRow(r)).join('\r\n');
+  const stato = document.getElementById('exp-f-stato').value;
+  downloadCSV(csv, `fatture_${stato}_${new Date().toISOString().slice(0,10)}.csv`);
+  toast(`📊 Esportate ${list.length} fatture (${colonne.length} colonne)`, 'success');
+}
+
+// ---- Preview scadenzario ----
+function aggiornaPreviewScad() {
+  const da      = document.getElementById('exp-s-da')?.value  || null;
+  const a       = document.getElementById('exp-s-a')?.value   || null;
+  const pagate  = document.getElementById('exp-s-pagate')?.checked;
+  const el      = document.getElementById('exp-preview-scad');
+  if (!el) return;
+
+  if (!da || !a) {
+    el.innerHTML = `<span style="color:var(--text3);font-size:13px">Imposta un intervallo di date per vedere l'anteprima</span>`;
+    return;
+  }
+
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+  const list = fatture.filter(f => {
+    if (!pagate && f.stato === 'paid') return false;
+    if (f.isNotaCredito) return false;
+    if (!f.dataScadenza) return false;
+    return f.dataScadenza >= da && f.dataScadenza <= a;
+  }).sort((a, b) => a.dataScadenza.localeCompare(b.dataScadenza));
+
+  if (!list.length) {
+    el.innerHTML = `<span style="color:var(--text3);font-size:13px">⚠ Nessuna scadenza nel periodo selezionato</span>`;
+    return;
+  }
+
+  const totale = list.reduce((s, f) => s + f.importo, 0);
+  const daPagare = list.filter(f => f.stato !== 'paid').reduce((s, f) => s + f.importo, 0);
+
+  el.innerHTML = `
+    <div style="display:flex;gap:24px;flex-wrap:wrap">
+      <div><div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:3px">Scadenze trovate</div>
+        <div style="font-family:monospace;font-size:20px;font-weight:700;color:var(--accent)">${list.length}</div></div>
+      <div><div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:3px">Totale periodo</div>
+        <div style="font-family:monospace;font-size:20px;font-weight:700;color:var(--text)">${fmtEur(totale)}</div></div>
+      <div><div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:3px">Da pagare</div>
+        <div style="font-family:monospace;font-size:20px;font-weight:700;color:var(--warn)">${fmtEur(daPagare)}</div></div>
+      <div><div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:3px">Fornitori coinvolti</div>
+        <div style="font-family:monospace;font-size:20px;font-weight:700;color:var(--accent2)">${new Set(list.map(f=>f.piva||f.ragioneSociale)).size}</div></div>
+    </div>`;
+}
+
+// ---- Export scadenzario CSV ----
+function esportaScadenzarioCSV() {
+  const da     = document.getElementById('exp-s-da')?.value  || null;
+  const a      = document.getElementById('exp-s-a')?.value   || null;
+  const pagate = document.getElementById('exp-s-pagate')?.checked;
+
+  if (!da || !a) { toast('⚠ Imposta un intervallo di date', 'error'); return; }
+
+  const list = fatture.filter(f => {
+    if (!pagate && f.stato === 'paid') return false;
+    if (f.isNotaCredito) return false;
+    if (!f.dataScadenza) return false;
+    return f.dataScadenza >= da && f.dataScadenza <= a;
+  }).sort((a, b) => a.dataScadenza.localeCompare(b.dataScadenza));
+
+  if (!list.length) { toast('⚠ Nessuna scadenza nel periodo selezionato', 'error'); return; }
+
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+  const header = ['Data scadenza','Giorni','Fornitore','P.IVA','N° Fattura','Tipo pagamento','IBAN','Importo (€)','Stato'];
+  const rows = list.map(f => {
+    const scad = new Date(f.dataScadenza); scad.setHours(0,0,0,0);
+    const diff = Math.round((scad - oggi) / (1000*60*60*24));
+    const diffTxt = diff < 0 ? `scaduta ${Math.abs(diff)}gg fa` : diff === 0 ? 'oggi' : `tra ${diff}gg`;
+    return [
+      fmtDate(f.dataScadenza), diffTxt, f.ragioneSociale, f.piva||'',
+      f.numero, MP_LABEL[f.modalitaPagamento]||f.modalitaPagamento||'',
+      f.iban||'', f.importo?.toFixed(2)??'', statoLabel(f)
+    ];
+  });
+
+  const csv = [header, ...rows].map(r => csvRow(r)).join('\r\n');
+  downloadCSV(csv, `scadenzario_${da}_${a}.csv`);
+  toast(`📊 Scadenzario esportato: ${list.length} righe`, 'success');
+}
+
+// ---- Preview riepilogo fornitori ----
+function aggiornaPreviewRiepilogo() {
+  const statoFiltro = document.getElementById('exp-r-stato')?.value || 'all';
+  const sortBy      = document.getElementById('exp-r-sort')?.value  || 'importo';
+  const el          = document.getElementById('exp-preview-riepilogo');
+  if (!el) return;
+
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+  let dataset = fatture.filter(f => !f.isNotaCredito);
+  if (statoFiltro === 'open')  dataset = dataset.filter(f => f.stato === 'pending' || f.stato === 'inbatch' || f.stato === 'overdue');
+  if (statoFiltro === 'paid')  dataset = dataset.filter(f => f.stato === 'paid');
+
+  // Raggruppa per fornitore (P.IVA o ragione sociale)
+  const map = {};
+  dataset.forEach(f => {
+    const key = f.piva || f.ragioneSociale;
+    if (!map[key]) map[key] = { ragione: f.ragioneSociale, piva: f.piva||'', iban: f.iban||'', count: 0, totale: 0, pagate: 0, aperte: 0 };
+    map[key].count++;
+    map[key].totale += f.importo;
+    if (f.stato === 'paid') map[key].pagate += f.importo;
+    else map[key].aperte += f.importo;
+    if (!map[key].iban && f.iban) map[key].iban = f.iban;
+  });
+
+  let lista = Object.values(map);
+  if (sortBy === 'importo') lista.sort((a, b) => b.totale - a.totale);
+  else if (sortBy === 'nome') lista.sort((a, b) => a.ragione.localeCompare(b.ragione));
+  else if (sortBy === 'count') lista.sort((a, b) => b.count - a.count);
+
+  if (!lista.length) {
+    el.innerHTML = `<span style="color:var(--text3);font-size:13px">⚠ Nessun fornitore trovato con i filtri selezionati</span>`;
+    return;
+  }
+
+  const thStyle = 'padding:7px 12px;font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;background:var(--surface2)';
+  const tdStyle = 'padding:8px 12px;font-size:12px;font-family:"IBM Plex Mono",monospace';
+
+  const rows = lista.slice(0, 8).map((f, i) => `
+    <tr style="border-bottom:1px solid var(--border)${i%2===1?';background:var(--surface2)':''}">
+      <td style="${tdStyle}">${f.ragione}</td>
+      <td style="${tdStyle};color:var(--text2)">${f.piva||'—'}</td>
+      <td style="${tdStyle};text-align:center">${f.count}</td>
+      <td style="${tdStyle};color:var(--accent);font-weight:700">${fmtEur(f.totale)}</td>
+      <td style="${tdStyle};color:var(--warn)">${fmtEur(f.aperte)}</td>
+      <td style="${tdStyle};color:var(--green)">${fmtEur(f.pagate)}</td>
+      <td style="${tdStyle};font-size:11px;color:var(--text3)">${f.iban ? f.iban.slice(0,16)+'…' : '—'}</td>
+    </tr>`).join('');
+
+  el.innerHTML = `
+    <div style="margin-bottom:10px;font-size:13px;color:var(--text)">
+      <strong style="color:var(--accent);font-family:monospace">${lista.length}</strong> fornitori ·
+      Totale: <strong style="font-family:monospace">${fmtEur(lista.reduce((s,f)=>s+f.totale,0))}</strong>
+      ${lista.length > 8 ? `<span style="color:var(--text3);font-size:11px;font-style:italic"> · Anteprima prime 8 righe su ${lista.length}</span>` : ''}
+    </div>
+    <div style="overflow-x:auto;border-radius:6px;border:1px solid var(--border)">
+      <table style="width:100%;border-collapse:collapse;background:var(--surface)">
+        <thead><tr>
+          <th style="${thStyle}">Fornitore</th>
+          <th style="${thStyle}">P.IVA</th>
+          <th style="${thStyle};text-align:center">N° Ft.</th>
+          <th style="${thStyle}">Totale</th>
+          <th style="${thStyle}">Aperte</th>
+          <th style="${thStyle}">Pagate</th>
+          <th style="${thStyle}">IBAN</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+// ---- Export riepilogo fornitori CSV ----
+function esportaRiepilogoCSV() {
+  const statoFiltro = document.getElementById('exp-r-stato')?.value || 'all';
+  const sortBy      = document.getElementById('exp-r-sort')?.value  || 'importo';
+  const oggi        = new Date(); oggi.setHours(0,0,0,0);
+
+  let dataset = fatture.filter(f => !f.isNotaCredito);
+  if (statoFiltro === 'open') dataset = dataset.filter(f => f.stato === 'pending' || f.stato === 'inbatch' || f.stato === 'overdue');
+  if (statoFiltro === 'paid') dataset = dataset.filter(f => f.stato === 'paid');
+
+  const map = {};
+  dataset.forEach(f => {
+    const key = f.piva || f.ragioneSociale;
+    if (!map[key]) map[key] = { ragione: f.ragioneSociale, piva: f.piva||'', cf: f.cf||'', iban: f.iban||'', bic: f.bic||'', count: 0, totale: 0, pagate: 0, aperte: 0, primaScad: null, ultimaScad: null };
+    const m = map[key];
+    m.count++;
+    m.totale += f.importo;
+    if (f.stato === 'paid') m.pagate += f.importo; else m.aperte += f.importo;
+    if (!m.iban && f.iban) { m.iban = f.iban; m.bic = f.bic||''; }
+    if (f.dataScadenza) {
+      if (!m.primaScad || f.dataScadenza < m.primaScad) m.primaScad = f.dataScadenza;
+      if (!m.ultimaScad || f.dataScadenza > m.ultimaScad) m.ultimaScad = f.dataScadenza;
+    }
+  });
+
+  let lista = Object.values(map);
+  if (!lista.length) { toast('⚠ Nessun dato da esportare', 'error'); return; }
+  if (sortBy === 'importo') lista.sort((a, b) => b.totale - a.totale);
+  else if (sortBy === 'nome') lista.sort((a, b) => a.ragione.localeCompare(b.ragione));
+  else if (sortBy === 'count') lista.sort((a, b) => b.count - a.count);
+
+  const header = ['Fornitore','P.IVA','Cod. Fiscale','N° Fatture','Totale (€)','Da pagare (€)','Pagate (€)','IBAN','BIC','Prima scadenza','Ultima scadenza'];
+  const rows = lista.map(f => [
+    f.ragione, f.piva, f.cf, f.count,
+    f.totale.toFixed(2), f.aperte.toFixed(2), f.pagate.toFixed(2),
+    f.iban, f.bic,
+    fmtDate(f.primaScad), fmtDate(f.ultimaScad)
+  ]);
+
+  const csv = [header, ...rows].map(r => csvRow(r)).join('\r\n');
+  downloadCSV(csv, `riepilogo_fornitori_${new Date().toISOString().slice(0,10)}.csv`);
+  toast(`📊 Riepilogo ${lista.length} fornitori esportato`, 'success');
+}
 </script>
 </body>
 </html>
