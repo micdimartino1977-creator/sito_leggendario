@@ -1,6 +1,6 @@
 {
   "_versione": "1.1",
-  "_salvato": "2026-03-13T16:22:28.110Z",
+  "_salvato": "2026-03-13T16:25:37.860Z",
   "ordinante": {
     "ragione": "AL PELLEGRINO SRL",
     "piva": "00347630311",
@@ -19228,7 +19228,7 @@
       "cap": "34100",
       "citta": "TRIESTE",
       "prov": "TS",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19250,7 +19250,7 @@
       "cap": "33035",
       "citta": "MARTIGNACCO",
       "prov": "UD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19272,7 +19272,7 @@
       "cap": "33082",
       "citta": "AZZANO DECIMO",
       "prov": "PN",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19294,7 +19294,7 @@
       "cap": "37030",
       "citta": "Vago di Lavagno",
       "prov": "VR",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19316,7 +19316,7 @@
       "cap": "31010",
       "citta": "CIMADOLMO",
       "prov": "TV",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19338,7 +19338,7 @@
       "cap": "41122",
       "citta": "MODENA",
       "prov": "MO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19360,7 +19360,7 @@
       "cap": "33100",
       "citta": "UDINE",
       "prov": "UD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19382,7 +19382,7 @@
       "cap": "34074",
       "citta": "MONFALCONE",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19404,7 +19404,7 @@
       "cap": "34074",
       "citta": "MONFALCONE",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19426,7 +19426,7 @@
       "cap": "34074",
       "citta": "MONFALCONE",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19448,7 +19448,7 @@
       "cap": "34074",
       "citta": "MONFALCONE",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19470,7 +19470,7 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19492,7 +19492,7 @@
       "cap": "47027",
       "citta": "SARSINA",
       "prov": "FC",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19514,7 +19514,7 @@
       "cap": "37030",
       "citta": "Vago di Lavagno",
       "prov": "VR",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19536,7 +19536,7 @@
       "cap": "33080",
       "citta": "Zoppola",
       "prov": "PN",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19558,7 +19558,7 @@
       "cap": "34070",
       "citta": "VILLESSE",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19580,7 +19580,7 @@
       "cap": "84010",
       "citta": "RAVELLO",
       "prov": "SA",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19602,7 +19602,7 @@
       "cap": "35030",
       "citta": "RUBANO",
       "prov": "PD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19624,7 +19624,7 @@
       "cap": "34147",
       "citta": "TRIESTE",
       "prov": "",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19669,7 +19669,7 @@
       "cap": "35030",
       "citta": "RUBANO",
       "prov": "PD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19691,7 +19691,7 @@
       "cap": "34070",
       "citta": "VILLESSE",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19713,7 +19713,7 @@
       "cap": "34072",
       "citta": "GRADISCA D'ISONZO",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19735,7 +19735,7 @@
       "cap": "34077",
       "citta": "RONCHI DEI LEGIONARI",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19757,7 +19757,7 @@
       "cap": "35129",
       "citta": "PADOVA",
       "prov": "PD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19779,7 +19779,7 @@
       "cap": "80049",
       "citta": "SOMMA VESUVIANA",
       "prov": "NA",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19801,7 +19801,7 @@
       "cap": "34170",
       "citta": "Gorizia",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19823,7 +19823,7 @@
       "cap": "30028",
       "citta": "SAN MICHELE AL TAGLIAMENTO",
       "prov": "VE",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19845,7 +19845,7 @@
       "cap": "36040",
       "citta": "TORRI DI QUARTESOLO",
       "prov": "VI",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19867,7 +19867,7 @@
       "cap": "40067",
       "citta": "PIANORO",
       "prov": "BO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19889,7 +19889,7 @@
       "cap": "40067",
       "citta": "PIANORO",
       "prov": "BO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19911,7 +19911,7 @@
       "cap": "20121",
       "citta": "Milano",
       "prov": "MI",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19933,7 +19933,7 @@
       "cap": "34074",
       "citta": "Monfalcone",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19955,7 +19955,7 @@
       "cap": "33050",
       "citta": "Carlino",
       "prov": "UD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19977,7 +19977,7 @@
       "cap": "47921",
       "citta": "RIMINI",
       "prov": "RN",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -19999,7 +19999,7 @@
       "cap": "34170",
       "citta": "GORIZIA",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20021,7 +20021,7 @@
       "cap": "34170",
       "citta": "GORIZIA",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20043,7 +20043,7 @@
       "cap": "31046",
       "citta": "ODERZO",
       "prov": "TV",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20065,7 +20065,7 @@
       "cap": "33037",
       "citta": "PASIAN DI PRATO",
       "prov": "UD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20087,7 +20087,7 @@
       "cap": "31046",
       "citta": "ODERZO",
       "prov": "TV",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20109,7 +20109,7 @@
       "cap": "84010",
       "citta": "RAVELLO",
       "prov": "SA",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20131,7 +20131,7 @@
       "cap": "33050",
       "citta": "TORVISCOSA",
       "prov": "UD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20153,7 +20153,7 @@
       "cap": "33047",
       "citta": "REMANZACCO",
       "prov": "UD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20175,7 +20175,7 @@
       "cap": "34072",
       "citta": "GRADISCA D ISONZO",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20197,7 +20197,7 @@
       "cap": "20132",
       "citta": "MILANO",
       "prov": "MI",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20219,7 +20219,7 @@
       "cap": "33082",
       "citta": "AZZANO DECIMO",
       "prov": "PN",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20241,7 +20241,7 @@
       "cap": "95123",
       "citta": "CATANIA",
       "prov": "CT",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20263,7 +20263,7 @@
       "cap": "95123",
       "citta": "CATANIA",
       "prov": "CT",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20285,7 +20285,7 @@
       "cap": "34074",
       "citta": "Monfalcone",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20307,7 +20307,7 @@
       "cap": "00193",
       "citta": "ROMA",
       "prov": "RM",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20352,7 +20352,7 @@
       "cap": "55011",
       "citta": "ALTOPASCIO",
       "prov": "LU",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20374,7 +20374,7 @@
       "cap": "28100",
       "citta": "Novara",
       "prov": "",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20396,7 +20396,7 @@
       "cap": "28100",
       "citta": "Novara",
       "prov": "",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20418,7 +20418,7 @@
       "cap": "28100",
       "citta": "Novara",
       "prov": "",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20440,7 +20440,7 @@
       "cap": "28100",
       "citta": "Novara",
       "prov": "",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20462,7 +20462,7 @@
       "cap": "95129",
       "citta": "Catania",
       "prov": "CT",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20484,7 +20484,7 @@
       "cap": "95129",
       "citta": "Catania",
       "prov": "CT",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20506,7 +20506,7 @@
       "cap": "34170",
       "citta": "GORIZIA",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20528,7 +20528,7 @@
       "cap": "36031",
       "citta": "DUEVILLE",
       "prov": "VI",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20550,7 +20550,7 @@
       "cap": "36031",
       "citta": "DUEVILLE",
       "prov": "VI",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20572,7 +20572,7 @@
       "cap": "30174",
       "citta": "VENEZIA",
       "prov": "VE",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20594,7 +20594,7 @@
       "cap": "43122",
       "citta": "Parma",
       "prov": "PR",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20616,7 +20616,7 @@
       "cap": "00172",
       "citta": "ROMA",
       "prov": "RM",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20638,7 +20638,7 @@
       "cap": "33082",
       "citta": "AZZANO DECIMO",
       "prov": "PN",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20660,7 +20660,7 @@
       "cap": "80134",
       "citta": "Napoli",
       "prov": "NA",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20682,7 +20682,7 @@
       "cap": "35030",
       "citta": "RUBANO",
       "prov": "PD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20704,7 +20704,7 @@
       "cap": "31023",
       "citta": "RESANA",
       "prov": "TV",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20726,7 +20726,7 @@
       "cap": "39011",
       "citta": "LANA",
       "prov": "BZ",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20748,7 +20748,7 @@
       "cap": "30174",
       "citta": "VENEZIA",
       "prov": "VE",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20770,7 +20770,7 @@
       "cap": "20045",
       "citta": "LAINATE",
       "prov": "MI",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20792,7 +20792,7 @@
       "cap": "34170",
       "citta": "GORIZIA",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20814,7 +20814,7 @@
       "cap": "37050",
       "citta": "BELFIORE",
       "prov": "VR",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20836,7 +20836,7 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20858,7 +20858,7 @@
       "cap": "55011",
       "citta": "ALTOPASCIO",
       "prov": "LU",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20880,7 +20880,7 @@
       "cap": "33010",
       "citta": "Pagnacco",
       "prov": "UD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20902,7 +20902,7 @@
       "cap": "34170",
       "citta": "GORIZIA",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20924,7 +20924,7 @@
       "cap": "34170",
       "citta": "GORIZIA",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20969,7 +20969,7 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -20991,7 +20991,7 @@
       "cap": "66015",
       "citta": "FARA SAN MARTINO",
       "prov": "CH",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21013,7 +21013,7 @@
       "cap": "50041",
       "citta": "CALENZANO",
       "prov": "FI",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21035,7 +21035,7 @@
       "cap": "33100",
       "citta": "UDINE",
       "prov": "UD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21057,7 +21057,7 @@
       "cap": "36031",
       "citta": "DUEVILLE",
       "prov": "VI",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21079,7 +21079,7 @@
       "cap": "30174",
       "citta": "VENEZIA",
       "prov": "VE",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21101,7 +21101,7 @@
       "cap": "34170",
       "citta": "GORIZIA",
       "prov": "GO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21123,7 +21123,7 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21145,7 +21145,7 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21167,7 +21167,7 @@
       "cap": "40069",
       "citta": "ZOLA PREDOSA",
       "prov": "BO",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21189,7 +21189,7 @@
       "cap": "25030",
       "citta": "Maclodio",
       "prov": "BS",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21211,7 +21211,7 @@
       "cap": "25030",
       "citta": "Maclodio",
       "prov": "BS",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21233,7 +21233,7 @@
       "cap": "35018",
       "citta": "SAN MARTINO DI LUPARI",
       "prov": "PD",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21255,7 +21255,7 @@
       "cap": "50041",
       "citta": "CALENZANO",
       "prov": "FI",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21277,7 +21277,7 @@
       "cap": "04100",
       "citta": "Latina",
       "prov": "LT",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21299,7 +21299,7 @@
       "cap": "20132",
       "citta": "MILANO",
       "prov": "MI",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21321,7 +21321,7 @@
       "cap": "33082",
       "citta": "AZZANO DECIMO",
       "prov": "PN",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21343,7 +21343,7 @@
       "cap": "24060",
       "citta": "COSTA DI MEZZATE",
       "prov": "BG",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21365,7 +21365,7 @@
       "cap": "24060",
       "citta": "COSTA DI MEZZATE",
       "prov": "BG",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21387,7 +21387,7 @@
       "cap": "55011",
       "citta": "ALTOPASCIO",
       "prov": "LU",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     },
     {
@@ -21409,7 +21409,7 @@
       "cap": "55011",
       "citta": "ALTOPASCIO",
       "prov": "LU",
-      "stato": "pending",
+      "stato": "overdue",
       "dataPagamento": null
     }
   ],
