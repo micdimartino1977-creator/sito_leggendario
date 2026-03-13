@@ -196,6 +196,9 @@
   <div class="tab active" onclick="switchTab('overview')">📊 Overview</div>
   <div class="tab" onclick="switchTab('fatture')">📋 Fatture <span class="tab-n" id="tn-fatture">0</span></div>
   <div class="tab" onclick="switchTab('scadenzario')">📅 Scadenzario <span class="tab-n warn" id="tn-scad">0</span></div>
+  <div class="tab" onclick="switchTab('calendario')">🗓 Calendario</div>
+  <div class="tab" onclick="switchTab('concentrazione')">🎯 Pareto Fornitori</div>
+  <div class="tab" onclick="switchTab('forecast')">🔮 Forecast 3 Mesi</div>
   <div class="tab" onclick="switchTab('flussi')">📈 Flussi Mensili</div>
   <div class="tab" onclick="switchTab('liquidita')">💰 Liquidità</div>
   <div class="tab" onclick="switchTab('analisi')">🔍 Analisi Mese</div>
@@ -254,6 +257,109 @@
       <button class="filter-btn" onclick="setFiltroScad('paid',this)">✅ Pagate</button>
     </div>
     <div id="scad-container"></div>
+  </div>
+
+
+  <!-- ══ CALENDARIO SCADENZE ══ -->
+  <div class="panel" id="panel-calendario">
+    <div class="month-nav">
+      <button class="btn-sm" onclick="calNav(-1)">‹</button>
+      <select id="cal-mese-sel" onchange="renderCalendario()"></select>
+      <select id="cal-anno-sel" onchange="renderCalendario()"></select>
+      <button class="btn-sm" onclick="calNav(+1)">›</button>
+      <button class="btn-sm" onclick="calOggi()">Oggi</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
+      <div class="kpi"><div class="kpi-label">Totale mese</div><div class="kpi-val warn" id="cal-k-tot">€ 0</div><div class="kpi-sub" id="cal-k-n">0 fatture</div></div>
+      <div class="kpi"><div class="kpi-label">Giorno di picco</div><div class="kpi-val danger" id="cal-k-picco">—</div><div class="kpi-sub" id="cal-k-picco-v">€ 0</div></div>
+      <div class="kpi"><div class="kpi-label">Giorni con scadenze</div><div class="kpi-val accent" id="cal-k-giorni">0</div><div class="kpi-sub">nel mese</div></div>
+      <div class="kpi"><div class="kpi-label">Scadute nel mese</div><div class="kpi-val" id="cal-k-ov" style="color:var(--danger)">0</div><div class="kpi-sub" id="cal-k-ov-v">€ 0</div></div>
+    </div>
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-head" id="cal-title">Calendario scadenze</div>
+      <div id="cal-grid" style="padding:14px 16px"></div>
+    </div>
+    <div id="cal-day-detail" style="display:none" class="card">
+      <div class="card-head">
+        <span id="cal-det-title">—</span>
+        <button class="btn-sm" onclick="document.getElementById('cal-day-detail').style.display='none'">✕</button>
+      </div>
+      <div id="cal-det-body" style="padding:0"></div>
+    </div>
+  </div>
+
+  <!-- ══ CONCENTRAZIONE FORNITORI (PARETO) ══ -->
+  <div class="panel" id="panel-concentrazione">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
+      <div class="kpi"><div class="kpi-label">Fornitori totali</div><div class="kpi-val accent" id="par-k-tot">0</div><div class="kpi-sub">con fatture</div></div>
+      <div class="kpi"><div class="kpi-label">Coprono 80% spesa</div><div class="kpi-val warn" id="par-k-80">0</div><div class="kpi-sub" id="par-k-80-pct">fornitori</div></div>
+      <div class="kpi"><div class="kpi-label">Fornitore n°1</div><div class="kpi-val" id="par-k-top" style="font-size:14px;color:var(--text)">—</div><div class="kpi-sub" id="par-k-top-pct">—</div></div>
+      <div class="kpi"><div class="kpi-label">Top 3 coprono</div><div class="kpi-val danger" id="par-k-top3">0%</div><div class="kpi-sub">della spesa totale</div></div>
+    </div>
+    <div class="grid2" style="margin-bottom:18px">
+      <div class="card">
+        <div class="card-head">Curva di Pareto — concentrazione spesa</div>
+        <div style="padding:14px 16px;position:relative;height:280px">
+          <canvas id="par-chart-pareto"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">Distribuzione quote — top 10</div>
+        <div style="padding:14px 16px;position:relative;height:280px">
+          <canvas id="par-chart-donut"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Ranking completo fornitori</div>
+      <div style="overflow-x:auto">
+        <table class="tbl-wrap" style="width:100%;border-collapse:collapse;font-size:12px" id="par-tbl">
+          <thead style="background:var(--surface2)"><tr>
+            <th style="padding:8px 12px;text-align:left;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">#</th>
+            <th style="padding:8px 12px;text-align:left;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">Fornitore</th>
+            <th style="padding:8px 12px;text-align:right;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">Importo</th>
+            <th style="padding:8px 12px;text-align:right;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">% singolo</th>
+            <th style="padding:8px 12px;text-align:right;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">% cumulato</th>
+            <th style="padding:8px 12px;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">Quota visiva</th>
+          </tr></thead>
+          <tbody id="par-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FORECAST 3 MESI ══ -->
+  <div class="panel" id="panel-forecast">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
+      <div class="kpi"><div class="kpi-label">Forecast mese +1</div><div class="kpi-val warn" id="fc-k-m1">€ 0</div><div class="kpi-sub" id="fc-k-m1-lbl">—</div></div>
+      <div class="kpi"><div class="kpi-label">Forecast mese +2</div><div class="kpi-val warn" id="fc-k-m2">€ 0</div><div class="kpi-sub" id="fc-k-m2-lbl">—</div></div>
+      <div class="kpi"><div class="kpi-label">Forecast mese +3</div><div class="kpi-val warn" id="fc-k-m3">€ 0</div><div class="kpi-sub" id="fc-k-m3-lbl">—</div></div>
+      <div class="kpi"><div class="kpi-label">Totale 3 mesi</div><div class="kpi-val accent" id="fc-k-tot">€ 0</div><div class="kpi-sub">spesa prevista</div></div>
+    </div>
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-head">
+        <span>Storico + Forecast — spesa mensile con intervallo di confidenza</span>
+        <div style="display:flex;gap:12px;font-size:11px;color:var(--text2)">
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:24px;height:3px;background:#00d4aa;display:inline-block;border-radius:2px"></span>Storico</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:24px;height:3px;background:#4f8aff;display:inline-block;border-radius:2px;border:1px dashed #4f8aff"></span>Forecast</span>
+        </div>
+      </div>
+      <div style="padding:14px 16px;position:relative;height:300px">
+        <canvas id="fc-chart-main"></canvas>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head">Top 10 fornitori — spesa prevista mese +1</div>
+        <div id="fc-top-forn" style="padding:0"></div>
+      </div>
+      <div class="card">
+        <div class="card-head">Variazione attesa vs storico</div>
+        <div style="padding:14px 16px;position:relative;height:260px">
+          <canvas id="fc-chart-var"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ══ FLUSSI MENSILI ══ -->
@@ -501,7 +607,7 @@ function toggleTheme() {
 
 // ── TABS ───────────────────────────────────────
 function switchTab(name) {
-  const tabs = ['overview','fatture','scadenzario','flussi','liquidita','analisi','fornitori','rubrica'];
+  const tabs = ['overview','fatture','scadenzario','calendario','concentrazione','forecast','flussi','liquidita','analisi','fornitori','rubrica'];
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', tabs[i]===name));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
@@ -510,7 +616,10 @@ function switchTab(name) {
   if (name==='analisi')   { initMeseSelettori('analisi'); renderAnalisi(); }
   if (name==='fornitori') renderAnalisiFor();
   if (name==='rubrica')   renderRubrica();
-  if (name==='scadenzario') renderScadenzario();
+  if (name==='scadenzario')    renderScadenzario();
+  if (name==='calendario')     renderCalendario();
+  if (name==='concentrazione') renderConcentrazione();
+  if (name==='forecast')       renderForecast();
 }
 
 // ── LOAD DATA ──────────────────────────────────
@@ -1313,6 +1422,388 @@ function drawAfDetChart(f, mesiLabels, mesiProiezLabels) {
   ctx.fillStyle=textCol; ctx.font='9px IBM Plex Mono,monospace'; ctx.textAlign='center';
   const step=Math.max(1,Math.floor(allMesi.length/8));
   allMesi.forEach((mk,i)=>{ if(i%step===0) ctx.fillText(mkLabel(mk),sX(i),H-PAD.bottom+12); });
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// CALENDARIO SCADENZE
+// ═══════════════════════════════════════════════════════════════
+function calInitSel() {
+  const sm = document.getElementById('cal-mese-sel');
+  const sa = document.getElementById('cal-anno-sel');
+  if (sm.options.length) return;
+  const now = new Date();
+  MESI_IT.forEach((m,i) => { const o=document.createElement('option'); o.value=i; o.textContent=m; if(i===now.getMonth()) o.selected=true; sm.appendChild(o); });
+  const years = [...new Set(fatture.map(f=>f.dataScadenza?new Date(f.dataScadenza+'T00:00:00').getFullYear():null).filter(Boolean))];
+  const yr = now.getFullYear();
+  [...new Set([...years,yr-1,yr,yr+1])].sort().forEach(y => { const o=document.createElement('option'); o.value=y; o.textContent=y; if(y===yr) o.selected=true; sa.appendChild(o); });
+}
+function calNav(d) {
+  const sm=document.getElementById('cal-mese-sel'), sa=document.getElementById('cal-anno-sel');
+  let m=parseInt(sm.value)+d, a=parseInt(sa.value);
+  if(m<0){m=11;a--;} if(m>11){m=0;a++;}
+  sm.value=m; sa.value=a; renderCalendario();
+}
+function calOggi() {
+  document.getElementById('cal-mese-sel').value=new Date().getMonth();
+  document.getElementById('cal-anno-sel').value=new Date().getFullYear();
+  renderCalendario();
+}
+
+function renderCalendario() {
+  calInitSel();
+  const mese = parseInt(document.getElementById('cal-mese-sel').value);
+  const anno = parseInt(document.getElementById('cal-anno-sel').value);
+  document.getElementById('cal-title').textContent = `Calendario — ${MESI_IT[mese]} ${anno}`;
+
+  const inMese = fatture.filter(f => {
+    if (!f.dataScadenza || f.isNotaCredito) return false;
+    const d = new Date(f.dataScadenza+'T00:00:00');
+    return d.getFullYear()===anno && d.getMonth()===mese;
+  });
+
+  const byDay = {};
+  inMese.forEach(f => {
+    const d = new Date(f.dataScadenza+'T00:00:00').getDate();
+    if (!byDay[d]) byDay[d] = [];
+    byDay[d].push(f);
+  });
+
+  const totMese = inMese.reduce((s,f)=>s+f.importo,0);
+  const nMese   = inMese.length;
+  const ovMese  = inMese.filter(f=>statoEff(f)==='overdue');
+  const giorni  = Object.keys(byDay).length;
+
+  let piccoGiorno = 0, piccoDat = null;
+  Object.entries(byDay).forEach(([d,fs]) => {
+    const t = fs.reduce((s,f)=>s+f.importo,0);
+    if (t > piccoGiorno) { piccoGiorno = t; piccoDat = parseInt(d); }
+  });
+
+  document.getElementById('cal-k-tot').textContent   = eur(totMese);
+  document.getElementById('cal-k-n').textContent     = `${nMese} fatture`;
+  document.getElementById('cal-k-picco').textContent = piccoDat ? piccoDat+' '+MESI_IT[mese].slice(0,3) : '—';
+  document.getElementById('cal-k-picco-v').textContent = piccoDat ? eur(piccoGiorno) : '—';
+  document.getElementById('cal-k-giorni').textContent = giorni;
+  document.getElementById('cal-k-ov').textContent    = ovMese.length;
+  document.getElementById('cal-k-ov-v').textContent  = eur(ovMese.reduce((s,f)=>s+f.importo,0));
+
+  // Calcola max per scala colore
+  const maxDay = Math.max(...Object.values(byDay).map(fs=>fs.reduce((s,f)=>s+f.importo,0)), 1);
+
+  // Costruisci griglia calendario
+  const primoGiorno = new Date(anno, mese, 1).getDay(); // 0=dom
+  const offsetLun   = (primoGiorno === 0) ? 6 : primoGiorno - 1; // offset lunedì=0
+  const giorniMese  = new Date(anno, mese+1, 0).getDate();
+  const oggiD       = oggi();
+
+  const GG = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+  let html = `<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px">
+    ${GG.map(g=>`<div style="text-align:center;font-size:10px;font-weight:600;color:var(--text2);padding:4px 0;text-transform:uppercase;letter-spacing:.06em">${g}</div>`).join('')}
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px" id="cal-cells">`;
+
+  // Celle vuote prima
+  for (let i=0; i<offsetLun; i++) html += `<div></div>`;
+
+  for (let d=1; d<=giorniMese; d++) {
+    const fs    = byDay[d] || [];
+    const tot   = fs.reduce((s,f)=>s+f.importo,0);
+    const isOv  = fs.some(f=>statoEff(f)==='overdue');
+    const isPend= fs.some(f=>statoEff(f)==='pending');
+    const datD  = new Date(anno,mese,d);
+    const isHoy = datD.toDateString()===oggiD.toDateString();
+    const isWknd= datD.getDay()===0||datD.getDay()===6;
+
+    let bg='transparent', border='0.5px solid var(--border)', txtColor='var(--text2)';
+    if (fs.length > 0) {
+      const intensity = Math.min(0.9, 0.15 + (tot/maxDay)*0.75);
+      if (isOv)  { bg=`rgba(248,113,113,${intensity})`; border='0.5px solid rgba(248,113,113,0.6)'; txtColor=intensity>0.5?'#fff':'var(--danger)'; }
+      else       { bg=`rgba(251,191,36,${intensity})`;  border='0.5px solid rgba(251,191,36,0.5)';  txtColor=intensity>0.5?'#111':'var(--warn)'; }
+    } else if (isWknd) {
+      bg='rgba(255,255,255,0.02)'; txtColor='var(--text3)';
+    }
+    if (isHoy) border='2px solid #00d4aa';
+
+    const click = fs.length>0 ? `onclick="calShowDay(${d},${mese},${anno})" style="cursor:pointer"` : '';
+
+    html += `<div ${click} style="border-radius:6px;padding:6px 4px;background:${bg};border:${border};min-height:64px;position:relative;transition:opacity .1s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+      <div style="font-size:12px;font-weight:${isHoy?'700':'500'};color:${isHoy?'#00d4aa':txtColor};text-align:center">${d}</div>
+      ${fs.length>0?`<div style="text-align:center;font-size:9px;font-weight:600;color:${txtColor};margin-top:2px">${eur(tot)}</div><div style="text-align:center;font-size:9px;color:${txtColor};opacity:.8">${fs.length} fatt.</div>`:''}
+    </div>`;
+  }
+  html += '</div>';
+
+  document.getElementById('cal-grid').innerHTML = html;
+  document.getElementById('cal-day-detail').style.display='none';
+}
+
+function calShowDay(d, mese, anno) {
+  const data = `${anno}-${String(mese+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  const fs   = fatture.filter(f=>f.dataScadenza===data && !f.isNotaCredito);
+  if (!fs.length) return;
+  const tot  = fs.reduce((s,f)=>s+f.importo,0);
+  document.getElementById('cal-det-title').textContent = `${d} ${MESI_IT[mese]} ${anno} · ${fs.length} fatture · ${eur(tot)}`;
+  document.getElementById('cal-det-body').innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead style="background:var(--surface2)"><tr>
+        <th style="padding:7px 12px;text-align:left;font-size:10px;color:var(--text2);text-transform:uppercase">Fornitore</th>
+        <th style="padding:7px 12px;text-align:left;font-size:10px;color:var(--text2);text-transform:uppercase">N° Fattura</th>
+        <th style="padding:7px 12px;text-align:right;font-size:10px;color:var(--text2);text-transform:uppercase">Importo</th>
+        <th style="padding:7px 12px;font-size:10px;color:var(--text2);text-transform:uppercase">Stato</th>
+      </tr></thead>
+      <tbody>${fs.map(f=>`<tr style="border-top:0.5px solid var(--border)">
+        <td style="padding:7px 12px;font-weight:600">${f.ragioneSociale}</td>
+        <td style="padding:7px 12px;font-family:monospace;font-size:11px;color:var(--text2)">${f.numero}</td>
+        <td style="padding:7px 12px;font-family:monospace;font-weight:600;text-align:right">${eur(f.importo)}</td>
+        <td style="padding:7px 12px">${badgeStato(f)}</td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+  const el = document.getElementById('cal-day-detail');
+  el.style.display='block';
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PARETO FORNITORI
+// ═══════════════════════════════════════════════════════════════
+function renderConcentrazione() {
+  const byForn = {};
+  fatture.forEach(f => {
+    if (f.isNotaCredito) return;
+    const k = f.piva || f.ragioneSociale;
+    if (!byForn[k]) byForn[k] = { nome: f.ragioneSociale, tot: 0 };
+    byForn[k].tot += f.importo;
+  });
+
+  const lista = Object.values(byForn).sort((a,b)=>b.tot-a.tot);
+  const totale = lista.reduce((s,f)=>s+f.tot, 0);
+  let cumul = 0, n80 = 0;
+  lista.forEach(f => { cumul += f.tot; if (cumul/totale <= 0.80001) n80++; });
+
+  const top3pct = Math.round((lista.slice(0,3).reduce((s,f)=>s+f.tot,0)/totale)*100);
+
+  document.getElementById('par-k-tot').textContent  = lista.length;
+  document.getElementById('par-k-80').textContent   = n80;
+  document.getElementById('par-k-80-pct').textContent = `su ${lista.length} totali (${Math.round(n80/lista.length*100)}%)`;
+  document.getElementById('par-k-top').textContent  = lista[0]?.nome.split(' ').slice(0,2).join(' ') || '—';
+  document.getElementById('par-k-top-pct').textContent = lista[0] ? eur(lista[0].tot)+' ('+Math.round(lista[0].tot/totale*100)+'%)' : '—';
+  document.getElementById('par-k-top3').textContent = top3pct+'%';
+
+  // Tabella Pareto
+  cumul = 0;
+  const PAL=['#00d4aa','#4f8aff','#ffaa00','#ff4d6d','#a855f7','#f97316','#ec4899','#22c55e','#06b6d4','#eab308'];
+  document.getElementById('par-tbody').innerHTML = lista.map((f,i) => {
+    cumul += f.tot;
+    const pct    = (f.tot/totale*100).toFixed(1);
+    const pctCum = (cumul/totale*100).toFixed(1);
+    const is80   = parseFloat(pctCum) <= 80.1;
+    const col    = PAL[i % PAL.length];
+    return `<tr style="border-top:0.5px solid var(--border);${is80?'background:rgba(0,212,170,0.04)':''}">
+      <td style="padding:7px 12px;font-family:monospace;font-weight:600;color:${is80?'var(--accent)':'var(--text3)'}">${i+1}</td>
+      <td style="padding:7px 12px;font-weight:${i<3?'600':'400'};font-size:12px">${f.nome}</td>
+      <td style="padding:7px 12px;font-family:monospace;text-align:right;font-weight:600">${eur(f.tot)}</td>
+      <td style="padding:7px 12px;font-family:monospace;text-align:right;color:var(--text2)">${pct}%</td>
+      <td style="padding:7px 12px;font-family:monospace;text-align:right;color:${parseFloat(pctCum)<=80?'var(--accent)':'var(--text3)'};font-weight:${parseFloat(pctCum)<=80?'600':'400'}">${pctCum}%</td>
+      <td style="padding:7px 12px;min-width:140px">
+        <div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden">
+          <div style="width:${pct}%;height:100%;background:${col};border-radius:3px"></div>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Grafico Pareto (curva cumulata + barre)
+  if (window._chPareto) window._chPareto.destroy();
+  const top20   = lista.slice(0, 20);
+  const labP    = top20.map(f=>f.nome.split(' ')[0]);
+  const dataBar = top20.map(f=>Math.round(f.tot));
+  let c2=0;
+  const dataCum = top20.map(f=>{ c2+=f.tot; return parseFloat((c2/totale*100).toFixed(1)); });
+
+  window._chPareto = new Chart(document.getElementById('par-chart-pareto'), {
+    type: 'bar',
+    data: {
+      labels: labP,
+      datasets: [
+        { type:'bar',  label:'Importo', data:dataBar, backgroundColor:'rgba(0,212,170,0.6)', borderRadius:3, yAxisID:'y' },
+        { type:'line', label:'% cumulato', data:dataCum, borderColor:'#ffaa00', borderWidth:2, pointRadius:2, fill:false, yAxisID:'y2', tension:0.3 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{ label:c=>c.datasetIndex===0?'€ '+c.raw.toLocaleString('it-IT'):c.raw+'%' }}},
+      scales:{
+        y:{ position:'left', ticks:{callback:v=>'€'+(v>=1000?Math.round(v/1000)+'k':v)}, grid:{color:'rgba(255,255,255,0.04)'}},
+        y2:{ position:'right', min:0,max:100, ticks:{callback:v=>v+'%'}, grid:{display:false}},
+        x:{ ticks:{maxRotation:45,font:{size:10}}, grid:{display:false}}
+      }
+    }
+  });
+
+  // Grafico donut top 10
+  if (window._chDonut) window._chDonut.destroy();
+  const top10    = lista.slice(0,10);
+  const altri    = totale - top10.reduce((s,f)=>s+f.tot,0);
+  const labD     = [...top10.map(f=>f.nome.split(' ')[0]), 'Altri'];
+  const dataD    = [...top10.map(f=>Math.round(f.tot)), Math.round(altri)];
+  const colD     = [...PAL, '#555'];
+  window._chDonut = new Chart(document.getElementById('par-chart-donut'), {
+    type:'doughnut',
+    data:{ labels:labD, datasets:[{ data:dataD, backgroundColor:colD, borderWidth:1, borderColor:'var(--surface)' }] },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{ label:c=>`${c.label}: ${eur(c.raw)} (${(c.raw/totale*100).toFixed(1)}%)` }}}
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FORECAST 3 MESI
+// ═══════════════════════════════════════════════════════════════
+function renderForecast() {
+  const now   = new Date(); now.setDate(1); now.setHours(0,0,0,0);
+
+  // Storico mensile (tutti i mesi con dati)
+  const byMonth = {};
+  fatture.forEach(f => {
+    if (!f.dataScadenza || f.isNotaCredito) return;
+    const d  = new Date(f.dataScadenza+'T00:00:00');
+    const mk = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    byMonth[mk] = (byMonth[mk]||0) + f.importo;
+  });
+  const mesiStorici = Object.keys(byMonth).sort();
+
+  // Ultimi 6 mesi per media mobile
+  const mesiRecenti = [];
+  for (let i=5; i>=0; i--) {
+    const d = new Date(now); d.setMonth(d.getMonth()-i);
+    mesiRecenti.push(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`);
+  }
+  const valsRecenti = mesiRecenti.map(m=>byMonth[m]||0).filter(v=>v>0);
+  const mediaBase   = valsRecenti.length ? valsRecenti.reduce((s,v)=>s+v,0)/valsRecenti.length : 0;
+
+  // Trend: regressione lineare semplice sugli ultimi 6 mesi
+  const n = valsRecenti.length;
+  let trend = 0;
+  if (n >= 3) {
+    const xs = valsRecenti.map((_,i)=>i), ys = valsRecenti;
+    const mx = xs.reduce((s,v)=>s+v,0)/n, my = ys.reduce((s,v)=>s+v,0)/n;
+    const num = xs.reduce((s,x,i)=>s+(x-mx)*(ys[i]-my),0);
+    const den = xs.reduce((s,x)=>s+(x-mx)**2,0);
+    trend = den ? num/den : 0;
+  }
+
+  // Forecast +1, +2, +3 con trend
+  const fc = [1,2,3].map(i => Math.max(0, Math.round(mediaBase + trend*(n+i-1))));
+  const stddev = valsRecenti.length>1 ? Math.sqrt(valsRecenti.reduce((s,v)=>s+(v-mediaBase)**2,0)/(valsRecenti.length-1)) : mediaBase*0.1;
+
+  // Labels mesi futuri
+  const mkFc = [1,2,3].map(i => {
+    const d = new Date(now); d.setMonth(d.getMonth()+i);
+    return { mk:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,
+             lbl:MESI_IT[d.getMonth()]+' '+d.getFullYear() };
+  });
+
+  document.getElementById('fc-k-m1').textContent = eur(fc[0]);
+  document.getElementById('fc-k-m2').textContent = eur(fc[1]);
+  document.getElementById('fc-k-m3').textContent = eur(fc[2]);
+  document.getElementById('fc-k-m1-lbl').textContent = mkFc[0].lbl;
+  document.getElementById('fc-k-m2-lbl').textContent = mkFc[1].lbl;
+  document.getElementById('fc-k-m3-lbl').textContent = mkFc[2].lbl;
+  document.getElementById('fc-k-tot').textContent = eur(fc.reduce((s,v)=>s+v,0));
+
+  // Grafico principale: storico + forecast + banda confidenza
+  if (window._chFcMain) window._chFcMain.destroy();
+  const labAll   = [...mesiRecenti, ...mkFc.map(m=>m.mk)];
+  const labShort = labAll.map(mk=>{ const [y,m]=mk.split('-'); return MESI_IT[parseInt(m)-1].slice(0,3)+' '+y.slice(2); });
+  const dataStorico = labAll.map((mk,i)=>i<mesiRecenti.length?(byMonth[mk]||0):null);
+  const dataFc    = labAll.map((mk,i)=>i>=mesiRecenti.length?fc[i-mesiRecenti.length]:null);
+  // Punto di congiunzione storico→forecast
+  const lastHistIdx = mesiRecenti.length - 1;
+  const lastHistVal = byMonth[mesiRecenti[lastHistIdx]]||0;
+  const fcCongiunto = labAll.map((_,i)=>i===lastHistIdx?lastHistVal:i>lastHistIdx?fc[i-mesiRecenti.length]:null);
+  const fcHi = labAll.map((_,i)=>i>=mesiRecenti.length?Math.round(fc[i-mesiRecenti.length]+stddev):null);
+  const fcLo = labAll.map((_,i)=>i>=mesiRecenti.length?Math.max(0,Math.round(fc[i-mesiRecenti.length]-stddev)):null);
+
+  window._chFcMain = new Chart(document.getElementById('fc-chart-main'), {
+    type:'bar',
+    data:{
+      labels: labShort,
+      datasets:[
+        { type:'bar',  label:'Storico', data:dataStorico, backgroundColor:'rgba(0,212,170,0.5)', borderRadius:4, order:3 },
+        { type:'bar',  label:'Forecast',data:dataFc,      backgroundColor:'rgba(79,138,255,0.45)',borderRadius:4, order:3 },
+        { type:'line', label:'Trend',   data:fcCongiunto, borderColor:'#4f8aff', borderWidth:2, borderDash:[5,4], pointRadius:3, fill:false, order:1, tension:0.2 },
+        { type:'line', label:'Hi',      data:fcHi, borderColor:'rgba(79,138,255,0.25)', borderWidth:1, pointRadius:0, fill:'+1', backgroundColor:'rgba(79,138,255,0.08)', tension:0.2, order:2 },
+        { type:'line', label:'Lo',      data:fcLo, borderColor:'rgba(79,138,255,0.25)', borderWidth:1, pointRadius:0, fill:false, tension:0.2, order:2 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:c=>c.dataset.label==='Hi'||c.dataset.label==='Lo'?null:`${c.dataset.label}: ${eur(Math.round(c.raw))}` }}},
+      scales:{ y:{ticks:{callback:v=>'€'+(v>=1000?Math.round(v/1000)+'k':v)},grid:{color:'rgba(255,255,255,0.04)'}}, x:{grid:{display:false},ticks:{maxRotation:30}}}
+    }
+  });
+
+  // Top fornitori per forecast mese +1
+  const byFornMesi = {};
+  fatture.forEach(f => {
+    if (!f.dataScadenza||f.isNotaCredito) return;
+    const d=new Date(f.dataScadenza+'T00:00:00');
+    const mk=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    if (!mesiRecenti.includes(mk)) return;
+    const k=f.piva||f.ragioneSociale;
+    if (!byFornMesi[k]) byFornMesi[k]={nome:f.ragioneSociale,vals:{}};
+    byFornMesi[k].vals[mk]=(byFornMesi[k].vals[mk]||0)+f.importo;
+  });
+  const fornFc = Object.values(byFornMesi).map(f=>{
+    const v=mesiRecenti.slice(-3).map(m=>f.vals[m]||0).filter(v=>v>0);
+    const mediaF=v.length?v.reduce((s,x)=>s+x,0)/v.length:0;
+    return {...f,mediaF};
+  }).sort((a,b)=>b.mediaF-a.mediaF).slice(0,10);
+
+  const maxFc=fornFc[0]?.mediaF||1;
+  document.getElementById('fc-top-forn').innerHTML=`
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tbody>${fornFc.map((f,i)=>`<tr style="border-top:0.5px solid var(--border)">
+        <td style="padding:7px 12px;font-size:10px;color:var(--text3);font-family:monospace">${i+1}</td>
+        <td style="padding:7px 12px;font-weight:500">${f.nome.slice(0,24)}</td>
+        <td style="padding:7px 12px;min-width:130px">
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="flex:1;height:5px;background:var(--surface2);border-radius:3px;overflow:hidden">
+              <div style="width:${Math.round(f.mediaF/maxFc*100)}%;height:100%;background:#4f8aff;border-radius:3px"></div>
+            </div>
+            <span style="font-family:monospace;font-size:11px;font-weight:600;min-width:72px;text-align:right">${eur(Math.round(f.mediaF))}</span>
+          </div>
+        </td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+
+  // Grafico variazione attesa: forecast vs media storica
+  if (window._chFcVar) window._chFcVar.destroy();
+  const labVar  = mkFc.map(m=>m.lbl.split(' ')[0]);
+  const storAvg = mesiRecenti.slice(0,-3).map(m=>byMonth[m]||0).filter(v=>v>0);
+  const avgStor = storAvg.length ? Math.round(storAvg.reduce((s,v)=>s+v,0)/storAvg.length) : mediaBase;
+  const varPct  = fc.map(v=>parseFloat(((v-avgStor)/avgStor*100).toFixed(1)));
+
+  window._chFcVar = new Chart(document.getElementById('fc-chart-var'), {
+    type:'bar',
+    data:{
+      labels:labVar,
+      datasets:[{ data:varPct, backgroundColor:varPct.map(v=>v>=0?'rgba(248,113,113,0.6)':'rgba(52,211,153,0.6)'), borderRadius:4 }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:c=>(c.raw>0?'+':'')+c.raw+'% vs media storica'}}},
+      scales:{
+        y:{ ticks:{callback:v=>(v>0?'+':'')+v+'%'}, grid:{color:'rgba(255,255,255,0.04)'},
+          afterDataLimits:sc=>{const m=Math.max(Math.abs(sc.min),Math.abs(sc.max));sc.min=-m*1.2;sc.max=m*1.2;}},
+        x:{grid:{display:false}}
+      }
+    }
+  });
 }
 
 </script>
