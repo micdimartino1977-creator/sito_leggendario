@@ -871,13 +871,8 @@ function renderRubrica(q='') {
 // ── START ──────────────────────────────────────
 loadData();
 
-// helper alias per compatibilità AF functions nel dashboard
-function fmtEur(v) { return eur(v); }
-function badgeStato(f) {
-  const s = statoEff(f);
-  const STATO_LBL = {paid:'✅ Pagata',pending:'⏳ In attesa',overdue:'🔴 Scaduta',inbatch:'📦 In batch',nota_credito:'📝 Nota credito'};
-  return `<span class="badge ${s}">${STATO_LBL[s]||s}</span>`;
-}
+// fmtEur e badgeStato già definiti nel dashboard — alias per funzioni AF
+const fmtEur = v => eur(v);
 
 const AF_PALETTE = [
   '#00d4aa','#4f8aff','#ffaa00','#ff4d6d','#a855f7',
