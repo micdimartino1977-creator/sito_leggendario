@@ -1,6 +1,6 @@
 {
   "_versione": "1.1",
-  "_salvato": "2026-03-18T22:34:05.643Z",
+  "_salvato": "2026-03-18T22:44:57.517Z",
   "ordinante": {
     "ragione": "AL PELLEGRINO SRL",
     "piva": "00347630311",
@@ -351,7 +351,7 @@
       "cf": "ZNLGLI82B18L483E",
       "citta": "PALMANOVA",
       "data": "2026-03-06",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-06",
       "dataScadenza": "2026-03-06",
       "filename": "IT02475440307_00JL3.xml",
       "iban": "",
@@ -364,7 +364,7 @@
       "piva": "02475440307",
       "prov": "UD",
       "ragioneSociale": "ZANELLO GIULIO",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -417,7 +417,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2026-03-07",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-07",
       "dataScadenza": "2026-03-07",
       "filename": "IT03618500403_3SNAg.xml",
       "iban": "",
@@ -430,7 +430,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -571,7 +571,7 @@
       "cf": "12491691007",
       "citta": "ROMA",
       "data": "2026-03-05",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-05",
       "dataScadenza": "2026-03-05",
       "filename": "IT12491691007_H5159.xml",
       "iban": "",
@@ -584,7 +584,7 @@
       "piva": "12491691007",
       "prov": "RM",
       "ragioneSociale": "OTTIMAX ITALIA SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -924,7 +924,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2026-03-04",
-      "dataPagamento": null,
+      "dataPagamento": "2026-04-02",
       "dataScadenza": "2026-04-02",
       "filename": "IT04623280965_5y9gj.xml",
       "iban": "",
@@ -937,7 +937,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "pending",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -946,7 +946,7 @@
       "cf": "",
       "citta": "Amsterdam",
       "data": "2026-03-03",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-04",
       "dataScadenza": "2026-03-04",
       "filename": "IT01879020517A2026_b32VY.xml",
       "iban": "",
@@ -959,7 +959,7 @@
       "piva": "805734958B01",
       "prov": "",
       "ragioneSociale": "Booking.com B.V.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD17"
     },
     {
@@ -968,7 +968,7 @@
       "cf": "",
       "citta": "Amsterdam",
       "data": "2026-03-03",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-04",
       "dataScadenza": "2026-03-04",
       "filename": "IT01879020517A2026_b32pr.xml",
       "iban": "",
@@ -981,7 +981,7 @@
       "piva": "805734958B01",
       "prov": "",
       "ragioneSociale": "Booking.com B.V.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD17"
     },
     {
@@ -1122,7 +1122,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2026-03-03",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-03",
       "dataScadenza": "2026-03-03",
       "filename": "IT03618500403_3R2dF.xml",
       "iban": "",
@@ -1135,7 +1135,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -1342,7 +1342,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2026-02-27",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-27",
       "dataScadenza": "2026-02-27",
       "filename": "IT01223730936_010KB.xml",
       "iban": "IT59E0835664780000000352516",
@@ -1355,7 +1355,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -1959,7 +1959,7 @@
       "cf": "ZNLGLI82B18L483E",
       "citta": "PALMANOVA",
       "data": "2026-02-27",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-27",
       "dataScadenza": "2026-02-27",
       "filename": "IT02475440307_00JJT.xml",
       "iban": "",
@@ -1972,7 +1972,7 @@
       "piva": "02475440307",
       "prov": "UD",
       "ragioneSociale": "ZANELLO GIULIO",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -2003,7 +2003,7 @@
       "cf": "00050670314",
       "citta": "Monfalcone",
       "data": "2026-02-28",
-      "dataPagamento": null,
+      "dataPagamento": "2026-04-13",
       "dataScadenza": "2026-04-13",
       "filename": "IT00050670314_00E20.xml",
       "iban": "",
@@ -2016,7 +2016,7 @@
       "piva": "00050670314",
       "prov": "GO",
       "ragioneSociale": "ANGELO RIGANELLI E C. SNC di Riganelli Luigi & C.",
-      "stato": "pending",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -2355,7 +2355,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2026-02-27",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-27",
       "dataScadenza": "2026-02-27",
       "filename": "IT03618500403_3PxZh.xml",
       "iban": "",
@@ -2368,7 +2368,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -2509,7 +2509,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2026-02-27",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-27",
       "dataScadenza": "2026-02-27",
       "filename": "IT03618500403_3PsPu.xml",
       "iban": "",
@@ -2522,7 +2522,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -2597,7 +2597,7 @@
       "cf": "12878470157",
       "citta": "Milano",
       "data": "2026-02-27",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-19",
       "dataScadenza": "2026-03-19",
       "filename": "IT01961900246_g9ZDz.xml",
       "iban": "",
@@ -2610,7 +2610,7 @@
       "piva": "12878470157",
       "prov": "MI",
       "ragioneSociale": "Fastweb S.p.A.",
-      "stato": "pending",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -3368,7 +3368,7 @@
       "cf": "",
       "citta": "Bolzano",
       "data": "2026-02-20",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-22",
       "dataScadenza": "2026-03-22",
       "filename": "IT01912771001_0NLYr.xml",
       "iban": "",
@@ -3381,7 +3381,7 @@
       "piva": "02936700216",
       "prov": "BZ",
       "ragioneSociale": "ALDI SRL",
-      "stato": "pending",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -3435,7 +3435,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2026-02-13",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-13",
       "dataScadenza": "2026-02-13",
       "filename": "IT01223730936_010FR.xml",
       "iban": "IT59E0835664780000000352516",
@@ -3448,7 +3448,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -3678,7 +3678,7 @@
       "cf": "01165590314",
       "citta": "Villesse",
       "data": "2026-02-19",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-19",
       "dataScadenza": "2026-02-19",
       "filename": "IT02046570426_eeCY0.xml",
       "iban": "IT05V0862264620009000001643",
@@ -3691,7 +3691,7 @@
       "piva": "01165590314",
       "prov": "GO",
       "ragioneSociale": "OFFICINA MSR S.C. Sede operativa: Via Dal Bosc,27/E Romans d' Isonzo",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -3766,7 +3766,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2026-02-18",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-18",
       "dataScadenza": "2026-02-18",
       "filename": "IT03618500403_3NYvW.xml",
       "iban": "",
@@ -3779,7 +3779,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -3920,7 +3920,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2026-02-14",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-16",
       "dataScadenza": "2026-03-16",
       "filename": "IT04623280965_5iysj.xml",
       "iban": "",
@@ -3933,7 +3933,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -4118,7 +4118,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2026-02-12",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-27",
       "dataScadenza": "2026-02-27",
       "filename": "IT06655971007_shC2d.xml",
       "iban": "IT18P0306909400100000011397",
@@ -4131,7 +4131,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -4250,7 +4250,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2026-02-10",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-25",
       "dataScadenza": "2026-02-25",
       "filename": "IT06655971007_qgMPj.xml",
       "iban": "IT18Y0306905020051014470177",
@@ -4263,7 +4263,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -4294,7 +4294,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2026-02-11",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-11",
       "dataScadenza": "2026-02-11",
       "filename": "IT03618500403_3Lkhx.xml",
       "iban": "",
@@ -4307,7 +4307,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -4536,7 +4536,7 @@
       "cf": "01165590314",
       "citta": "Villesse",
       "data": "2026-02-10",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-10",
       "dataScadenza": "2026-02-10",
       "filename": "IT02046570426_e9qq5.xml",
       "iban": "IT05V0862264620009000001643",
@@ -4549,7 +4549,7 @@
       "piva": "01165590314",
       "prov": "GO",
       "ragioneSociale": "OFFICINA MSR S.C. Sede operativa: Via Dal Bosc,27/E Romans d' Isonzo",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -4625,7 +4625,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2026-02-08",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-23",
       "dataScadenza": "2026-02-23",
       "filename": "IT06655971007_lyIXi.xml",
       "iban": "IT18Y0306905020051014470177",
@@ -4638,7 +4638,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -4823,7 +4823,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2026-02-07",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-09",
       "dataScadenza": "2026-03-09",
       "filename": "IT04623280965_5ehf2.xml",
       "iban": "",
@@ -4836,7 +4836,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -5220,7 +5220,7 @@
       "cf": "02428010306",
       "citta": "PALMANOVA",
       "data": "2026-02-03",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-03",
       "dataScadenza": "2026-02-03",
       "filename": "IT02428010306_081QJ.xml",
       "iban": "IT28E0200812310000110120528",
@@ -5233,7 +5233,7 @@
       "piva": "02428010306",
       "prov": "UD",
       "ragioneSociale": "JOLANDA DE COLO' SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -6212,7 +6212,7 @@
       "cf": "03334710278",
       "citta": "NOVENTA DI PIAVE",
       "data": "2026-01-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-02",
       "dataScadenza": "2026-03-02",
       "filename": "IT07155170157_6h4Zl.xml",
       "iban": "IT54K0306936143074000105843",
@@ -6225,7 +6225,7 @@
       "piva": "03334710278",
       "prov": "VE",
       "ragioneSociale": "CATTEL SPA SOCIETA' UNIPERSONALE",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -6322,7 +6322,7 @@
       "cf": "RCCGNN60L17E124C",
       "citta": "MARIANO DEL FRIULI",
       "data": "2026-01-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-02",
       "dataScadenza": "2026-03-02",
       "filename": "IT09252150017_54TXX.xml",
       "iban": "",
@@ -6335,7 +6335,7 @@
       "piva": "00512340316",
       "prov": "GO",
       "ragioneSociale": "RICCIARDI GIOVANNI",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -6788,7 +6788,7 @@
       "cf": "",
       "citta": "Lainate",
       "data": "2026-01-22",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-08",
       "dataScadenza": "2026-03-08",
       "filename": "IT0526289001426030_6OLK7.xml",
       "iban": "",
@@ -6801,7 +6801,7 @@
       "piva": "04219660158",
       "prov": "MI",
       "ragioneSociale": "Perfetti Van Melle S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -6898,7 +6898,7 @@
       "cf": "02428010306",
       "citta": "PALMANOVA",
       "data": "2026-01-29",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-29",
       "dataScadenza": "2026-01-29",
       "filename": "IT02428010306_0818D.xml",
       "iban": "IT28E0200812310000110120528",
@@ -6911,7 +6911,7 @@
       "piva": "02428010306",
       "prov": "UD",
       "ragioneSociale": "JOLANDA DE COLO' SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -6920,7 +6920,7 @@
       "cf": "02428010306",
       "citta": "PALMANOVA",
       "data": "2026-01-29",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-29",
       "dataScadenza": "2026-01-29",
       "filename": "IT02428010306_0818E.xml",
       "iban": "IT28E0200812310000110120528",
@@ -6933,7 +6933,7 @@
       "piva": "02428010306",
       "prov": "UD",
       "ragioneSociale": "JOLANDA DE COLO' SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -7625,7 +7625,7 @@
       "cf": "00165160300",
       "citta": "Tricesimo (UD)",
       "data": "2026-01-26",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-26",
       "dataScadenza": "2026-01-26",
       "filename": "IT02355260981_djHel.xml",
       "iban": "",
@@ -7638,7 +7638,7 @@
       "piva": "00165160300",
       "prov": "UD",
       "ragioneSociale": "VANELLO EUGENIO + FIGLI S.P.A. COMBUSTIBILI - CARBURANTI - LUBRIFICANTI",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -8331,7 +8331,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2026-01-20",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-04",
       "dataScadenza": "2026-02-04",
       "filename": "IT06655971007_jn05l.xml",
       "iban": "IT18P0306909400100000011397",
@@ -8344,7 +8344,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -9058,7 +9058,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2026-01-16",
-      "dataPagamento": null,
+      "dataPagamento": "2026-02-15",
       "dataScadenza": "2026-02-15",
       "filename": "IT04623280965_4vlr7.xml",
       "iban": "",
@@ -9071,7 +9071,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -9190,7 +9190,7 @@
       "cf": "02428010306",
       "citta": "PALMANOVA",
       "data": "2026-01-15",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-15",
       "dataScadenza": "2026-01-15",
       "filename": "IT02428010306_07ZYD.xml",
       "iban": "IT28E0200812310000110120528",
@@ -9203,7 +9203,7 @@
       "piva": "02428010306",
       "prov": "UD",
       "ragioneSociale": "JOLANDA DE COLO' SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -9212,7 +9212,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2026-01-13",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-28",
       "dataScadenza": "2026-01-28",
       "filename": "IT06655971007_hcOAh.xml",
       "iban": "IT18Y0306905020051014470177",
@@ -9225,7 +9225,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -9917,7 +9917,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2026-01-12",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-27",
       "dataScadenza": "2026-01-27",
       "filename": "IT06655971007_ew3Ir.xml",
       "iban": "IT18Y0306905020051014470177",
@@ -9930,7 +9930,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -10314,7 +10314,7 @@
       "cf": "02428010306",
       "citta": "PALMANOVA",
       "data": "2026-01-08",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-08",
       "dataScadenza": "2026-01-08",
       "filename": "IT02428010306_07Z82.xml",
       "iban": "IT28E0200812310000110120528",
@@ -10327,7 +10327,7 @@
       "piva": "02428010306",
       "prov": "UD",
       "ragioneSociale": "JOLANDA DE COLO' SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -10623,7 +10623,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2026-01-02",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-02",
       "dataScadenza": "2026-01-02",
       "filename": "IT03618500403_3Bvbs.xml",
       "iban": "",
@@ -10636,7 +10636,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -10733,7 +10733,7 @@
       "cf": "02913270308",
       "citta": "UDINE",
       "data": "2025-12-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT02913270308_HV8IC.xml",
       "iban": "",
@@ -10746,7 +10746,7 @@
       "piva": "02913270308",
       "prov": "UD",
       "ragioneSociale": "PASTRY WORLD SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -10755,7 +10755,7 @@
       "cf": "00856030267",
       "citta": "CIMADOLMO",
       "data": "2025-12-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT0200275048300000_UTAZ3.xml",
       "iban": "IT73P0306962042000000432163",
@@ -10768,7 +10768,7 @@
       "piva": "00856030267",
       "prov": "TV",
       "ragioneSociale": "Lavanderia Piave Srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -10799,7 +10799,7 @@
       "cf": "03790600260",
       "citta": "MARTIGNACCO",
       "data": "2025-12-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT016417907022026e_008nC.xml",
       "iban": "IT87X0863763950000023054945",
@@ -10812,7 +10812,7 @@
       "piva": "03790600260",
       "prov": "UD",
       "ragioneSociale": "SICURGROUP SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -10865,7 +10865,7 @@
       "cf": "01168180311",
       "citta": "VILLESSE",
       "data": "2025-12-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT04383420405_J5NKI.xml",
       "iban": "",
@@ -10878,7 +10878,7 @@
       "piva": "01168180311",
       "prov": "GO",
       "ragioneSociale": "LATTERIA MONTANARI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -10909,7 +10909,7 @@
       "cf": "",
       "citta": "TORRI DI QUARTESOLO",
       "data": "2025-12-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT02046570426_dQ1U9.xml",
       "iban": "IT47E0200860800000105075716",
@@ -10922,7 +10922,7 @@
       "piva": "04122730247",
       "prov": "VI",
       "ragioneSociale": "LE PRELIBATEZZE ALIMENTI SENZA GLUTINE SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -10997,7 +10997,7 @@
       "cf": "03334710278",
       "citta": "NOVENTA DI PIAVE",
       "data": "2025-12-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-30",
       "dataScadenza": "2026-01-30",
       "filename": "IT07155170157_6clHr.xml",
       "iban": "IT54K0306936143074000105843",
@@ -11010,7 +11010,7 @@
       "piva": "03334710278",
       "prov": "VE",
       "ragioneSociale": "CATTEL SPA SOCIETA' UNIPERSONALE",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -11019,7 +11019,7 @@
       "cf": "04718490271",
       "citta": "SAN MICHELE AL TAGLIAMENTO",
       "data": "2025-12-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT04718490271_03E2T.xml",
       "iban": "",
@@ -11032,7 +11032,7 @@
       "piva": "04718490271",
       "prov": "VE",
       "ragioneSociale": "FRIULBRAU S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -11041,7 +11041,7 @@
       "cf": "04718490271",
       "citta": "SAN MICHELE AL TAGLIAMENTO",
       "data": "2025-12-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT04718490271_03E3Q.xml",
       "iban": "",
@@ -11054,7 +11054,7 @@
       "piva": "04718490271",
       "prov": "VE",
       "ragioneSociale": "FRIULBRAU S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -11107,7 +11107,7 @@
       "cf": "RCCGNN60L17E124C",
       "citta": "MARIANO DEL FRIULI",
       "data": "2025-12-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-30",
       "dataScadenza": "2026-01-30",
       "filename": "IT09252150017_52NQT.xml",
       "iban": "",
@@ -11120,7 +11120,7 @@
       "piva": "00512340316",
       "prov": "GO",
       "ragioneSociale": "RICCIARDI GIOVANNI",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -11217,7 +11217,7 @@
       "cf": "02872060351",
       "citta": "Rolo",
       "data": "2025-12-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-30",
       "dataScadenza": "2026-01-30",
       "filename": "IT12281740154Z0002_HEFAA.xml",
       "iban": "",
@@ -11230,7 +11230,7 @@
       "piva": "02872060351",
       "prov": "RE",
       "ragioneSociale": "V&C CARBURANTI DI MAHMOOD ASAD & C.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -11349,7 +11349,7 @@
       "cf": "BLSGNN67D08E098N",
       "citta": "GRADISCA D'ISONZO",
       "data": "2025-12-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT00510470313_00CZ4.xml",
       "iban": "IT04K0887785840000000343387",
@@ -11362,7 +11362,7 @@
       "piva": "00510470313",
       "prov": "GO",
       "ragioneSociale": "Az. Agr. BLASON di Blason Giovanni",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -11525,7 +11525,7 @@
       "cf": "02428010306",
       "citta": "PALMANOVA",
       "data": "2025-12-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-30",
       "dataScadenza": "2025-12-30",
       "filename": "IT02428010306_07YQD.xml",
       "iban": "IT28E0200812310000110120528",
@@ -11538,7 +11538,7 @@
       "piva": "02428010306",
       "prov": "UD",
       "ragioneSociale": "JOLANDA DE COLO' SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -11635,7 +11635,7 @@
       "cf": "93026890017",
       "citta": "Ivrea",
       "data": "2025-12-30",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-19",
       "dataScadenza": "2026-01-19",
       "filename": "IT01961900246_fHTBY.xml",
       "iban": "",
@@ -11648,7 +11648,7 @@
       "piva": "08539010010",
       "prov": "TO",
       "ragioneSociale": "VODAFONE ITALIA S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -11767,7 +11767,7 @@
       "cf": "01233790235",
       "citta": "Castel D'azzano",
       "data": "2025-12-29",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-28",
       "dataScadenza": "2026-01-28",
       "filename": "IT01378570350_nhZRg.xml",
       "iban": "",
@@ -11780,7 +11780,7 @@
       "piva": "01233790235",
       "prov": "VR",
       "ragioneSociale": "Bauli Spa",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -11855,7 +11855,7 @@
       "cf": "01233790235",
       "citta": "Castel D'azzano",
       "data": "2025-12-29",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-28",
       "dataScadenza": "2026-01-28",
       "filename": "IT01378570350_nh7xc.xml",
       "iban": "",
@@ -11868,7 +11868,7 @@
       "piva": "01233790235",
       "prov": "VR",
       "ragioneSociale": "Bauli Spa",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -12762,7 +12762,7 @@
       "cf": "02166950309",
       "citta": "Martignacco",
       "data": "2025-12-17",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-17",
       "dataScadenza": "2025-12-17",
       "filename": "NL10209790152_LLLdS.xml",
       "iban": "IT25Y0863112300000000004186",
@@ -12775,7 +12775,7 @@
       "piva": "02166950309",
       "prov": "UD",
       "ragioneSociale": "E.T.S. EURO TECHNICAL SERVICES  S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -12828,7 +12828,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2025-12-16",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT06655971007_yGslV.xml",
       "iban": "IT18P0306909400100000011397",
@@ -12841,7 +12841,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -12960,7 +12960,7 @@
       "cf": "00687270264",
       "citta": "FANZOLO DI VEDELAGO",
       "data": "2025-12-12",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT04204200135_05MBV.xml",
       "iban": "",
@@ -12973,7 +12973,7 @@
       "piva": "00687270264",
       "prov": "TV",
       "ragioneSociale": "MOLINO DI FERRO SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -13180,7 +13180,7 @@
       "cf": "01233790235",
       "citta": "Castel D'azzano",
       "data": "2025-12-12",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-11",
       "dataScadenza": "2026-01-11",
       "filename": "IT01378570350_nXXu5.xml",
       "iban": "",
@@ -13193,7 +13193,7 @@
       "piva": "01233790235",
       "prov": "VR",
       "ragioneSociale": "Bauli Spa",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -13466,7 +13466,7 @@
       "cf": "",
       "citta": "Latina",
       "data": "2025-12-10",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT00210759999_p3RD0.xml",
       "iban": "IT60P0356601600000126160011",
@@ -13479,7 +13479,7 @@
       "piva": "00937220598",
       "prov": "LT",
       "ragioneSociale": "Heinz Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -13488,7 +13488,7 @@
       "cf": "",
       "citta": "Luxemburgo",
       "data": "2025-12-11",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-10",
       "dataScadenza": "2026-01-10",
       "filename": "IT08973230967_E3QLQ.xml",
       "iban": "",
@@ -13501,7 +13501,7 @@
       "piva": "08973230967",
       "prov": "",
       "ragioneSociale": "Amazon EU S.a r.l., Succursale Italiana",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -13510,7 +13510,7 @@
       "cf": "01578030221",
       "citta": "AVIO",
       "data": "2025-12-11",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-11",
       "dataScadenza": "2026-01-11",
       "filename": "IT01578030221_038G5.xml",
       "iban": "IT04K0887785840000000343387",
@@ -13523,7 +13523,7 @@
       "piva": "01578030221",
       "prov": "TN",
       "ragioneSociale": "Ginos S.r.l",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -13554,7 +13554,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-12-11",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-11",
       "dataScadenza": "2025-12-11",
       "filename": "IT03618500403_36zXu.xml",
       "iban": "",
@@ -13567,7 +13567,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -13708,7 +13708,7 @@
       "cf": "",
       "citta": "Luxemburgo",
       "data": "2025-12-10",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-09",
       "dataScadenza": "2026-01-09",
       "filename": "IT08973230967_E2Zm3.xml",
       "iban": "",
@@ -13721,7 +13721,7 @@
       "piva": "08973230967",
       "prov": "",
       "ragioneSociale": "Amazon EU S.a r.l., Succursale Italiana",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -13730,7 +13730,7 @@
       "cf": "",
       "citta": "Bolzano",
       "data": "2025-12-10",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-09",
       "dataScadenza": "2026-01-09",
       "filename": "IT01912771001_0MtSU.xml",
       "iban": "",
@@ -13743,7 +13743,7 @@
       "piva": "02936700216",
       "prov": "BZ",
       "ragioneSociale": "ALDI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -13752,7 +13752,7 @@
       "cf": "",
       "citta": "Latina",
       "data": "2025-12-10",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT00210759999_z1722.xml",
       "iban": "IT60P0356601600000126160011",
@@ -13765,7 +13765,7 @@
       "piva": "00937220598",
       "prov": "LT",
       "ragioneSociale": "Heinz Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -13862,7 +13862,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2025-12-09",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-24",
       "dataScadenza": "2025-12-24",
       "filename": "IT06655971007_v9hyT.xml",
       "iban": "IT18Y0306905020051014470177",
@@ -13875,7 +13875,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -13884,7 +13884,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2025-12-09",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-24",
       "dataScadenza": "2025-12-24",
       "filename": "IT06655971007_v9hl1.xml",
       "iban": "IT18Y0306905020051014470177",
@@ -13897,7 +13897,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -13950,7 +13950,7 @@
       "cf": "",
       "citta": "Latina",
       "data": "2025-12-09",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT00210759999_suT2L.xml",
       "iban": "IT60P0356601600000126160011",
@@ -13963,7 +13963,7 @@
       "piva": "00937220598",
       "prov": "LT",
       "ragioneSociale": "Heinz Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -13972,7 +13972,7 @@
       "cf": "00165160300",
       "citta": "Tricesimo (UD)",
       "data": "2025-12-05",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-05",
       "dataScadenza": "2025-12-05",
       "filename": "IT02355260981_d3csf.xml",
       "iban": "",
@@ -13985,7 +13985,7 @@
       "piva": "00165160300",
       "prov": "UD",
       "ragioneSociale": "VANELLO EUGENIO + FIGLI S.P.A. COMBUSTIBILI - CARBURANTI - LUBRIFICANTI",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -14060,7 +14060,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-12-09",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-09",
       "dataScadenza": "2025-12-09",
       "filename": "IT03618500403_36IAt.xml",
       "iban": "",
@@ -14073,7 +14073,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -14082,7 +14082,7 @@
       "cf": "ZNLGLI82B18L483E",
       "citta": "PALMANOVA",
       "data": "2025-12-05",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-05",
       "dataScadenza": "2025-12-05",
       "filename": "IT02475440307_00J8D.xml",
       "iban": "",
@@ -14095,7 +14095,7 @@
       "piva": "02475440307",
       "prov": "UD",
       "ragioneSociale": "ZANELLO GIULIO",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -14214,7 +14214,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-12-06",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-06",
       "dataScadenza": "2025-12-06",
       "filename": "IT03618500403_35ndZ.xml",
       "iban": "",
@@ -14227,7 +14227,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -14236,7 +14236,7 @@
       "cf": "01233790235",
       "citta": "Castel D'azzano",
       "data": "2025-12-05",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-04",
       "dataScadenza": "2026-01-04",
       "filename": "IT01378570350_nSulV.xml",
       "iban": "",
@@ -14249,7 +14249,7 @@
       "piva": "01233790235",
       "prov": "VR",
       "ragioneSociale": "Bauli Spa",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -14258,7 +14258,7 @@
       "cf": "02054860305",
       "citta": "UDINE",
       "data": "2025-12-05",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-05",
       "dataScadenza": "2025-12-05",
       "filename": "IT016417907022025y_0cvAh.xml",
       "iban": "IT29X0548464300000000425092",
@@ -14271,7 +14271,7 @@
       "piva": "02054860305",
       "prov": "UD",
       "ragioneSociale": "BINUTTI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -14302,7 +14302,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-12-05",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-05",
       "dataScadenza": "2025-12-05",
       "filename": "IT03618500403_35bvm.xml",
       "iban": "",
@@ -14315,7 +14315,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -14324,7 +14324,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2025-12-05",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-04",
       "dataScadenza": "2026-01-04",
       "filename": "IT04623280965_3yvkp.xml",
       "iban": "",
@@ -14337,7 +14337,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -14346,7 +14346,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-12-05",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-05",
       "dataScadenza": "2025-12-05",
       "filename": "IT03618500403_35Yfc.xml",
       "iban": "",
@@ -14359,7 +14359,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -14610,7 +14610,7 @@
       "cf": "03492610179",
       "citta": "Maclodio",
       "data": "2025-12-02",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT02576660365_0slLk.xml",
       "iban": "IT04K0887785840000000343387",
@@ -14623,7 +14623,7 @@
       "piva": "03492610179",
       "prov": "BS",
       "ragioneSociale": "MOLINO RIVETTI PIETRO S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -14786,7 +14786,7 @@
       "cf": "03790600260",
       "citta": "MARTIGNACCO",
       "data": "2025-11-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT016417907022025C_0cA6U.xml",
       "iban": "IT87X0863763950000023054945",
@@ -14799,7 +14799,7 @@
       "piva": "03790600260",
       "prov": "UD",
       "ragioneSociale": "SICURGROUP SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -14808,7 +14808,7 @@
       "cf": "02913270308",
       "citta": "UDINE",
       "data": "2025-11-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT02913270308_HV8AS.xml",
       "iban": "",
@@ -14821,7 +14821,7 @@
       "piva": "02913270308",
       "prov": "UD",
       "ragioneSociale": "PASTRY WORLD SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -14830,7 +14830,7 @@
       "cf": "02618710400",
       "citta": "SARSINA",
       "data": "2025-11-28",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT016417907022025x_0cx33.xml",
       "iban": "IT15K0885068040000010107484",
@@ -14843,7 +14843,7 @@
       "piva": "02618710400",
       "prov": "FC",
       "ragioneSociale": "BELLI FRESCHI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -14875,7 +14875,7 @@
       "cf": "00856030267",
       "citta": "CIMADOLMO",
       "data": "2025-11-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT0200275048300000_U4Q75.xml",
       "iban": "IT73P0306962042000000432163",
@@ -14888,7 +14888,7 @@
       "piva": "00856030267",
       "prov": "TV",
       "ragioneSociale": "Lavanderia Piave Srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -14963,7 +14963,7 @@
       "cf": "03518800366",
       "citta": "VIGNOLA",
       "data": "2025-11-28",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-30",
       "dataScadenza": "2026-01-30",
       "filename": "IT016417907022025D_0ctfR.xml",
       "iban": "",
@@ -14976,7 +14976,7 @@
       "piva": "03518800366",
       "prov": "MO",
       "ragioneSociale": "LABORATORIO GRAZIOSI S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -15007,7 +15007,7 @@
       "cf": "04751650286",
       "citta": "RUBANO",
       "data": "2025-11-28",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT016417907022025I_0csoM.xml",
       "iban": "",
@@ -15020,7 +15020,7 @@
       "piva": "04751650286",
       "prov": "PD",
       "ragioneSociale": "CASANOVA FOOD S.R.L. a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -15117,7 +15117,7 @@
       "cf": "",
       "citta": "TORRI DI QUARTESOLO",
       "data": "2025-11-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT02046570426_dyLsK.xml",
       "iban": "IT47E0200860800000105075716",
@@ -15130,7 +15130,7 @@
       "piva": "04122730247",
       "prov": "VI",
       "ragioneSociale": "LE PRELIBATEZZE ALIMENTI SENZA GLUTINE SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -15139,7 +15139,7 @@
       "cf": "02877790309",
       "citta": "VILLESSE",
       "data": "2025-11-30",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-02",
       "dataScadenza": "2026-01-02",
       "filename": "IT02877790309_03O7O.xml",
       "iban": "",
@@ -15152,7 +15152,7 @@
       "piva": "02877790309",
       "prov": "GO",
       "ragioneSociale": "LATTE CARSO S.P.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -15249,7 +15249,7 @@
       "cf": "01168180311",
       "citta": "VILLESSE",
       "data": "2025-11-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT04383420405_IY5EI.xml",
       "iban": "",
@@ -15262,7 +15262,7 @@
       "piva": "01168180311",
       "prov": "GO",
       "ragioneSociale": "LATTERIA MONTANARI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -15338,7 +15338,7 @@
       "cf": "00050670314",
       "citta": "Monfalcone",
       "data": "2025-11-30",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-15",
       "dataScadenza": "2026-01-15",
       "filename": "IT00050670314_00DWG.xml",
       "iban": "",
@@ -15351,7 +15351,7 @@
       "piva": "00050670314",
       "prov": "GO",
       "ragioneSociale": "ANGELO RIGANELLI E C. SNC di Riganelli Luigi & C.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -15383,7 +15383,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-11-29",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT01394200362_94qkI.xml",
       "iban": "IT04K0887785840000000343387",
@@ -15396,7 +15396,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -15405,7 +15405,7 @@
       "cf": "03334710278",
       "citta": "NOVENTA DI PIAVE",
       "data": "2025-11-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-30",
       "dataScadenza": "2025-12-30",
       "filename": "IT03466010232_6XFH0.xml",
       "iban": "IT54K0306936143074000105843",
@@ -15418,7 +15418,7 @@
       "piva": "03334710278",
       "prov": "VE",
       "ragioneSociale": "CATTEL SPA SOCIETA' UNIPERSONALE",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -15449,7 +15449,7 @@
       "cf": "04718490271",
       "citta": "SAN MICHELE AL TAGLIAMENTO",
       "data": "2025-11-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT04718490271_03BR9.xml",
       "iban": "",
@@ -15462,7 +15462,7 @@
       "piva": "04718490271",
       "prov": "VE",
       "ragioneSociale": "FRIULBRAU S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -15493,7 +15493,7 @@
       "cf": "04718490271",
       "citta": "SAN MICHELE AL TAGLIAMENTO",
       "data": "2025-11-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT04718490271_03BXD.xml",
       "iban": "",
@@ -15506,7 +15506,7 @@
       "piva": "04718490271",
       "prov": "VE",
       "ragioneSociale": "FRIULBRAU S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -15515,7 +15515,7 @@
       "cf": "03230760583",
       "citta": "CALENZANO",
       "data": "2025-11-28",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT03230760583_05ZQS.xml",
       "iban": "",
@@ -15528,7 +15528,7 @@
       "piva": "01691980484",
       "prov": "FI",
       "ragioneSociale": "PROBIOS SRL SOCIETA' BENEFIT",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -15537,7 +15537,7 @@
       "cf": "02549100309",
       "citta": "PASIAN DI PRATO",
       "data": "2025-11-30",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-14",
       "dataScadenza": "2026-01-14",
       "filename": "IT02549100309_00FRK.xml",
       "iban": "",
@@ -15550,7 +15550,7 @@
       "piva": "02549100309",
       "prov": "UD",
       "ragioneSociale": "CRESPI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -16001,7 +16001,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2025-11-27",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-27",
       "dataScadenza": "2025-12-27",
       "filename": "IT04623280965_3qds5.xml",
       "iban": "",
@@ -16014,7 +16014,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -16023,7 +16023,7 @@
       "cf": "05634860828",
       "citta": "PALERMO",
       "data": "2025-11-24",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT05634860828_00182.xml",
       "iban": "IT04K0887785840000000343387",
@@ -16036,7 +16036,7 @@
       "piva": "05634860828",
       "prov": "PA",
       "ragioneSociale": "NATISANI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -16133,7 +16133,7 @@
       "cf": "01233790235",
       "citta": "Castel D'azzano",
       "data": "2025-11-26",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-26",
       "dataScadenza": "2025-12-26",
       "filename": "IT01378570350_nKZfj.xml",
       "iban": "",
@@ -16146,7 +16146,7 @@
       "piva": "01233790235",
       "prov": "VR",
       "ragioneSociale": "Bauli Spa",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16177,7 +16177,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-11-25",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT01394200362_94TZ1.xml",
       "iban": "IT04K0887785840000000343387",
@@ -16190,7 +16190,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16221,7 +16221,7 @@
       "cf": "00169350147",
       "citta": "COSIO VALTELLINO",
       "data": "2025-11-26",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-25",
       "dataScadenza": "2026-01-25",
       "filename": "IT02355260981_cnac4.xml",
       "iban": "IT18S0333201600000001113401",
@@ -16234,7 +16234,7 @@
       "piva": "00169350147",
       "prov": "SO",
       "ragioneSociale": "GALBUSERA  S.P.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -16265,7 +16265,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-11-24",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT016417907022025l_0c2xI.xml",
       "iban": "",
@@ -16278,7 +16278,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD S.r.l. Unipersonale",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16287,7 +16287,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-11-24",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT016417907022025y_0c2pE.xml",
       "iban": "",
@@ -16300,7 +16300,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD S.r.l. Unipersonale",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16309,7 +16309,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-11-24",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT016417907022025q_0c2oh.xml",
       "iban": "",
@@ -16322,7 +16322,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD S.r.l. Unipersonale",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16353,7 +16353,7 @@
       "cf": "",
       "citta": "Bolzano",
       "data": "2025-11-25",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-25",
       "dataScadenza": "2025-12-25",
       "filename": "IT01912771001_0Mme6.xml",
       "iban": "",
@@ -16366,7 +16366,7 @@
       "piva": "02936700216",
       "prov": "BZ",
       "ragioneSociale": "ALDI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16397,7 +16397,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-11-25",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-25",
       "dataScadenza": "2025-11-25",
       "filename": "IT03618500403_32d3D.xml",
       "iban": "",
@@ -16410,7 +16410,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -16419,7 +16419,7 @@
       "cf": "03230760583",
       "citta": "CALENZANO",
       "data": "2025-11-24",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT03230760583_05XY1.xml",
       "iban": "",
@@ -16432,7 +16432,7 @@
       "piva": "01691980484",
       "prov": "FI",
       "ragioneSociale": "PROBIOS SRL SOCIETA' BENEFIT",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -16441,7 +16441,7 @@
       "cf": "03230760583",
       "citta": "CALENZANO",
       "data": "2025-11-24",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT03230760583_05XY0.xml",
       "iban": "",
@@ -16454,7 +16454,7 @@
       "piva": "01691980484",
       "prov": "FI",
       "ragioneSociale": "PROBIOS SRL SOCIETA' BENEFIT",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -16463,7 +16463,7 @@
       "cf": "03230760583",
       "citta": "CALENZANO",
       "data": "2025-11-24",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT03230760583_05XRU.xml",
       "iban": "",
@@ -16476,7 +16476,7 @@
       "piva": "01691980484",
       "prov": "FI",
       "ragioneSociale": "PROBIOS SRL SOCIETA' BENEFIT",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -16552,7 +16552,7 @@
       "cf": "",
       "citta": "Lainate",
       "data": "2025-11-18",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-02",
       "dataScadenza": "2026-01-02",
       "filename": "IT0526289001425332_MJYHF.xml",
       "iban": "",
@@ -16565,7 +16565,7 @@
       "piva": "04219660158",
       "prov": "MI",
       "ragioneSociale": "Perfetti Van Melle S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -16574,7 +16574,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-11-21",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-21",
       "dataScadenza": "2025-11-21",
       "filename": "IT01223730936_00ZF4.xml",
       "iban": "IT59E0835664780000000352516",
@@ -16587,7 +16587,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16596,7 +16596,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-11-21",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT0164179070220253_0c22o.xml",
       "iban": "",
@@ -16609,7 +16609,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD S.r.l. Unipersonale",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16618,7 +16618,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-11-21",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT016417907022025R_0c2EK.xml",
       "iban": "",
@@ -16631,7 +16631,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD S.r.l. Unipersonale",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16662,7 +16662,7 @@
       "cf": "03654630874",
       "citta": "CATANIA",
       "data": "2025-11-20",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT03654630874_008R4.xml",
       "iban": "IT04K0887785840000000343387",
@@ -16675,7 +16675,7 @@
       "piva": "03654630874",
       "prov": "CT",
       "ragioneSociale": "BIOORGANIC SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -16684,7 +16684,7 @@
       "cf": "03518800366",
       "citta": "VIGNOLA",
       "data": "2025-11-18",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-30",
       "dataScadenza": "2026-01-30",
       "filename": "IT016417907022025C_0bWyo.xml",
       "iban": "",
@@ -16697,7 +16697,7 @@
       "piva": "03518800366",
       "prov": "MO",
       "ragioneSociale": "LABORATORIO GRAZIOSI S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16750,7 +16750,7 @@
       "cf": "",
       "citta": "Bolzano",
       "data": "2025-11-23",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-23",
       "dataScadenza": "2025-12-23",
       "filename": "IT01912771001_0Mlim.xml",
       "iban": "",
@@ -16763,7 +16763,7 @@
       "piva": "02936700216",
       "prov": "BZ",
       "ragioneSociale": "ALDI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16794,7 +16794,7 @@
       "cf": "01233790235",
       "citta": "Castel D'azzano",
       "data": "2025-11-21",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-21",
       "dataScadenza": "2025-12-21",
       "filename": "IT01378570350_nHul9.xml",
       "iban": "",
@@ -16807,7 +16807,7 @@
       "piva": "01233790235",
       "prov": "VR",
       "ragioneSociale": "Bauli Spa",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -16904,7 +16904,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-11-21",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-21",
       "dataScadenza": "2025-11-21",
       "filename": "IT03618500403_31iYx.xml",
       "iban": "",
@@ -16917,7 +16917,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -16992,7 +16992,7 @@
       "cf": "03230760583",
       "citta": "CALENZANO",
       "data": "2025-11-20",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT03230760583_05WXH.xml",
       "iban": "",
@@ -17005,7 +17005,7 @@
       "piva": "01691980484",
       "prov": "FI",
       "ragioneSociale": "PROBIOS SRL SOCIETA' BENEFIT",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -17168,7 +17168,7 @@
       "cf": "03492610179",
       "citta": "Maclodio",
       "data": "2025-11-17",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT02576660365_0s8GE.xml",
       "iban": "IT04K0887785840000000343387",
@@ -17181,7 +17181,7 @@
       "piva": "03492610179",
       "prov": "BS",
       "ragioneSociale": "MOLINO RIVETTI PIETRO S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -17190,7 +17190,7 @@
       "cf": "01578030221",
       "citta": "AVIO",
       "data": "2025-11-19",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-19",
       "dataScadenza": "2025-12-19",
       "filename": "IT01578030221_037DZ.xml",
       "iban": "IT04K0887785840000000343387",
@@ -17203,7 +17203,7 @@
       "piva": "01578030221",
       "prov": "TN",
       "ragioneSociale": "Ginos S.r.l",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -17212,7 +17212,7 @@
       "cf": "04751650286",
       "citta": "RUBANO",
       "data": "2025-11-17",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT016417907022025p_0bNVB.xml",
       "iban": "",
@@ -17225,7 +17225,7 @@
       "piva": "04751650286",
       "prov": "PD",
       "ragioneSociale": "CASANOVA FOOD S.R.L. a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -17234,7 +17234,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-11-19",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-19",
       "dataScadenza": "2025-11-19",
       "filename": "IT03618500403_30y2o.xml",
       "iban": "",
@@ -17247,7 +17247,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -17344,7 +17344,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-11-17",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT01394200362_93qfA.xml",
       "iban": "IT04K0887785840000000343387",
@@ -17357,7 +17357,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -17498,7 +17498,7 @@
       "cf": "",
       "citta": "Lainate",
       "data": "2025-11-13",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-28",
       "dataScadenza": "2025-12-28",
       "filename": "IT0526289001425329_M9RMX.xml",
       "iban": "",
@@ -17511,7 +17511,7 @@
       "piva": "04219660158",
       "prov": "MI",
       "ragioneSociale": "Perfetti Van Melle S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -17586,7 +17586,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-11-14",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-14",
       "dataScadenza": "2025-11-14",
       "filename": "IT01223730936_00ZCX.xml",
       "iban": "IT59E0835664780000000352516",
@@ -17599,7 +17599,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -17696,7 +17696,7 @@
       "cf": "06001220877",
       "citta": "Catania",
       "data": "2025-11-10",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT016417907022025w_0bH3F.xml",
       "iban": "IT04K0887785840000000343387",
@@ -17709,7 +17709,7 @@
       "piva": "06001220877",
       "prov": "CT",
       "ragioneSociale": "CALLICARI GROUP srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -17718,7 +17718,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2025-11-15",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-15",
       "dataScadenza": "2025-12-15",
       "filename": "IT04623280965_3kqis.xml",
       "iban": "",
@@ -17731,7 +17731,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -17740,7 +17740,7 @@
       "cf": "01233790235",
       "citta": "Castel D'azzano",
       "data": "2025-11-14",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-14",
       "dataScadenza": "2025-12-14",
       "filename": "IT01378570350_nDM4Q.xml",
       "iban": "",
@@ -17753,7 +17753,7 @@
       "piva": "01233790235",
       "prov": "VR",
       "ragioneSociale": "Bauli Spa",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -17828,7 +17828,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-11-07",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-07",
       "dataScadenza": "2025-11-07",
       "filename": "IT01223730936_00ZAO.xml",
       "iban": "IT59E0835664780000000352516",
@@ -17841,7 +17841,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -18004,7 +18004,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-11-12",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT01394200362_93VxR.xml",
       "iban": "IT04K0887785840000000343387",
@@ -18017,7 +18017,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -18092,7 +18092,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-11-13",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-13",
       "dataScadenza": "2025-11-13",
       "filename": "IT03618500403_2zbYj.xml",
       "iban": "",
@@ -18105,7 +18105,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -18114,7 +18114,7 @@
       "cf": "03492610179",
       "citta": "Maclodio",
       "data": "2025-11-12",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT02576660365_0s3Vw.xml",
       "iban": "IT04K0887785840000000343387",
@@ -18127,7 +18127,7 @@
       "piva": "03492610179",
       "prov": "BS",
       "ragioneSociale": "MOLINO RIVETTI PIETRO S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -18224,7 +18224,7 @@
       "cf": "00687270264",
       "citta": "FANZOLO DI VEDELAGO",
       "data": "2025-11-07",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT04204200135_01wRF.xml",
       "iban": "",
@@ -18237,7 +18237,7 @@
       "piva": "00687270264",
       "prov": "TV",
       "ragioneSociale": "MOLINO DI FERRO SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -18268,7 +18268,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2025-11-10",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-25",
       "dataScadenza": "2025-11-25",
       "filename": "IT06655971007_mChaO.xml",
       "iban": "IT18P0306909400100000011397",
@@ -18281,7 +18281,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -18378,7 +18378,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-11-06",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT016417907022025W_0bxmS.xml",
       "iban": "",
@@ -18391,7 +18391,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD S.r.l. Unipersonale",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -18422,7 +18422,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-11-06",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT0164179070220257_0bx4D.xml",
       "iban": "",
@@ -18435,7 +18435,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD S.r.l. Unipersonale",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -18444,7 +18444,7 @@
       "cf": "03230760583",
       "citta": "CALENZANO",
       "data": "2025-11-10",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT03230760583_05T20.xml",
       "iban": "",
@@ -18457,7 +18457,7 @@
       "piva": "01691980484",
       "prov": "FI",
       "ragioneSociale": "PROBIOS SRL SOCIETA' BENEFIT",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -18488,7 +18488,7 @@
       "cf": "07509770587",
       "citta": "Robbio",
       "data": "2025-11-10",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-10",
       "dataScadenza": "2025-12-10",
       "filename": "IT07509770587_00a8x.xml",
       "iban": "",
@@ -18501,7 +18501,7 @@
       "piva": "01407630183",
       "prov": "PV",
       "ragioneSociale": "Riso Gallo S.p.A",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -18510,7 +18510,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2025-11-09",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-24",
       "dataScadenza": "2025-11-24",
       "filename": "IT06655971007_k9loI.xml",
       "iban": "IT18Y0306905020051014470177",
@@ -18523,7 +18523,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -18532,7 +18532,7 @@
       "cf": "",
       "citta": "CORMONS",
       "data": "2025-11-07",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-07",
       "dataScadenza": "2025-11-07",
       "filename": "IT016417907022025G_0brvP.xml",
       "iban": "IT65E0863164550000001005201",
@@ -18545,7 +18545,7 @@
       "piva": "01167310315",
       "prov": "GO",
       "ragioneSociale": "FARMACIA ALLA MADONNA SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -18554,7 +18554,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2025-11-08",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-24",
       "dataScadenza": "2025-11-24",
       "filename": "IT06655971007_h7yuN.xml",
       "iban": "IT18Y0306905020051014470177",
@@ -18567,7 +18567,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -18664,7 +18664,7 @@
       "cf": "",
       "citta": "Latina",
       "data": "2025-11-07",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT00210759999_v6BOl.xml",
       "iban": "IT60P0356601600000126160011",
@@ -18677,7 +18677,7 @@
       "piva": "00937220598",
       "prov": "LT",
       "ragioneSociale": "Heinz Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -18708,7 +18708,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-11-07",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-07",
       "dataScadenza": "2025-11-07",
       "filename": "IT03618500403_2yQP4.xml",
       "iban": "",
@@ -18721,7 +18721,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -18730,7 +18730,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-11-06",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT01394200362_92x0F.xml",
       "iban": "IT04K0887785840000000343387",
@@ -18743,7 +18743,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -18752,7 +18752,7 @@
       "cf": "06001220877",
       "citta": "Catania",
       "data": "2025-11-06",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT016417907022025m_0blTA.xml",
       "iban": "IT04K0887785840000000343387",
@@ -18765,7 +18765,7 @@
       "piva": "06001220877",
       "prov": "CT",
       "ragioneSociale": "CALLICARI GROUP srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -18885,7 +18885,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-11-05",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-05",
       "dataScadenza": "2025-11-05",
       "filename": "IT03618500403_2xuOL.xml",
       "iban": "",
@@ -18898,7 +18898,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -19193,7 +19193,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2026-03-11",
-      "dataPagamento": null,
+      "dataPagamento": "2026-03-11",
       "dataScadenza": "2026-03-11",
       "filename": "IT03618500403_3TSSk.xml",
       "iban": "",
@@ -19206,7 +19206,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -19237,7 +19237,7 @@
       "cf": "03790600260",
       "citta": "MARTIGNACCO",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT016417907022025K_0bw7c.xml",
       "iban": "IT87X0863763950000023054945",
@@ -19250,7 +19250,7 @@
       "piva": "03790600260",
       "prov": "UD",
       "ragioneSociale": "SICURGROUP SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -19259,7 +19259,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT01223730936_00Z7M.xml",
       "iban": "IT59E0835664780000000352516",
@@ -19272,7 +19272,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19303,7 +19303,7 @@
       "cf": "00856030267",
       "citta": "CIMADOLMO",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT0200275048300000_TH77D.xml",
       "iban": "IT73P0306962042000000432163",
@@ -19316,7 +19316,7 @@
       "piva": "00856030267",
       "prov": "TV",
       "ragioneSociale": "Lavanderia Piave Srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -19347,7 +19347,7 @@
       "cf": "02913270308",
       "citta": "UDINE",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT02913270308_HV82V.xml",
       "iban": "",
@@ -19360,7 +19360,7 @@
       "piva": "02913270308",
       "prov": "UD",
       "ragioneSociale": "PASTRY WORLD SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19369,7 +19369,7 @@
       "cf": "01144910310",
       "citta": "MONFALCONE",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT01144910310_014HI.xml",
       "iban": "",
@@ -19382,7 +19382,7 @@
       "piva": "01144910310",
       "prov": "GO",
       "ragioneSociale": "Gaia SRL a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19391,7 +19391,7 @@
       "cf": "01144910310",
       "citta": "MONFALCONE",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT01144910310_014QM.xml",
       "iban": "",
@@ -19404,7 +19404,7 @@
       "piva": "01144910310",
       "prov": "GO",
       "ragioneSociale": "Gaia SRL a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19413,7 +19413,7 @@
       "cf": "01144910310",
       "citta": "MONFALCONE",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT01144910310_014QL.xml",
       "iban": "",
@@ -19426,7 +19426,7 @@
       "piva": "01144910310",
       "prov": "GO",
       "ragioneSociale": "Gaia SRL a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19435,7 +19435,7 @@
       "cf": "01144910310",
       "citta": "MONFALCONE",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT01144910310_014HJ.xml",
       "iban": "",
@@ -19448,7 +19448,7 @@
       "piva": "01144910310",
       "prov": "GO",
       "ragioneSociale": "Gaia SRL a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19479,7 +19479,7 @@
       "cf": "02618710400",
       "citta": "SARSINA",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT016417907022025s_0bfvs.xml",
       "iban": "IT15K0885068040000010107484",
@@ -19492,7 +19492,7 @@
       "piva": "02618710400",
       "prov": "FC",
       "ragioneSociale": "BELLI FRESCHI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19545,7 +19545,7 @@
       "cf": "02877790309",
       "citta": "VILLESSE",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-02",
       "dataScadenza": "2025-12-02",
       "filename": "IT02877790309_03M7T.xml",
       "iban": "",
@@ -19558,7 +19558,7 @@
       "piva": "02877790309",
       "prov": "GO",
       "ragioneSociale": "LATTE CARSO S.P.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19589,7 +19589,7 @@
       "cf": "04751650286",
       "citta": "RUBANO",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT016417907022025m_0bcrb.xml",
       "iban": "",
@@ -19602,7 +19602,7 @@
       "piva": "04751650286",
       "prov": "PD",
       "ragioneSociale": "CASANOVA FOOD S.R.L. a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19611,7 +19611,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT01394200362_92W5Z.xml",
       "iban": "IT04K0887785840000000343387",
@@ -19624,7 +19624,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19656,7 +19656,7 @@
       "cf": "04751650286",
       "citta": "RUBANO",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT016417907022025Z_0bde6.xml",
       "iban": "",
@@ -19669,7 +19669,7 @@
       "piva": "04751650286",
       "prov": "PD",
       "ragioneSociale": "CASANOVA FOOD S.R.L. a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19678,7 +19678,7 @@
       "cf": "01168180311",
       "citta": "VILLESSE",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT04383420405_IQC14.xml",
       "iban": "",
@@ -19691,7 +19691,7 @@
       "piva": "01168180311",
       "prov": "GO",
       "ragioneSociale": "LATTERIA MONTANARI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19700,7 +19700,7 @@
       "cf": "BLSGNN67D08E098N",
       "citta": "GRADISCA D'ISONZO",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT00510470313_00CXL.xml",
       "iban": "IT04K0887785840000000343387",
@@ -19713,7 +19713,7 @@
       "piva": "00510470313",
       "prov": "GO",
       "ragioneSociale": "Az. Agr. BLASON di Blason Giovanni",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19744,7 +19744,7 @@
       "cf": "02775690247",
       "citta": "PADOVA",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT02775690247_00LK1.xml",
       "iban": "IT76P0103012156000001781400",
@@ -19757,7 +19757,7 @@
       "piva": "03474210287",
       "prov": "PD",
       "ragioneSociale": "I.N.C.A.P. SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19810,7 +19810,7 @@
       "cf": "04718490271",
       "citta": "SAN MICHELE AL TAGLIAMENTO",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT04718490271_038YV.xml",
       "iban": "",
@@ -19823,7 +19823,7 @@
       "piva": "04718490271",
       "prov": "VE",
       "ragioneSociale": "FRIULBRAU S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19832,7 +19832,7 @@
       "cf": "",
       "citta": "TORRI DI QUARTESOLO",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT02046570426_de9S1.xml",
       "iban": "IT47E0200860800000105075716",
@@ -19845,7 +19845,7 @@
       "piva": "04122730247",
       "prov": "VI",
       "ragioneSociale": "LE PRELIBATEZZE ALIMENTI SENZA GLUTINE SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -19920,7 +19920,7 @@
       "cf": "00050670314",
       "citta": "Monfalcone",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-16",
       "dataScadenza": "2025-12-16",
       "filename": "IT00050670314_00DV5.xml",
       "iban": "",
@@ -19933,7 +19933,7 @@
       "piva": "00050670314",
       "prov": "GO",
       "ragioneSociale": "ANGELO RIGANELLI E C. SNC di Riganelli Luigi & C.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -20052,7 +20052,7 @@
       "cf": "02549100309",
       "citta": "PASIAN DI PRATO",
       "data": "2025-10-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-15",
       "dataScadenza": "2025-12-15",
       "filename": "IT02549100309_00F0S.xml",
       "iban": "",
@@ -20065,7 +20065,7 @@
       "piva": "02549100309",
       "prov": "UD",
       "ragioneSociale": "CRESPI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -20206,7 +20206,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-10-17",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-17",
       "dataScadenza": "2025-10-17",
       "filename": "IT01223730936_00YZM.xml",
       "iban": "IT59E0835664780000000352516",
@@ -20219,7 +20219,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -20228,7 +20228,7 @@
       "cf": "03654630874",
       "citta": "CATANIA",
       "data": "2025-10-17",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT03654630874_008KT.xml",
       "iban": "IT04K0887785840000000343387",
@@ -20241,7 +20241,7 @@
       "piva": "03654630874",
       "prov": "CT",
       "ragioneSociale": "BIOORGANIC SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -20250,7 +20250,7 @@
       "cf": "03654630874",
       "citta": "CATANIA",
       "data": "2025-10-17",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT03654630874_008KU.xml",
       "iban": "IT04K0887785840000000343387",
@@ -20263,7 +20263,7 @@
       "piva": "03654630874",
       "prov": "CT",
       "ragioneSociale": "BIOORGANIC SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -20339,7 +20339,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-10-16",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT016417907022025A_0aF5V.xml",
       "iban": "",
@@ -20352,7 +20352,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -20449,7 +20449,7 @@
       "cf": "06001220877",
       "citta": "Catania",
       "data": "2025-10-13",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT0164179070220254_0aDGq.xml",
       "iban": "IT04K0887785840000000343387",
@@ -20462,7 +20462,7 @@
       "piva": "06001220877",
       "prov": "CT",
       "ragioneSociale": "CALLICARI GROUP srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -20471,7 +20471,7 @@
       "cf": "06001220877",
       "citta": "Catania",
       "data": "2025-10-13",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT016417907022025m_0aCOc.xml",
       "iban": "IT04K0887785840000000343387",
@@ -20484,7 +20484,7 @@
       "piva": "06001220877",
       "prov": "CT",
       "ragioneSociale": "CALLICARI GROUP srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -20559,7 +20559,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-10-18",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-18",
       "dataScadenza": "2025-10-18",
       "filename": "IT03618500403_2u8E7.xml",
       "iban": "",
@@ -20572,7 +20572,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -20581,7 +20581,7 @@
       "cf": "",
       "citta": "Parma",
       "data": "2025-10-18",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-17",
       "dataScadenza": "2025-11-17",
       "filename": "IT03237470236_dtTSD.xml",
       "iban": "IT04K0887785840000000343387",
@@ -20594,7 +20594,7 @@
       "piva": "02135850341",
       "prov": "PR",
       "ragioneSociale": "FIRST SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -20625,7 +20625,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-10-10",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-10",
       "dataScadenza": "2025-10-10",
       "filename": "IT01223730936_00YX5.xml",
       "iban": "IT59E0835664780000000352516",
@@ -20638,7 +20638,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -20669,7 +20669,7 @@
       "cf": "04751650286",
       "citta": "RUBANO",
       "data": "2025-10-16",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT016417907022025G_0azM6.xml",
       "iban": "",
@@ -20682,7 +20682,7 @@
       "piva": "04751650286",
       "prov": "PD",
       "ragioneSociale": "CASANOVA FOOD S.R.L. a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -20691,7 +20691,7 @@
       "cf": "04428520268",
       "citta": "RESANA",
       "data": "2025-10-17",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "SM03473_Epoin.xml",
       "iban": "IT04K0887785840000000343387",
@@ -20704,7 +20704,7 @@
       "piva": "04428520268",
       "prov": "TV",
       "ragioneSociale": "GREENPROJECT ITALIA S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -20735,7 +20735,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-10-17",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-17",
       "dataScadenza": "2025-10-17",
       "filename": "IT03618500403_2tuJW.xml",
       "iban": "",
@@ -20748,7 +20748,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -20845,7 +20845,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-10-15",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT016417907022025k_0axn3.xml",
       "iban": "",
@@ -20858,7 +20858,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21000,7 +21000,7 @@
       "cf": "03230760583",
       "citta": "CALENZANO",
       "data": "2025-10-14",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT03230760583_05I5Q.xml",
       "iban": "",
@@ -21013,7 +21013,7 @@
       "piva": "01691980484",
       "prov": "FI",
       "ragioneSociale": "PROBIOS SRL SOCIETA' BENEFIT",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -21044,7 +21044,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2025-10-15",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-14",
       "dataScadenza": "2025-11-14",
       "filename": "IT04623280965_2we1k.xml",
       "iban": "",
@@ -21057,7 +21057,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -21066,7 +21066,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-10-15",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-15",
       "dataScadenza": "2025-10-15",
       "filename": "IT03618500403_2tSrl.xml",
       "iban": "",
@@ -21079,7 +21079,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -21176,7 +21176,7 @@
       "cf": "03492610179",
       "citta": "Maclodio",
       "data": "2025-10-14",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT02576660365_0rxGN.xml",
       "iban": "IT04K0887785840000000343387",
@@ -21189,7 +21189,7 @@
       "piva": "03492610179",
       "prov": "BS",
       "ragioneSociale": "MOLINO RIVETTI PIETRO S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -21198,7 +21198,7 @@
       "cf": "03492610179",
       "citta": "Maclodio",
       "data": "2025-10-14",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT02576660365_0rxGO.xml",
       "iban": "IT04K0887785840000000343387",
@@ -21211,7 +21211,7 @@
       "piva": "03492610179",
       "prov": "BS",
       "ragioneSociale": "MOLINO RIVETTI PIETRO S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -21220,7 +21220,7 @@
       "cf": "02321720274",
       "citta": "SAN MARTINO DI LUPARI",
       "data": "2025-10-13",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-12",
       "dataScadenza": "2025-11-12",
       "filename": "IT02355260981_c6zS2.xml",
       "iban": "",
@@ -21233,7 +21233,7 @@
       "piva": "02321720274",
       "prov": "PD",
       "ragioneSociale": "PULIMARKET srl a Socio Unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -21242,7 +21242,7 @@
       "cf": "03230760583",
       "citta": "CALENZANO",
       "data": "2025-10-13",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT03230760583_05HY3.xml",
       "iban": "",
@@ -21255,7 +21255,7 @@
       "piva": "01691980484",
       "prov": "FI",
       "ragioneSociale": "PROBIOS SRL SOCIETA' BENEFIT",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -21264,7 +21264,7 @@
       "cf": "",
       "citta": "Latina",
       "data": "2025-10-13",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT00210759999_5sRjm.xml",
       "iban": "IT60P0356601600000126160011",
@@ -21277,7 +21277,7 @@
       "piva": "00937220598",
       "prov": "LT",
       "ragioneSociale": "Heinz Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -21308,7 +21308,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-10-24",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-24",
       "dataScadenza": "2025-10-24",
       "filename": "IT01223730936_00Z22.xml",
       "iban": "IT59E0835664780000000352516",
@@ -21321,7 +21321,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21330,7 +21330,7 @@
       "cf": "04703370165",
       "citta": "COSTA DI MEZZATE",
       "data": "2025-10-29",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT02355260981_cLyU4.xml",
       "iban": "",
@@ -21343,7 +21343,7 @@
       "piva": "04703370165",
       "prov": "BG",
       "ragioneSociale": "Molino Nicoli S.P.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -21352,7 +21352,7 @@
       "cf": "04703370165",
       "citta": "COSTA DI MEZZATE",
       "data": "2025-10-29",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT02355260981_cLyTz.xml",
       "iban": "",
@@ -21365,7 +21365,7 @@
       "piva": "04703370165",
       "prov": "BG",
       "ragioneSociale": "Molino Nicoli S.P.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -21374,7 +21374,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-10-30",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-31",
       "dataScadenza": "2026-01-31",
       "filename": "IT0164179070220256_0b18G.xml",
       "iban": "",
@@ -21387,7 +21387,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD S.r.l. Unipersonale",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21396,7 +21396,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-10-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT016417907022025T_0b17Q.xml",
       "iban": "",
@@ -21409,7 +21409,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD S.r.l. Unipersonale",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21462,7 +21462,7 @@
       "cf": "01144910310",
       "citta": "MONFALCONE",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT01144910310_0147X.xml",
       "iban": "",
@@ -21475,7 +21475,7 @@
       "piva": "01144910310",
       "prov": "GO",
       "ragioneSociale": "Gaia SRL a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21484,7 +21484,7 @@
       "cf": "02618710400",
       "citta": "SARSINA",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT016417907022025O_0adZs.xml",
       "iban": "IT15K0885068040000010107484",
@@ -21497,7 +21497,7 @@
       "piva": "02618710400",
       "prov": "FC",
       "ragioneSociale": "BELLI FRESCHI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21528,7 +21528,7 @@
       "cf": "00856030267",
       "citta": "CIMADOLMO",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT0200275048300000_SPES9.xml",
       "iban": "IT73P0306962042000000432163",
@@ -21541,7 +21541,7 @@
       "piva": "00856030267",
       "prov": "TV",
       "ragioneSociale": "Lavanderia Piave Srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -21550,7 +21550,7 @@
       "cf": "02913270308",
       "citta": "UDINE",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT02913270308_HV7VF.xml",
       "iban": "",
@@ -21563,7 +21563,7 @@
       "piva": "02913270308",
       "prov": "UD",
       "ragioneSociale": "PASTRY WORLD SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21572,7 +21572,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-09-26",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-26",
       "dataScadenza": "2025-09-26",
       "filename": "IT01223730936_00YN1.xml",
       "iban": "IT59E0835664780000000352516",
@@ -21585,7 +21585,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21594,7 +21594,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-30",
       "dataScadenza": "2025-09-30",
       "filename": "IT01223730936_00YS1.xml",
       "iban": "IT59E0835664780000000352516",
@@ -21607,7 +21607,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21638,7 +21638,7 @@
       "cf": "",
       "citta": "CUNEO",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT03846270043_00BTB.xml",
       "iban": "",
@@ -21651,7 +21651,7 @@
       "piva": "03846270043",
       "prov": "CN",
       "ragioneSociale": "Da Mario srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21726,7 +21726,7 @@
       "cf": "02877790309",
       "citta": "VILLESSE",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-02",
       "dataScadenza": "2025-11-02",
       "filename": "IT02877790309_03K41.xml",
       "iban": "",
@@ -21739,7 +21739,7 @@
       "piva": "02877790309",
       "prov": "GO",
       "ragioneSociale": "LATTE CARSO S.P.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21770,7 +21770,7 @@
       "cf": "01168180311",
       "citta": "VILLESSE",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT04383420405_II1GZ.xml",
       "iban": "",
@@ -21783,7 +21783,7 @@
       "piva": "01168180311",
       "prov": "GO",
       "ragioneSociale": "LATTERIA MONTANARI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21814,7 +21814,7 @@
       "cf": "01996960306",
       "citta": "POZZUOLO DEL FRIULI",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT01996960306_011JU.xml",
       "iban": "",
@@ -21827,7 +21827,7 @@
       "piva": "01996960306",
       "prov": "UD",
       "ragioneSociale": "BLM SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21881,7 +21881,7 @@
       "cf": "00687270264",
       "citta": "FANZOLO DI VEDELAGO",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT01533080675_8cHb4.xml",
       "iban": "",
@@ -21894,7 +21894,7 @@
       "piva": "00687270264",
       "prov": "TV",
       "ragioneSociale": "MOLINO DI FERRO SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21903,7 +21903,7 @@
       "cf": "04751650286",
       "citta": "RUBANO",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT0164179070220256_09VEo.xml",
       "iban": "",
@@ -21916,7 +21916,7 @@
       "piva": "04751650286",
       "prov": "PD",
       "ragioneSociale": "CASANOVA FOOD S.R.L. a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -21991,7 +21991,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT01394200362_8zUG1.xml",
       "iban": "IT04K0887785840000000343387",
@@ -22004,7 +22004,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22013,7 +22013,7 @@
       "cf": "00050670314",
       "citta": "Monfalcone",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-15",
       "dataScadenza": "2025-11-15",
       "filename": "IT00050670314_00DT9.xml",
       "iban": "",
@@ -22026,7 +22026,7 @@
       "piva": "00050670314",
       "prov": "GO",
       "ragioneSociale": "ANGELO RIGANELLI E C. SNC di Riganelli Luigi & C.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22102,7 +22102,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT01394200362_8zUG2.xml",
       "iban": "IT04K0887785840000000343387",
@@ -22115,7 +22115,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22124,7 +22124,7 @@
       "cf": "04718490271",
       "citta": "SAN MICHELE AL TAGLIAMENTO",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT04718490271_036J1.xml",
       "iban": "",
@@ -22137,7 +22137,7 @@
       "piva": "04718490271",
       "prov": "VE",
       "ragioneSociale": "FRIULBRAU S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22190,7 +22190,7 @@
       "cf": "PRNGRL46C64F356C",
       "citta": "FOGLIANO REDIPUGLIA",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-16",
       "dataScadenza": "2025-09-16",
       "filename": "IT016417907022025a_09Q6I.xml",
       "iban": "IT34A0306964582100000005244",
@@ -22203,7 +22203,7 @@
       "piva": "01214480319",
       "prov": "GO",
       "ragioneSociale": "Ditta DE MARCHI di PARONITTI GABRIELLA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22212,7 +22212,7 @@
       "cf": "",
       "citta": "TORRI DI QUARTESOLO",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT02046570426_cUmYs.xml",
       "iban": "IT47E0200860800000105075716",
@@ -22225,7 +22225,7 @@
       "piva": "04122730247",
       "prov": "VI",
       "ragioneSociale": "LE PRELIBATEZZE ALIMENTI SENZA GLUTINE SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22345,7 +22345,7 @@
       "cf": "00180899999",
       "citta": "PESCARA",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-30",
       "dataScadenza": "2025-09-30",
       "filename": "IT01879020517A2025_giSOO.xml",
       "iban": "",
@@ -22358,7 +22358,7 @@
       "piva": "00180899999",
       "prov": "PE",
       "ragioneSociale": "GANZ EINFACH GMBH",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD18"
     },
     {
@@ -22367,7 +22367,7 @@
       "cf": "02549100309",
       "citta": "PASIAN DI PRATO",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-14",
       "dataScadenza": "2025-11-14",
       "filename": "IT02549100309_00EJB.xml",
       "iban": "",
@@ -22380,7 +22380,7 @@
       "piva": "02549100309",
       "prov": "UD",
       "ragioneSociale": "CRESPI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -22433,7 +22433,7 @@
       "cf": "03230760583",
       "citta": "CALENZANO",
       "data": "2025-09-29",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT03230760583_05C2C.xml",
       "iban": "",
@@ -22446,7 +22446,7 @@
       "piva": "01691980484",
       "prov": "FI",
       "ragioneSociale": "PROBIOS SRL SOCIETA' BENEFIT",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -22455,7 +22455,7 @@
       "cf": "03230760583",
       "citta": "CALENZANO",
       "data": "2025-09-29",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT03230760583_05C2B.xml",
       "iban": "",
@@ -22468,7 +22468,7 @@
       "piva": "01691980484",
       "prov": "FI",
       "ragioneSociale": "PROBIOS SRL SOCIETA' BENEFIT",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -22499,7 +22499,7 @@
       "cf": "01233790235",
       "citta": "Castel D'azzano",
       "data": "2025-09-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-30",
       "dataScadenza": "2025-10-30",
       "filename": "IT01378570350_mgDhB.xml",
       "iban": "",
@@ -22512,7 +22512,7 @@
       "piva": "01233790235",
       "prov": "VR",
       "ragioneSociale": "Bauli Spa",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22521,7 +22521,7 @@
       "cf": "04703370165",
       "citta": "COSTA DI MEZZATE",
       "data": "2025-09-15",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT02355260981_bnGqE.xml",
       "iban": "",
@@ -22534,7 +22534,7 @@
       "piva": "04703370165",
       "prov": "BG",
       "ragioneSociale": "Molino Nicoli S.P.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -22543,7 +22543,7 @@
       "cf": "06001220877",
       "citta": "Catania",
       "data": "2025-09-19",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT016417907022025r_09I3E.xml",
       "iban": "IT04K0887785840000000343387",
@@ -22556,7 +22556,7 @@
       "piva": "06001220877",
       "prov": "CT",
       "ragioneSociale": "CALLICARI GROUP srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -22565,7 +22565,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-09-19",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-19",
       "dataScadenza": "2025-09-19",
       "filename": "IT01223730936_00YKE.xml",
       "iban": "IT59E0835664780000000352516",
@@ -22578,7 +22578,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22631,7 +22631,7 @@
       "cf": "01144910310",
       "citta": "MONFALCONE",
       "data": "2025-09-20",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT01144910310_013QI.xml",
       "iban": "",
@@ -22644,7 +22644,7 @@
       "piva": "01144910310",
       "prov": "GO",
       "ragioneSociale": "Gaia SRL a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22653,7 +22653,7 @@
       "cf": "01144910310",
       "citta": "MONFALCONE",
       "data": "2025-09-20",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT01144910310_013QK.xml",
       "iban": "",
@@ -22666,7 +22666,7 @@
       "piva": "01144910310",
       "prov": "GO",
       "ragioneSociale": "Gaia SRL a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22675,7 +22675,7 @@
       "cf": "01144910310",
       "citta": "MONFALCONE",
       "data": "2025-09-20",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT01144910310_013QL.xml",
       "iban": "",
@@ -22688,7 +22688,7 @@
       "piva": "01144910310",
       "prov": "GO",
       "ragioneSociale": "Gaia SRL a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22697,7 +22697,7 @@
       "cf": "01144910310",
       "citta": "MONFALCONE",
       "data": "2025-09-20",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT01144910310_013QJ.xml",
       "iban": "",
@@ -22710,7 +22710,7 @@
       "piva": "01144910310",
       "prov": "GO",
       "ragioneSociale": "Gaia SRL a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22719,7 +22719,7 @@
       "cf": "01144910310",
       "citta": "MONFALCONE",
       "data": "2025-09-20",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT01144910310_013QM.xml",
       "iban": "",
@@ -22732,7 +22732,7 @@
       "piva": "01144910310",
       "prov": "GO",
       "ragioneSociale": "Gaia SRL a socio unico",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22763,7 +22763,7 @@
       "cf": "00687270264",
       "citta": "FANZOLO DI VEDELAGO",
       "data": "2025-09-19",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT01533080675_8bKFu.xml",
       "iban": "",
@@ -22776,7 +22776,7 @@
       "piva": "00687270264",
       "prov": "TV",
       "ragioneSociale": "MOLINO DI FERRO SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22785,7 +22785,7 @@
       "cf": "03654630874",
       "citta": "CATANIA",
       "data": "2025-09-19",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT03654630874_008DP.xml",
       "iban": "IT04K0887785840000000343387",
@@ -22798,7 +22798,7 @@
       "piva": "03654630874",
       "prov": "CT",
       "ragioneSociale": "BIOORGANIC SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -22807,7 +22807,7 @@
       "cf": "03654630874",
       "citta": "CATANIA",
       "data": "2025-09-19",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT03654630874_008DO.xml",
       "iban": "IT04K0887785840000000343387",
@@ -22820,7 +22820,7 @@
       "piva": "03654630874",
       "prov": "CT",
       "ragioneSociale": "BIOORGANIC SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -22829,7 +22829,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-09-12",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-12",
       "dataScadenza": "2025-09-12",
       "filename": "IT01223730936_00YHN.xml",
       "iban": "IT59E0835664780000000352516",
@@ -22842,7 +22842,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -22961,7 +22961,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-09-20",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-20",
       "dataScadenza": "2025-09-20",
       "filename": "IT03618500403_2oA1s.xml",
       "iban": "",
@@ -22974,7 +22974,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -23094,7 +23094,7 @@
       "cf": "03518800366",
       "citta": "VIGNOLA",
       "data": "2025-09-17",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-28",
       "dataScadenza": "2025-11-28",
       "filename": "IT016417907022025t_09t02.xml",
       "iban": "",
@@ -23107,7 +23107,7 @@
       "piva": "03518800366",
       "prov": "MO",
       "ragioneSociale": "LABORATORIO GRAZIOSI S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -23138,7 +23138,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-09-18",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT016417907022025C_09rHE.xml",
       "iban": "",
@@ -23151,7 +23151,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -23182,7 +23182,7 @@
       "cf": "01035310414",
       "citta": "PESARO",
       "data": "2025-09-15",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT016417907022025S_09rjW.xml",
       "iban": "",
@@ -23195,7 +23195,7 @@
       "piva": "01035310414",
       "prov": "PU",
       "ragioneSociale": "TEAMSYSTEM S.P.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -23226,7 +23226,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-09-19",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-19",
       "dataScadenza": "2025-09-19",
       "filename": "IT03618500403_2nsws.xml",
       "iban": "",
@@ -23239,7 +23239,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -23248,7 +23248,7 @@
       "cf": "",
       "citta": "Milano",
       "data": "2025-09-18",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT02448510046TESI3_L4GQS.xml",
       "iban": "",
@@ -23261,7 +23261,7 @@
       "piva": "11629710960",
       "prov": "MI",
       "ragioneSociale": "Farmafood S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -23270,7 +23270,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-09-16",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT01394200362_8yXBE.xml",
       "iban": "IT04K0887785840000000343387",
@@ -23283,7 +23283,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -23292,7 +23292,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-09-16",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT01394200362_8yXBF.xml",
       "iban": "IT04K0887785840000000343387",
@@ -23305,7 +23305,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -23468,7 +23468,7 @@
       "cf": "01008240473",
       "citta": "PISTOIA",
       "data": "2025-09-18",
-      "dataPagamento": null,
+      "dataPagamento": "2026-01-05",
       "dataScadenza": "2026-01-05",
       "filename": "SM03473_Ec9IO.xml",
       "iban": "",
@@ -23481,7 +23481,7 @@
       "piva": "01008240473",
       "prov": "PT",
       "ragioneSociale": "Nove Alpi S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -23490,7 +23490,7 @@
       "cf": "04751650286",
       "citta": "RUBANO",
       "data": "2025-09-16",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT016417907022025t_09oKX.xml",
       "iban": "",
@@ -23503,7 +23503,7 @@
       "piva": "04751650286",
       "prov": "PD",
       "ragioneSociale": "CASANOVA FOOD S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -23578,7 +23578,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-09-16",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-16",
       "dataScadenza": "2025-09-16",
       "filename": "IT03618500403_2nH2d.xml",
       "iban": "",
@@ -23591,7 +23591,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -23732,7 +23732,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2025-09-07",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-22",
       "dataScadenza": "2025-09-22",
       "filename": "IT06655971007_lYqUy.xml",
       "iban": "IT18P0306909400100000011397",
@@ -23745,7 +23745,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -23754,7 +23754,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-09-04",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT0164179070220254_0933N.xml",
       "iban": "",
@@ -23767,7 +23767,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -23776,7 +23776,7 @@
       "cf": "01354500462",
       "citta": "ALTOPASCIO",
       "data": "2025-09-05",
-      "dataPagamento": null,
+      "dataPagamento": "2025-12-31",
       "dataScadenza": "2025-12-31",
       "filename": "IT016417907022025j_092KV.xml",
       "iban": "",
@@ -23789,7 +23789,7 @@
       "piva": "01354500462",
       "prov": "LU",
       "ragioneSociale": "NT FOOD srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -23798,7 +23798,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-09-06",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-06",
       "dataScadenza": "2025-09-06",
       "filename": "IT03618500403_2lGy4.xml",
       "iban": "",
@@ -23811,7 +23811,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -23864,7 +23864,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2025-09-05",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-05",
       "dataScadenza": "2025-10-05",
       "filename": "IT04623280965_212vf.xml",
       "iban": "",
@@ -23877,7 +23877,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -23997,7 +23997,7 @@
       "cf": "03492610179",
       "citta": "Maclodio",
       "data": "2025-09-02",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT02576660365_0qUaD.xml",
       "iban": "IT04K0887785840000000343387",
@@ -24010,7 +24010,7 @@
       "piva": "03492610179",
       "prov": "BS",
       "ragioneSociale": "MOLINO RIVETTI PIETRO S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -24019,7 +24019,7 @@
       "cf": "03492610179",
       "citta": "Maclodio",
       "data": "2025-09-02",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT02576660365_0qU70.xml",
       "iban": "IT04K0887785840000000343387",
@@ -24032,7 +24032,7 @@
       "piva": "03492610179",
       "prov": "BS",
       "ragioneSociale": "MOLINO RIVETTI PIETRO S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -24107,7 +24107,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-09-03",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT01394200362_8xR4M.xml",
       "iban": "IT04K0887785840000000343387",
@@ -24120,7 +24120,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -24173,7 +24173,7 @@
       "cf": "03230760583",
       "citta": "CALENZANO",
       "data": "2025-09-02",
-      "dataPagamento": null,
+      "dataPagamento": "2025-11-30",
       "dataScadenza": "2025-11-30",
       "filename": "IT03230760583_052EO.xml",
       "iban": "",
@@ -24186,7 +24186,7 @@
       "piva": "01691980484",
       "prov": "FI",
       "ragioneSociale": "PROBIOS SRL SOCIETA' BENEFIT",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -24327,7 +24327,7 @@
       "cf": "",
       "citta": "Latina",
       "data": "2025-09-02",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT00210759999_8LR5u.xml",
       "iban": "IT60P0356601600000126160011",
@@ -24340,7 +24340,7 @@
       "piva": "00937220598",
       "prov": "LT",
       "ragioneSociale": "Heinz Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -24349,7 +24349,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-09-02",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-02",
       "dataScadenza": "2025-09-02",
       "filename": "IT03618500403_2kPXb.xml",
       "iban": "",
@@ -24362,7 +24362,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -24437,7 +24437,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-08-15",
-      "dataPagamento": null,
+      "dataPagamento": "2025-08-15",
       "dataScadenza": "2025-08-15",
       "filename": "IT01223730936_00Y18.xml",
       "iban": "IT59E0835664780000000352516",
@@ -24450,7 +24450,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -24679,7 +24679,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-08-14",
-      "dataPagamento": null,
+      "dataPagamento": "2025-08-14",
       "dataScadenza": "2025-08-14",
       "filename": "IT03618500403_2hOT3.xml",
       "iban": "",
@@ -24692,7 +24692,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -24745,7 +24745,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2025-08-11",
-      "dataPagamento": null,
+      "dataPagamento": "2025-08-26",
       "dataScadenza": "2025-08-26",
       "filename": "IT06655971007_hUx3t.xml",
       "iban": "IT18Y0306905020051014470177",
@@ -24758,7 +24758,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -24767,7 +24767,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2025-08-13",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-12",
       "dataScadenza": "2025-09-12",
       "filename": "IT04623280965_1laau.xml",
       "iban": "",
@@ -24780,7 +24780,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -24811,7 +24811,7 @@
       "cf": "02166950309",
       "citta": "Martignacco",
       "data": "2025-08-05",
-      "dataPagamento": null,
+      "dataPagamento": "2025-08-05",
       "dataScadenza": "2025-08-05",
       "filename": "NL10209790152_KArkO.xml",
       "iban": "IT25Y0863112300000000004186",
@@ -24824,7 +24824,7 @@
       "piva": "02166950309",
       "prov": "UD",
       "ragioneSociale": "E.T.S. EURO TECHNICAL SERVICES  S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -24877,7 +24877,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2025-08-10",
-      "dataPagamento": null,
+      "dataPagamento": "2025-08-25",
       "dataScadenza": "2025-08-25",
       "filename": "IT06655971007_fSdDq.xml",
       "iban": "IT18Y0306905020051014470177",
@@ -24890,7 +24890,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -24943,7 +24943,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2025-08-09",
-      "dataPagamento": null,
+      "dataPagamento": "2025-08-25",
       "dataScadenza": "2025-08-25",
       "filename": "IT06655971007_f6yIq.xml",
       "iban": "IT18P0306909400100000011397",
@@ -24956,7 +24956,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -24987,7 +24987,7 @@
       "cf": "03492610179",
       "citta": "Maclodio",
       "data": "2025-08-06",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-30",
       "dataScadenza": "2025-09-30",
       "filename": "IT02576660365_0qFvm.xml",
       "iban": "IT04K0887785840000000343387",
@@ -25000,7 +25000,7 @@
       "piva": "03492610179",
       "prov": "BS",
       "ragioneSociale": "MOLINO RIVETTI PIETRO S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -25229,7 +25229,7 @@
       "cf": "",
       "citta": "Milano",
       "data": "2025-08-05",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT02448510046TESI3_JUC5Y.xml",
       "iban": "",
@@ -25242,7 +25242,7 @@
       "piva": "11629710960",
       "prov": "MI",
       "ragioneSociale": "Farmafood S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -25339,7 +25339,7 @@
       "cf": "06655971007",
       "citta": "Roma",
       "data": "2025-08-07",
-      "dataPagamento": null,
+      "dataPagamento": "2025-08-22",
       "dataScadenza": "2025-08-22",
       "filename": "IT06655971007_aYj8l.xml",
       "iban": "IT18P0306909400100000011397",
@@ -25352,7 +25352,7 @@
       "piva": "15844561009",
       "prov": "RM",
       "ragioneSociale": "Enel Energia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -25559,7 +25559,7 @@
       "cf": "00856030267",
       "citta": "CIMADOLMO",
       "data": "2025-08-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-30",
       "dataScadenza": "2025-09-30",
       "filename": "IT0200275048300000_RZDC1.xml",
       "iban": "IT73P0306962042000000432163",
@@ -25572,7 +25572,7 @@
       "piva": "00856030267",
       "prov": "TV",
       "ragioneSociale": "Lavanderia Piave Srl",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -25581,7 +25581,7 @@
       "cf": "02913270308",
       "citta": "UDINE",
       "data": "2025-08-29",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-30",
       "dataScadenza": "2025-09-30",
       "filename": "IT02913270308_HV7OE.xml",
       "iban": "",
@@ -25594,7 +25594,7 @@
       "piva": "02913270308",
       "prov": "UD",
       "ragioneSociale": "PASTRY WORLD SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -25647,7 +25647,7 @@
       "cf": "04751650286",
       "citta": "RUBANO",
       "data": "2025-08-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT016417907022025N_08V3i.xml",
       "iban": "",
@@ -25660,7 +25660,7 @@
       "piva": "04751650286",
       "prov": "PD",
       "ragioneSociale": "CASANOVA FOOD S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -25669,7 +25669,7 @@
       "cf": "01223730936",
       "citta": "AZZANO DECIMO",
       "data": "2025-08-29",
-      "dataPagamento": null,
+      "dataPagamento": "2025-08-29",
       "dataScadenza": "2025-08-29",
       "filename": "IT01223730936_00Y6D.xml",
       "iban": "IT59E0835664780000000352516",
@@ -25682,7 +25682,7 @@
       "piva": "01223730936",
       "prov": "PN",
       "ragioneSociale": "GOBBO LUIGI & C. SNC",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -25713,7 +25713,7 @@
       "cf": "02877790309",
       "citta": "VILLESSE",
       "data": "2025-08-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-02",
       "dataScadenza": "2025-10-02",
       "filename": "IT02877790309_03I3Y.xml",
       "iban": "",
@@ -25726,7 +25726,7 @@
       "piva": "02877790309",
       "prov": "GO",
       "ragioneSociale": "LATTE CARSO S.P.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -25735,7 +25735,7 @@
       "cf": "01168180311",
       "citta": "VILLESSE",
       "data": "2025-08-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-30",
       "dataScadenza": "2025-09-30",
       "filename": "IT04383420405_IAZ7D.xml",
       "iban": "",
@@ -25748,7 +25748,7 @@
       "piva": "01168180311",
       "prov": "GO",
       "ragioneSociale": "LATTERIA MONTANARI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -25779,7 +25779,7 @@
       "cf": "",
       "citta": "TORRI DI QUARTESOLO",
       "data": "2025-08-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-30",
       "dataScadenza": "2025-09-30",
       "filename": "IT02046570426_cE6BP.xml",
       "iban": "IT47E0200860800000105075716",
@@ -25792,7 +25792,7 @@
       "piva": "04122730247",
       "prov": "VI",
       "ragioneSociale": "LE PRELIBATEZZE ALIMENTI SENZA GLUTINE SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -25823,7 +25823,7 @@
       "cf": "00050670314",
       "citta": "Monfalcone",
       "data": "2025-08-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-16",
       "dataScadenza": "2025-10-16",
       "filename": "IT00050670314_00DQN.xml",
       "iban": "",
@@ -25836,7 +25836,7 @@
       "piva": "00050670314",
       "prov": "GO",
       "ragioneSociale": "ANGELO RIGANELLI E C. SNC di Riganelli Luigi & C.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -25867,7 +25867,7 @@
       "cf": "04718490271",
       "citta": "SAN MICHELE AL TAGLIAMENTO",
       "data": "2025-08-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-30",
       "dataScadenza": "2025-09-30",
       "filename": "IT04718490271_033TU.xml",
       "iban": "",
@@ -25880,7 +25880,7 @@
       "piva": "04718490271",
       "prov": "VE",
       "ragioneSociale": "FRIULBRAU S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -25889,7 +25889,7 @@
       "cf": "04718490271",
       "citta": "SAN MICHELE AL TAGLIAMENTO",
       "data": "2025-08-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-30",
       "dataScadenza": "2025-09-30",
       "filename": "IT04718490271_033S7.xml",
       "iban": "",
@@ -25902,7 +25902,7 @@
       "piva": "04718490271",
       "prov": "VE",
       "ragioneSociale": "FRIULBRAU S.R.L.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -25978,7 +25978,7 @@
       "cf": "",
       "citta": "TRIESTE",
       "data": "2025-08-29",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT01394200362_8x88h.xml",
       "iban": "IT04K0887785840000000343387",
@@ -25991,7 +25991,7 @@
       "piva": "00047510326",
       "prov": "",
       "ragioneSociale": "EUROSPITAL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -26000,7 +26000,7 @@
       "cf": "BLSGNN67D08E098N",
       "citta": "GRADISCA D'ISONZO",
       "data": "2025-08-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-30",
       "dataScadenza": "2025-09-30",
       "filename": "IT00510470313_00CVT.xml",
       "iban": "IT04K0887785840000000343387",
@@ -26013,7 +26013,7 @@
       "piva": "00510470313",
       "prov": "GO",
       "ragioneSociale": "Az. Agr. BLASON di Blason Giovanni",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -26022,7 +26022,7 @@
       "cf": "02549100309",
       "citta": "PASIAN DI PRATO",
       "data": "2025-08-31",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-15",
       "dataScadenza": "2025-10-15",
       "filename": "IT02549100309_00E80.xml",
       "iban": "",
@@ -26035,7 +26035,7 @@
       "piva": "02549100309",
       "prov": "UD",
       "ragioneSociale": "CRESPI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -26286,7 +26286,7 @@
       "cf": "00167460278",
       "citta": "VENEZIA",
       "data": "2025-08-30",
-      "dataPagamento": null,
+      "dataPagamento": "2025-08-30",
       "dataScadenza": "2025-08-30",
       "filename": "IT03618500403_2jdRy.xml",
       "iban": "",
@@ -26299,7 +26299,7 @@
       "piva": "00167460278",
       "prov": "VE",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -26374,7 +26374,7 @@
       "cf": "",
       "citta": "Latina",
       "data": "2025-08-29",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-30",
       "dataScadenza": "2025-09-30",
       "filename": "IT00210759999_1062x.xml",
       "iban": "IT60P0356601600000126160011",
@@ -26387,7 +26387,7 @@
       "piva": "00937220598",
       "prov": "LT",
       "ragioneSociale": "Heinz Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -26507,7 +26507,7 @@
       "cf": "02618710400",
       "citta": "SARSINA",
       "data": "2025-08-28",
-      "dataPagamento": null,
+      "dataPagamento": "2025-10-31",
       "dataScadenza": "2025-10-31",
       "filename": "IT016417907022025B_08H1M.xml",
       "iban": "IT15K0885068040000010107484",
@@ -26520,7 +26520,7 @@
       "piva": "02618710400",
       "prov": "FC",
       "ragioneSociale": "BELLI FRESCHI SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -26552,7 +26552,7 @@
       "cf": "01233790235",
       "citta": "Castel D'azzano",
       "data": "2025-08-28",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-27",
       "dataScadenza": "2025-09-27",
       "filename": "IT01378570350_mKsHc.xml",
       "iban": "",
@@ -26565,7 +26565,7 @@
       "piva": "01233790235",
       "prov": "VR",
       "ragioneSociale": "Bauli Spa",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -26574,7 +26574,7 @@
       "cf": "01233790235",
       "citta": "Castel D'azzano",
       "data": "2025-08-28",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-27",
       "dataScadenza": "2025-09-27",
       "filename": "IT01378570350_mKsHb.xml",
       "iban": "",
@@ -26587,7 +26587,7 @@
       "piva": "01233790235",
       "prov": "VR",
       "ragioneSociale": "Bauli Spa",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD24"
     },
     {
@@ -26640,7 +26640,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2025-08-16",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-15",
       "dataScadenza": "2025-09-15",
       "filename": "IT04623280965_1np2r.xml",
       "iban": "",
@@ -26653,7 +26653,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -26662,7 +26662,7 @@
       "cf": "01274580248",
       "citta": "DUEVILLE",
       "data": "2025-08-16",
-      "dataPagamento": null,
+      "dataPagamento": "2025-09-15",
       "dataScadenza": "2025-09-15",
       "filename": "IT04623280965_1nj3q.xml",
       "iban": "",
@@ -26675,7 +26675,7 @@
       "piva": "01274580248",
       "prov": "VI",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     }
   ],
