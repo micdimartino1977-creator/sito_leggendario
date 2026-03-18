@@ -1,6 +1,6 @@
 {
   "_versione": "1.1",
-  "_salvato": "2026-03-17T11:15:53.802Z",
+  "_salvato": "2026-03-18T14:53:51.555Z",
   "ordinante": {
     "ragione": "AL PELLEGRINO SRL",
     "piva": "00347630311",
@@ -5498,8 +5498,8 @@
       "cap": "41122",
       "citta": "MODENA",
       "prov": "MO",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773178500994NQD7",
@@ -5961,8 +5961,8 @@
       "cap": "20123",
       "citta": "Milano",
       "prov": "MI",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773178501061PJOG",
@@ -6225,8 +6225,8 @@
       "cap": "30020",
       "citta": "NOVENTA DI PIAVE",
       "prov": "VE",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773178501095UJFB",
@@ -10988,8 +10988,8 @@
       "cap": "20121",
       "citta": "Milano",
       "prov": "MI",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F17731788982239MLS",
@@ -11010,8 +11010,8 @@
       "cap": "30020",
       "citta": "NOVENTA DI PIAVE",
       "prov": "VE",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773178898226X6YK",
@@ -11186,8 +11186,8 @@
       "cap": "31046",
       "citta": "ODERZO",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F17731788982358DEI",
@@ -11208,8 +11208,8 @@
       "cap": "31046",
       "citta": "ODERZO",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F17731788982368UAJ",
@@ -11692,8 +11692,8 @@
       "cap": "41122",
       "citta": "MODENA",
       "prov": "MO",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F17731788982954VXL",
@@ -12222,8 +12222,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-03-10"
     },
     {
       "id": "F1773178898345XDWI",
@@ -13105,8 +13105,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-03-10"
     },
     {
       "id": "F177317889840364NV",
@@ -13237,8 +13237,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-03-10"
     },
     {
       "id": "F1773178898412V0HD",
@@ -13545,8 +13545,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-03-10"
     },
     {
       "id": "F1773178898428D5GI",
@@ -13589,8 +13589,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-03-10"
     },
     {
       "id": "F17731788984321Q30",
@@ -14513,8 +14513,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-03-10"
     },
     {
       "id": "F1773178898496LXQ7",
@@ -14557,8 +14557,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-03-10"
     },
     {
       "id": "F1773178898502FI4J",
@@ -14689,8 +14689,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-03-10"
     },
     {
       "id": "F17731788985091NR8",
@@ -14711,8 +14711,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-03-10"
     },
     {
       "id": "F1773178898510DHB4",
@@ -14932,8 +14932,8 @@
       "cap": "41122",
       "citta": "MODENA",
       "prov": "MO",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773230945529HOLS",
@@ -15418,8 +15418,8 @@
       "cap": "30020",
       "citta": "NOVENTA DI PIAVE",
       "prov": "VE",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773230945594U7JR",
@@ -15770,8 +15770,8 @@
       "cap": "31046",
       "citta": "ODERZO",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773230945613C2Q4",
@@ -15792,8 +15792,8 @@
       "cap": "31046",
       "citta": "ODERZO",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773230945613IQ4L",
@@ -15970,8 +15970,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773230945632PYRZ",
@@ -16498,8 +16498,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F1773230945688E53E",
@@ -16719,8 +16719,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-18"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773230945745EXQH",
@@ -17027,8 +17027,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F1773230945769XVX1",
@@ -17313,8 +17313,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F17732309457834F1R",
@@ -17335,8 +17335,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F17732309457906GPL",
@@ -17621,8 +17621,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773230945808G7YR",
@@ -17951,8 +17951,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F1773230945832SX4Y",
@@ -17973,8 +17973,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F1773230945832W46Z",
@@ -17995,8 +17995,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F1773230945834R5GC",
@@ -18039,8 +18039,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F1773230945839050L",
@@ -18061,8 +18061,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F1773230945841MJEY",
@@ -18149,8 +18149,8 @@
       "cap": "30020",
       "citta": "NOVENTA DI PIAVE",
       "prov": "VE",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773230945849QHKD",
@@ -18215,8 +18215,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F17732309458567TPY",
@@ -18369,8 +18369,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F1773230945868S1MU",
@@ -18413,8 +18413,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F1773230945873QBJI",
@@ -18655,8 +18655,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773230945893UW7T",
@@ -18964,8 +18964,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F17732309459107FZY",
@@ -18986,8 +18986,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-02-10"
     },
     {
       "id": "F1773230945910B8HO",
@@ -19184,8 +19184,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "pending",
+      "dataPagamento": null
     },
     {
       "id": "F1773405824455WOC0",
@@ -19338,8 +19338,8 @@
       "cap": "41122",
       "citta": "MODENA",
       "prov": "MO",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773418848407KTXJ",
@@ -19470,8 +19470,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F17734188484353YL5",
@@ -20043,8 +20043,8 @@
       "cap": "31046",
       "citta": "ODERZO",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773418848484HU3C",
@@ -20087,8 +20087,8 @@
       "cap": "31046",
       "citta": "ODERZO",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F17734188484858JAE",
@@ -20836,8 +20836,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-01-10"
     },
     {
       "id": "F1773418917563IYT2",
@@ -20969,8 +20969,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-01-10"
     },
     {
       "id": "F1773418917569GHSZ",
@@ -21123,8 +21123,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-01-10"
     },
     {
       "id": "F1773418917577QNIM",
@@ -21145,8 +21145,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-01-10"
     },
     {
       "id": "F1773418917580OOUZ",
@@ -21453,8 +21453,8 @@
       "cap": "41122",
       "citta": "MODENA",
       "prov": "MO",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773420094580D77U",
@@ -22270,8 +22270,8 @@
       "cap": "31046",
       "citta": "ODERZO",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773420094641MT5F",
@@ -22336,8 +22336,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773420094643F7IJ",
@@ -22930,8 +22930,8 @@
       "cap": "33100",
       "citta": "Udine",
       "prov": "UD",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2026-03-18"
     },
     {
       "id": "F1773420385540LKN3",
@@ -23063,8 +23063,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773420385543AEJ5",
@@ -23085,8 +23085,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2025-12-10"
     },
     {
       "id": "F1773420385544THV3",
@@ -23327,8 +23327,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2025-12-10"
     },
     {
       "id": "F17734203855597KAV",
@@ -23349,8 +23349,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2025-12-10"
     },
     {
       "id": "F17734203855613TEY",
@@ -23855,8 +23855,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F17734204438029HBH",
@@ -23966,8 +23966,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2025-12-10"
     },
     {
       "id": "F1773420443807AW6U",
@@ -24076,8 +24076,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2025-12-10"
     },
     {
       "id": "F1773420443811P3BV",
@@ -24142,8 +24142,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2025-12-10"
     },
     {
       "id": "F17734204438178WOY",
@@ -24164,8 +24164,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2025-12-10"
     },
     {
       "id": "F1773420443820JWIH",
@@ -24230,8 +24230,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F17734204438235UOP",
@@ -25154,8 +25154,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773421667327LFAW",
@@ -25176,8 +25176,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773421667327SGMK",
@@ -25396,8 +25396,8 @@
       "cap": "31100",
       "citta": "Treviso",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F177342166733461M2",
@@ -25506,8 +25506,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2025-11-10"
     },
     {
       "id": "F1773421741993ZYA7",
@@ -25550,8 +25550,8 @@
       "cap": "41122",
       "citta": "MODENA",
       "prov": "MO",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773421741995FFG6",
@@ -25704,8 +25704,8 @@
       "cap": "20121",
       "citta": "Milano",
       "prov": "MI",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F17734217420044GYI",
@@ -26189,8 +26189,8 @@
       "cap": "31046",
       "citta": "ODERZO",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773421742046F5N5",
@@ -26211,8 +26211,8 @@
       "cap": "31046",
       "citta": "ODERZO",
       "prov": "TV",
-      "stato": "paid",
-      "dataPagamento": "2026-03-17"
+      "stato": "overdue",
+      "dataPagamento": null
     },
     {
       "id": "F1773421742047X5F0",
@@ -26431,8 +26431,8 @@
       "cap": "39014",
       "citta": "POSTAL",
       "prov": "BZ",
-      "stato": "overdue",
-      "dataPagamento": null
+      "stato": "paid",
+      "dataPagamento": "2025-11-10"
     },
     {
       "id": "F1773421742062J1Q2",
