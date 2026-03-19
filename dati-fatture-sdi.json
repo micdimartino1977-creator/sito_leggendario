@@ -1,6 +1,6 @@
 {
   "_versione": "1.1",
-  "_salvato": "2026-03-19T13:30:00.537Z",
+  "_salvato": "2026-03-19T22:16:32.772Z",
   "ordinante": {
     "ragione": "AL PELLEGRINO SRL",
     "piva": "00347630311",
@@ -30214,7 +30214,7 @@
       "cf": "01600480303",
       "citta": "",
       "data": "2025-01-21",
-      "dataPagamento": null,
+      "dataPagamento": "2025-02-20",
       "dataScadenza": "2025-02-20",
       "filename": "NL10209790152_IBtZc.xml",
       "iban": "",
@@ -30227,7 +30227,7 @@
       "piva": "01600480303",
       "prov": "",
       "ragioneSociale": "BELFRUTTA S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -30238,7 +30238,7 @@
       "cf": "01600480303",
       "citta": "",
       "data": "2025-01-21",
-      "dataPagamento": null,
+      "dataPagamento": "2025-02-20",
       "dataScadenza": "2025-02-20",
       "filename": "NL10209790152_IBtZU.xml",
       "iban": "",
@@ -30251,7 +30251,7 @@
       "piva": "01600480303",
       "prov": "",
       "ragioneSociale": "BELFRUTTA S.r.l.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -32326,7 +32326,7 @@
       "cf": "11864540965",
       "citta": "",
       "data": "2025-01-07",
-      "dataPagamento": null,
+      "dataPagamento": "2025-02-06",
       "dataScadenza": "2025-02-06",
       "filename": "IT11864540965_069G0.xml",
       "iban": "",
@@ -32339,7 +32339,7 @@
       "piva": "11864540965",
       "prov": "",
       "ragioneSociale": "SOLDO ITALIA SRL",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
@@ -32446,7 +32446,7 @@
       "cf": "12408640964",
       "citta": "",
       "data": "2025-01-06",
-      "dataPagamento": null,
+      "dataPagamento": "2025-02-05",
       "dataScadenza": "2025-02-05",
       "filename": "IT12408640964_aa8Nu.xml",
       "iban": "",
@@ -32459,7 +32459,7 @@
       "piva": "12408640964",
       "prov": "",
       "ragioneSociale": "Satispay Italy S.p.a.",
-      "stato": "overdue",
+      "stato": "paid",
       "tipoDoc": "TD01"
     },
     {
