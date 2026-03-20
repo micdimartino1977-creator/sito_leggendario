@@ -1,6 +1,6 @@
 {
   "_versione": "1.1",
-  "_salvato": "2026-03-19T22:16:32.772Z",
+  "_salvato": "2026-03-20T16:11:59.813Z",
   "ordinante": {
     "ragione": "AL PELLEGRINO SRL",
     "piva": "00347630311",
@@ -30214,7 +30214,7 @@
       "cf": "01600480303",
       "citta": "",
       "data": "2025-01-21",
-      "dataPagamento": "2025-02-20",
+      "dataPagamento": null,
       "dataScadenza": "2025-02-20",
       "filename": "NL10209790152_IBtZc.xml",
       "iban": "",
@@ -30227,7 +30227,7 @@
       "piva": "01600480303",
       "prov": "",
       "ragioneSociale": "BELFRUTTA S.r.l.",
-      "stato": "paid",
+      "stato": "overdue",
       "tipoDoc": "TD01"
     },
     {
@@ -30238,7 +30238,7 @@
       "cf": "01600480303",
       "citta": "",
       "data": "2025-01-21",
-      "dataPagamento": "2025-02-20",
+      "dataPagamento": null,
       "dataScadenza": "2025-02-20",
       "filename": "NL10209790152_IBtZU.xml",
       "iban": "",
@@ -30251,7 +30251,7 @@
       "piva": "01600480303",
       "prov": "",
       "ragioneSociale": "BELFRUTTA S.r.l.",
-      "stato": "paid",
+      "stato": "overdue",
       "tipoDoc": "TD01"
     },
     {
@@ -32326,7 +32326,7 @@
       "cf": "11864540965",
       "citta": "",
       "data": "2025-01-07",
-      "dataPagamento": "2025-02-06",
+      "dataPagamento": null,
       "dataScadenza": "2025-02-06",
       "filename": "IT11864540965_069G0.xml",
       "iban": "",
@@ -32339,7 +32339,7 @@
       "piva": "11864540965",
       "prov": "",
       "ragioneSociale": "SOLDO ITALIA SRL",
-      "stato": "paid",
+      "stato": "overdue",
       "tipoDoc": "TD01"
     },
     {
@@ -32446,7 +32446,7 @@
       "cf": "12408640964",
       "citta": "",
       "data": "2025-01-06",
-      "dataPagamento": "2025-02-05",
+      "dataPagamento": null,
       "dataScadenza": "2025-02-05",
       "filename": "IT12408640964_aa8Nu.xml",
       "iban": "",
@@ -32459,7 +32459,7 @@
       "piva": "12408640964",
       "prov": "",
       "ragioneSociale": "Satispay Italy S.p.a.",
-      "stato": "paid",
+      "stato": "overdue",
       "tipoDoc": "TD01"
     },
     {
@@ -32699,7 +32699,7 @@
       "piva": "02636720308",
       "prov": "",
       "ragioneSociale": "Siimprese di Fabrizio Puntin",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -34427,7 +34427,7 @@
       "piva": "02936700216",
       "prov": "",
       "ragioneSociale": "ALDI SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD24"
     },
     {
@@ -34547,7 +34547,7 @@
       "piva": "02787970124",
       "prov": "",
       "ragioneSociale": "Nutrition e Santé Italia Spa",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -34595,7 +34595,7 @@
       "piva": "02827030962",
       "prov": "",
       "ragioneSociale": "METRO Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -34835,7 +34835,7 @@
       "piva": "02827030962",
       "prov": "",
       "ragioneSociale": "METRO Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -35963,7 +35963,7 @@
       "piva": "02827030962",
       "prov": "",
       "ragioneSociale": "METRO Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -36107,7 +36107,7 @@
       "piva": "02827030962",
       "prov": "",
       "ragioneSociale": "METRO Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -36755,7 +36755,7 @@
       "piva": "02636720308",
       "prov": "",
       "ragioneSociale": "Siimprese di Fabrizio Puntin",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -37523,7 +37523,7 @@
       "piva": "11392351000",
       "prov": "",
       "ragioneSociale": "RICA GEST S.R.L.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -39035,7 +39035,7 @@
       "piva": "11864540965",
       "prov": "",
       "ragioneSociale": "SOLDO ITALIA SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -39299,7 +39299,7 @@
       "piva": "02827030962",
       "prov": "",
       "ragioneSociale": "METRO Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -41051,7 +41051,7 @@
       "piva": "08324820961",
       "prov": "",
       "ragioneSociale": "T.D.M. S.R.L.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -41315,7 +41315,7 @@
       "piva": "02787970124",
       "prov": "",
       "ragioneSociale": "Nutrition e Santé Italia Spa",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -41747,7 +41747,7 @@
       "piva": "02827030962",
       "prov": "",
       "ragioneSociale": "METRO Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -42515,7 +42515,7 @@
       "piva": "02827030962",
       "prov": "",
       "ragioneSociale": "METRO Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -43283,7 +43283,7 @@
       "piva": "11864540965",
       "prov": "",
       "ragioneSociale": "SOLDO ITALIA SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -43403,7 +43403,7 @@
       "piva": "02636720308",
       "prov": "",
       "ragioneSociale": "Siimprese di Fabrizio Puntin",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -43427,7 +43427,7 @@
       "piva": "02636720308",
       "prov": "",
       "ragioneSociale": "Siimprese di Fabrizio Puntin",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -44075,7 +44075,7 @@
       "piva": "01274580248",
       "prov": "",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -44939,7 +44939,7 @@
       "piva": "11392351000",
       "prov": "",
       "ragioneSociale": "RICA GEST S.R.L.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -45227,7 +45227,7 @@
       "piva": "01573850516",
       "prov": "",
       "ragioneSociale": "ARUBA SPA",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -47195,7 +47195,7 @@
       "piva": "02787970124",
       "prov": "",
       "ragioneSociale": "Nutrition e Santé Italia Spa",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -47627,7 +47627,7 @@
       "piva": "02008670305",
       "prov": "",
       "ragioneSociale": "O.G.V. OFFICINE GRAFICHE VISENTIN snc di BORDIGNON e MARTINA",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -47651,7 +47651,7 @@
       "piva": "12408640964",
       "prov": "",
       "ragioneSociale": "SatisWelfare S.p.a.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -48131,7 +48131,7 @@
       "piva": "00521710319",
       "prov": "",
       "ragioneSociale": "ALESSANDRO DESTRADI",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD24"
     },
     {
@@ -48347,7 +48347,7 @@
       "piva": "02936700216",
       "prov": "",
       "ragioneSociale": "ALDI SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD24"
     },
     {
@@ -48755,7 +48755,7 @@
       "piva": "11864540965",
       "prov": "",
       "ragioneSociale": "SOLDO ITALIA SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -49499,7 +49499,7 @@
       "piva": "01841910308",
       "prov": "",
       "ragioneSociale": "MASSIMILIANO SINACORI",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -50435,7 +50435,7 @@
       "piva": "01354500462",
       "prov": "",
       "ragioneSociale": "NT FOOD srl",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD24"
     },
     {
@@ -50627,7 +50627,7 @@
       "piva": "02636720308",
       "prov": "",
       "ragioneSociale": "Siimprese di Fabrizio Puntin",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -50747,7 +50747,7 @@
       "piva": "02992760963",
       "prov": "",
       "ragioneSociale": "Ikea Italia Retail Srl",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -50987,7 +50987,7 @@
       "piva": "11392351000",
       "prov": "",
       "ragioneSociale": "RICA GEST S.R.L.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -51035,7 +51035,7 @@
       "piva": "02827030962",
       "prov": "",
       "ragioneSociale": "METRO Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -51059,7 +51059,7 @@
       "piva": "05754381001",
       "prov": "",
       "ragioneSociale": "Gestore dei Servizi Energetici - GSE S.p.a.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -51515,7 +51515,7 @@
       "piva": "02345970301",
       "prov": "",
       "ragioneSociale": "AUTOMAURIG S.R.L.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -51635,7 +51635,7 @@
       "piva": "03811550247",
       "prov": "",
       "ragioneSociale": "Shellrent S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -51731,7 +51731,7 @@
       "piva": "03811550247",
       "prov": "",
       "ragioneSociale": "Shellrent S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -51779,7 +51779,7 @@
       "piva": "03811550247",
       "prov": "",
       "ragioneSociale": "Shellrent S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -51851,7 +51851,7 @@
       "piva": "02787970124",
       "prov": "",
       "ragioneSociale": "Nutrition e Santé Italia Spa",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -52283,7 +52283,7 @@
       "piva": "12408640964",
       "prov": "",
       "ragioneSociale": "SatisWelfare S.p.a.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -52643,7 +52643,7 @@
       "piva": "12408640964",
       "prov": "",
       "ragioneSociale": "SatisWelfare S.p.a.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -52859,7 +52859,7 @@
       "piva": "05602710963",
       "prov": "",
       "ragioneSociale": "Leroy Merlin Italia srl",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -52931,7 +52931,7 @@
       "piva": "01841910308",
       "prov": "",
       "ragioneSociale": "MASSIMILIANO SINACORI",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -53123,7 +53123,7 @@
       "piva": "02936700216",
       "prov": "",
       "ragioneSociale": "ALDI SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD24"
     },
     {
@@ -53651,7 +53651,7 @@
       "piva": "02701740108",
       "prov": "",
       "ragioneSociale": "EniMoov S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -54035,7 +54035,7 @@
       "piva": "03349940175",
       "prov": "",
       "ragioneSociale": "GE.DI.A. SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -54083,7 +54083,7 @@
       "piva": "11864540965",
       "prov": "",
       "ragioneSociale": "SOLDO ITALIA SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -54899,7 +54899,7 @@
       "piva": "01841910308",
       "prov": "",
       "ragioneSociale": "MASSIMILIANO SINACORI",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -55091,7 +55091,7 @@
       "piva": "02004580300",
       "prov": "",
       "ragioneSociale": "SO.GE.CO.I. SAS DI ALESSANDRA BARBAGALLO & C.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -55979,7 +55979,7 @@
       "piva": "01274580248",
       "prov": "",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -56627,7 +56627,7 @@
       "piva": "02827030962",
       "prov": "",
       "ragioneSociale": "METRO Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -57251,7 +57251,7 @@
       "piva": "02827030962",
       "prov": "",
       "ragioneSociale": "METRO Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -58715,7 +58715,7 @@
       "piva": "01274580248",
       "prov": "",
       "ragioneSociale": "Unicomm S.r.l.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -58955,7 +58955,7 @@
       "piva": "02936700216",
       "prov": "",
       "ragioneSociale": "ALDI SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD24"
     },
     {
@@ -59195,7 +59195,7 @@
       "piva": "11864540965",
       "prov": "",
       "ragioneSociale": "SOLDO ITALIA SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -59315,7 +59315,7 @@
       "piva": "02941630309",
       "prov": "",
       "ragioneSociale": "GEFF SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -60323,7 +60323,7 @@
       "piva": "00167460278",
       "prov": "",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -60419,7 +60419,7 @@
       "piva": "05602710963",
       "prov": "",
       "ragioneSociale": "Leroy Merlin Italia srl",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -60443,7 +60443,7 @@
       "piva": "00167460278",
       "prov": "",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -60587,7 +60587,7 @@
       "piva": "00167460278",
       "prov": "",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -60803,7 +60803,7 @@
       "piva": "00167460278",
       "prov": "",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -60947,7 +60947,7 @@
       "piva": "00167460278",
       "prov": "",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -61067,7 +61067,7 @@
       "piva": "00167460278",
       "prov": "",
       "ragioneSociale": "VEGA CARBURANTI SPA",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -61451,7 +61451,7 @@
       "piva": "05602710963",
       "prov": "",
       "ragioneSociale": "Leroy Merlin Italia srl",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -61475,7 +61475,7 @@
       "piva": "05602710963",
       "prov": "",
       "ragioneSociale": "Leroy Merlin Italia srl",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -61523,7 +61523,7 @@
       "piva": "11864540965",
       "prov": "",
       "ragioneSociale": "SOLDO ITALIA SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -63083,7 +63083,7 @@
       "piva": "02936700216",
       "prov": "",
       "ragioneSociale": "ALDI SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD24"
     },
     {
@@ -65891,7 +65891,7 @@
       "piva": "02787970124",
       "prov": "",
       "ragioneSociale": "Nutrition e Santé Italia Spa",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -65915,7 +65915,7 @@
       "piva": "805734958B01",
       "prov": "",
       "ragioneSociale": "Booking.com B.V.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -66179,7 +66179,7 @@
       "piva": "02992760963",
       "prov": "",
       "ragioneSociale": "Ikea Italia Retail Srl",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -66467,7 +66467,7 @@
       "piva": "02787970124",
       "prov": "",
       "ragioneSociale": "Nutrition e Santé Italia Spa",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -66539,7 +66539,7 @@
       "piva": "02708430737",
       "prov": "",
       "ragioneSociale": "HAPPY CASA STORE S.R.L.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -66563,7 +66563,7 @@
       "piva": "02708430737",
       "prov": "",
       "ragioneSociale": "HAPPY CASA STORE S.R.L.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -66611,7 +66611,7 @@
       "piva": "02708430737",
       "prov": "",
       "ragioneSociale": "HAPPY CASA STORE S.R.L.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -66635,7 +66635,7 @@
       "piva": "11392351000",
       "prov": "",
       "ragioneSociale": "RICA GEST S.R.L.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -66683,7 +66683,7 @@
       "piva": "02708430737",
       "prov": "",
       "ragioneSociale": "HAPPY CASA STORE S.R.L.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -67259,7 +67259,7 @@
       "piva": "00256300302",
       "prov": "",
       "ragioneSociale": "FRIULAFFILATURA & GARDEN S.R.L.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -67475,7 +67475,7 @@
       "piva": "02827030962",
       "prov": "",
       "ragioneSociale": "METRO Italia S.p.A.",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -67499,7 +67499,7 @@
       "piva": "02992760963",
       "prov": "",
       "ragioneSociale": "Ikea Italia Retail Srl",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
@@ -67667,7 +67667,7 @@
       "piva": "11864540965",
       "prov": "",
       "ragioneSociale": "SOLDO ITALIA SRL",
-      "stato": "overdue",
+      "stato": "pending",
       "tipoDoc": "TD01"
     },
     {
