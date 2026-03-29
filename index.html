@@ -1,573 +1,329 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FattureSDI — Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FattureSDI Dashboard</title>
 <style>
-  :root {
-    --bg:#0d0f14; --surface:#13161d; --surface2:#1a1e28; --border:#2a2f3f;
-    --accent:#00d4aa; --accent2:#4f8aff; --warn:#ffaa00; --danger:#ff4d6d;
-    --text:#e2e8f0; --text2:#8892a4; --text3:#4a5568; --green:#22c55e;
-    --radius:8px;
-  }
-  [data-theme="light"] {
-    --bg:#f0f2f5; --surface:#ffffff; --surface2:#f7f8fa; --border:#d1d9e0;
-    --accent:#00a882; --accent2:#3b6fd4; --warn:#c47f00; --danger:#d93045;
-    --text:#1a1f2e; --text2:#5a6478; --text3:#9aa0b0; --green:#1a9e49;
-  }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body { background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans-serif; font-size:14px; min-height:100vh; }
+:root {
+  --bg:#f8fafc; --surface:#fff; --surface2:#f1f5f9;
+  --text:#0f172a; --text2:#475569; --text3:#94a3b8;
+  --border:#e2e8f0; --border2:#cbd5e1;
+  --accent:#00d4aa; --accent2:#6366f1;
+  --danger:#dc2626; --warn:#d97706; --green:#16a34a; --blue:#2563eb;
+  --radius:10px; --radius-sm:6px;
+}
+[data-theme="dark"] {
+  --bg:#0f1117; --surface:#1e2433; --surface2:#252d40;
+  --text:#f1f5f9; --text2:#94a3b8; --text3:#475569;
+  --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.15);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{color:inherit;text-decoration:none}
 
-  /* HEADER */
-  header { display:flex; align-items:center; justify-content:space-between; padding:12px 28px; border-bottom:1px solid var(--border); background:var(--surface); position:sticky; top:0; z-index:100; gap:12px; flex-wrap:wrap; }
-  .logo { display:flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; }
-  .logo-icon { width:32px; height:32px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:15px; }
-  .logo span { color:var(--text2); font-weight:300; }
-  .header-right { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .badge-salvato { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text2); background:var(--surface2); border:1px solid var(--border); padding:4px 12px; border-radius:20px; }
-  .badge-live { display:flex; align-items:center; gap:5px; font-size:12px; color:var(--accent); font-weight:600; }
-  .badge-live::before { content:''; width:7px; height:7px; background:var(--accent); border-radius:50%; box-shadow:0 0 6px var(--accent); animation:pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-  .theme-toggle { display:flex; align-items:center; gap:7px; cursor:pointer; user-select:none; padding:5px 12px; border-radius:20px; border:1px solid var(--border); background:var(--surface2); color:var(--text2); font-size:12px; font-family:'IBM Plex Sans',sans-serif; transition:all .2s; }
-  .theme-toggle:hover { border-color:var(--accent); color:var(--accent); }
-  .tt-track { width:28px; height:16px; background:var(--border); border-radius:8px; position:relative; transition:background .2s; }
-  [data-theme="light"] .tt-track { background:var(--accent); }
-  .tt-thumb { position:absolute; top:2px; left:2px; width:12px; height:12px; background:white; border-radius:50%; transition:left .2s; box-shadow:0 1px 3px rgba(0,0,0,.3); }
-  [data-theme="light"] .tt-thumb { left:14px; }
+/* ── LOADING ── */
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:100;transition:opacity .3s}
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-  /* TABS */
-  .tabs { display:flex; gap:0; padding:0 28px; border-bottom:1px solid var(--border); background:var(--surface); overflow-x:auto; }
-  .tab { padding:11px 16px; cursor:pointer; color:var(--text2); font-size:13px; font-weight:500; border-bottom:2px solid transparent; transition:all .2s; user-select:none; display:flex; align-items:center; gap:6px; white-space:nowrap; }
-  .tab:hover { color:var(--text); }
-  .tab.active { color:var(--accent); border-bottom-color:var(--accent); }
-  .tab-n { background:var(--accent); color:var(--bg); font-size:10px; font-weight:700; padding:1px 6px; border-radius:10px; font-family:'IBM Plex Mono',monospace; }
-  .tab-n.warn { background:var(--warn); }
-  .tab-n.danger { background:var(--danger); }
+/* ── HEADER ── */
+#app{display:none}
+.hdr{background:var(--surface);border-bottom:0.5px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.logo{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.hdr-name{font-size:14px;font-weight:600;margin-left:10px}
+.hdr-sub{font-size:11px;color:var(--text3);margin-left:10px}
+.badge-live{background:#d1fae5;color:#065f46;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px}
+[data-theme="dark"] .badge-live{background:#064e3b;color:#6ee7b7}
+.hdr-salvato{font-size:11px;color:var(--text3)}
+.theme-btn{background:none;border:0.5px solid var(--border2);border-radius:var(--radius-sm);padding:4px 10px;font-size:11px;color:var(--text2);cursor:pointer}
+.theme-btn:hover{background:var(--surface2)}
 
-  /* MAIN */
-  main { padding:22px 28px; max-width:1400px; }
-  .panel { display:none; }
-  .panel.active { display:block; }
+/* ── HOME ── */
+#view-home{padding:24px}
+.section-block{margin-bottom:28px}
+.section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.section-pill{font-size:11px;font-weight:700;padding:4px 14px;border-radius:20px;white-space:nowrap}
+.section-line{flex:1;height:0.5px;background:var(--border)}
+.cards-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 
-  /* KPI */
-  .kpi-strip { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:20px; }
-  @media(max-width:1000px){ .kpi-strip{grid-template-columns:repeat(3,1fr)} }
-  @media(max-width:600px){ .kpi-strip{grid-template-columns:repeat(2,1fr)} }
-  .kpi { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; transition:border-color .2s; }
-  .kpi:hover { border-color:var(--accent); }
-  .kpi-label { font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text2); margin-bottom:7px; }
-  .kpi-val { font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600; letter-spacing:-.5px; }
-  .kpi-val.green{color:var(--green)} .kpi-val.danger{color:var(--danger)} .kpi-val.warn{color:var(--warn)} .kpi-val.accent{color:var(--accent)} .kpi-val.blue{color:var(--accent2)}
-  .kpi-sub { font-size:11px; color:var(--text3); margin-top:3px; }
+/* ── CARD ── */
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:18px 20px 40px;cursor:pointer;position:relative;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.card:hover{border-color:var(--border2);box-shadow:0 2px 16px rgba(0,0,0,.07)}
+[data-theme="dark"] .card:hover{box-shadow:0 2px 16px rgba(0,0,0,.3)}
+.card-stripe{position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0}
+.card-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.card-desc{font-size:11px;color:var(--text3);margin-bottom:14px;line-height:1.5}
+.card-kpi{font-size:24px;font-weight:700;font-family:'IBM Plex Mono',monospace;margin-bottom:2px}
+.card-sub{font-size:11px;color:var(--text3)}
+.card-arrow{position:absolute;bottom:14px;right:16px;font-size:13px;color:var(--border2);transition:color .15s}
+.card:hover .card-arrow{color:var(--accent)}
+.pills{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.pill{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:600}
+.pill-r{background:#fef2f2;color:#dc2626} .pill-y{background:#fffbeb;color:#d97706}
+.pill-g{background:#f0fdf4;color:#16a34a} .pill-b{background:#eff6ff;color:#2563eb}
+.pill-v{background:#f5f3ff;color:#6d28d9} .pill-t{background:#f0fdfa;color:#0f766e}
+[data-theme="dark"] .pill-r{background:rgba(220,38,38,.15);color:#fca5a5}
+[data-theme="dark"] .pill-y{background:rgba(217,119,6,.15);color:#fcd34d}
+[data-theme="dark"] .pill-g{background:rgba(22,163,74,.15);color:#86efac}
+[data-theme="dark"] .pill-b{background:rgba(37,99,235,.15);color:#93c5fd}
+[data-theme="dark"] .pill-v{background:rgba(109,40,217,.15);color:#c4b5fd}
+[data-theme="dark"] .pill-t{background:rgba(15,118,110,.15);color:#5eead4}
+.spark{display:flex;align-items:flex-end;gap:1.5px;height:28px;margin-top:10px}
+.sp{border-radius:1px 1px 0 0;flex:1}
+.minibar{height:32px;display:flex;align-items:flex-end;gap:2px;margin-top:10px}
+.mb{border-radius:2px 2px 0 0;flex:1}
+.divv{width:0.5px;background:var(--border);align-self:stretch;margin:0 4px}
 
-  /* CARD */
-  .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
-  .card-head { padding:12px 16px; border-bottom:1px solid var(--border); font-size:12px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:.07em; display:flex; align-items:center; justify-content:space-between; }
+/* ── VISTA DETTAGLIO ── */
+#view-detail{display:none;padding:0}
+.detail-hdr{background:var(--surface);border-bottom:0.5px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:57px;z-index:40}
+.back-btn{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;padding:5px 12px;border:0.5px solid var(--border2);border-radius:var(--radius-sm);background:none;transition:background .15s}
+.back-btn:hover{background:var(--surface2)}
+.detail-title{font-size:15px;font-weight:600}
+.detail-body{padding:20px 24px}
 
-  /* FILTRI */
-  .filter-bar { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-bottom:14px; }
-  .filter-btn { padding:5px 13px; font-size:12px; font-weight:500; border-radius:20px; border:1px solid var(--border); background:transparent; color:var(--text2); cursor:pointer; transition:all .15s; font-family:inherit; }
-  .filter-btn:hover { border-color:var(--accent); color:var(--accent); }
-  .filter-btn.active { background:var(--accent); color:var(--bg); border-color:var(--accent); font-weight:600; }
-  .search-input { margin-left:auto; padding:6px 12px; background:var(--surface2); border:1px solid var(--border); border-radius:20px; color:var(--text); font-family:'IBM Plex Sans',sans-serif; font-size:12px; outline:none; min-width:200px; transition:border-color .2s; }
-  .search-input:focus { border-color:var(--accent); }
-
-  /* TABELLA */
-  .tbl-wrap { overflow-x:auto; border-radius:var(--radius); border:1px solid var(--border); }
-  table { width:100%; border-collapse:collapse; }
-  thead th { background:var(--surface2); font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--text2); padding:9px 13px; text-align:left; border-bottom:1px solid var(--border); white-space:nowrap; }
-  thead th.r { text-align:right; }
-  tbody tr { border-bottom:1px solid var(--border); transition:background .12s; }
-  tbody tr:last-child { border-bottom:none; }
-  tbody tr:hover { background:var(--surface2); }
-  td { padding:10px 13px; font-size:13px; }
-  td.mono { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text2); }
-  td.r { text-align:right; }
-  td.importo { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600; text-align:right; }
-  td.importo.out{color:var(--danger)} td.importo.in{color:var(--green)}
-
-  /* BADGE */
-  .badge { display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
-  .badge::before { content:''; width:5px; height:5px; border-radius:50%; }
-  .badge.paid     { background:rgba(34,197,94,.1);  color:var(--green);  border:1px solid rgba(34,197,94,.25); }
-  .badge.paid::before     { background:var(--green); }
-  .badge.pending  { background:rgba(255,170,0,.1);  color:var(--warn);   border:1px solid rgba(255,170,0,.25); }
-  .badge.pending::before  { background:var(--warn); }
-  .badge.overdue  { background:rgba(255,77,109,.1); color:var(--danger); border:1px solid rgba(255,77,109,.25); }
-  .badge.overdue::before  { background:var(--danger); }
-  .badge.inbatch  { background:rgba(79,138,255,.1); color:var(--accent2);border:1px solid rgba(79,138,255,.25); }
-  .badge.inbatch::before  { background:var(--accent2); }
-  .badge.nota_credito { background:rgba(168,85,247,.1); color:#a855f7; border:1px solid rgba(168,85,247,.25); }
-  .badge.nota_credito::before { background:#a855f7; }
-
-  /* GRID */
-  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
-  @media(max-width:800px){ .grid2{grid-template-columns:1fr} }
-
-  /* CHART BARS */
-  .chart-outer { padding:18px 16px 6px; }
-  .chart-scroll { overflow-x:auto; }
-  .chart-canvas { display:flex; align-items:flex-end; gap:5px; min-height:150px; }
-  .bar-col { display:flex; flex-direction:column; align-items:center; gap:3px; min-width:44px; }
-  .bar-pair { display:flex; gap:3px; align-items:flex-end; width:100%; }
-  .bar { flex:1; border-radius:3px 3px 0 0; min-height:3px; position:relative; cursor:default; transition:opacity .15s; }
-  .bar:hover { opacity:.7; }
-  .bar:hover::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%); background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:'IBM Plex Mono',monospace; font-size:10px; padding:3px 8px; border-radius:4px; white-space:nowrap; z-index:20; }
-  .bar.out { background:linear-gradient(180deg,var(--danger),rgba(255,77,109,.3)); }
-  .bar.in  { background:linear-gradient(180deg,var(--green),rgba(34,197,94,.3)); }
-  .bar.blue { background:linear-gradient(180deg,var(--accent2),rgba(79,138,255,.3)); }
-  .bar-label { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text3); margin-top:5px; white-space:nowrap; }
-  .chart-legend { display:flex; gap:14px; padding:10px 16px; border-top:1px solid var(--border); flex-wrap:wrap; }
-  .leg { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text2); }
-  .leg-dot { width:10px; height:10px; border-radius:2px; }
-
-  /* SCADENZARIO */
-  .scad-day { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:8px; overflow:hidden; }
-  .scad-day-head { display:flex; align-items:center; justify-content:space-between; padding:9px 14px; background:var(--surface2); border-bottom:1px solid var(--border); }
-  .scad-day-date { font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; }
-  .scad-day-tot { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; }
-  .scad-day-row { display:flex; align-items:center; justify-content:space-between; padding:8px 14px; border-bottom:1px solid var(--border); font-size:12px; }
-  .scad-day-row:last-child { border-bottom:none; }
-
-  /* RUBRICA */
-  .rubrica-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; }
-  .fornitore-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:13px 15px; }
-  .forn-nome { font-weight:600; font-size:13px; margin-bottom:4px; }
-  .forn-meta { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text2); }
-  .forn-iban { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent); margin-top:5px; }
-
-  /* SALDO ROW */
-  .saldo-row { display:flex; align-items:center; justify-content:space-between; padding:11px 16px; border-bottom:1px solid var(--border); font-size:13px; }
-  .saldo-row:last-child { border-bottom:none; }
-
-  /* SELETTORE MESE */
-  .month-nav { display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:12px 16px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:18px; }
-  .month-nav select { font-size:13px; font-weight:600; padding:5px 10px; border:1px solid var(--border); border-radius:6px; background:var(--surface2); color:var(--text); cursor:pointer; font-family:'IBM Plex Sans',sans-serif; outline:none; }
-  .btn-sm { padding:5px 12px; font-size:12px; font-weight:500; border-radius:6px; border:1px solid var(--border); background:var(--surface2); color:var(--text2); cursor:pointer; font-family:inherit; transition:all .15s; }
-  .btn-sm:hover { border-color:var(--accent); color:var(--accent); }
-
-  /* ANALISI — Barre progresso */
-  .prog-bar { background:var(--surface2); border-radius:4px; overflow:hidden; height:8px; }
-  .prog-fill { height:100%; border-radius:4px; transition:width .4s; }
-
-  /* CANVAS CHART */
-  .canvas-wrap { position:relative; height:240px; }
-  #liq-chart, #flussi-chart { width:100%; height:100%; }
-  .chart-tooltip { display:none; position:absolute; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:12px; pointer-events:none; z-index:10; min-width:180px; box-shadow:0 4px 20px rgba(0,0,0,.3); }
-
-  /* EMPTY */
-  .empty { text-align:center; padding:50px 20px; color:var(--text2); }
-  .empty-icon { font-size:32px; margin-bottom:10px; opacity:.5; }
-  .empty h3 { font-size:15px; margin-bottom:5px; }
-  .empty p { font-size:13px; color:var(--text3); }
-
-  /* LOADING */
-  #loading { position:fixed; inset:0; background:var(--bg); z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--text2); transition:opacity .4s; }
-  .spinner { width:20px; height:20px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; }
-  @keyframes spin { to{transform:rotate(360deg)} }
-
-  footer { padding:20px 28px; border-top:1px solid var(--border); font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text3); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
-  footer a { color:var(--accent); text-decoration:none; }
+/* ── COMPONENTI INTERNI ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--surface2);border-radius:var(--radius-sm);padding:12px 14px}
+.kpi-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:4px}
+.kpi-val{font-size:20px;font-weight:700;font-family:'IBM Plex Mono',monospace}
+.kpi-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.card-box{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+.card-box-head{padding:11px 16px;border-bottom:0.5px solid var(--border);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:space-between}
+.card-box-body{padding:14px 16px}
+.month-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px;padding:12px 16px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius)}
+.btn-sm{background:none;border:0.5px solid var(--border2);border-radius:var(--radius-sm);padding:4px 10px;font-size:12px;color:var(--text2);cursor:pointer;font-family:inherit}
+.btn-sm:hover{background:var(--surface2)}
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.fbtn{background:none;border:0.5px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;transition:all .15s}
+.fbtn.active,.fbtn:hover{background:var(--surface2);border-color:var(--border2);color:var(--text)}
+.search-box{padding:6px 14px;background:var(--surface2);border:0.5px solid var(--border);border-radius:20px;color:var(--text);font-size:12px;outline:none;font-family:inherit;min-width:200px}
+.search-box:focus{border-color:var(--accent)}
+table{width:100%;border-collapse:collapse}
+thead th{padding:8px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;border-bottom:0.5px solid var(--border);background:var(--surface2)}
+tbody td{padding:8px 12px;font-size:12px;border-bottom:0.5px solid var(--border)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--surface2)}
+.mono{font-family:'IBM Plex Mono',monospace}
+.r{text-align:right}
+.badge{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:600}
+.badge.overdue{background:#fef2f2;color:#dc2626}
+.badge.pending{background:#fffbeb;color:#d97706}
+.badge.paid{background:#f0fdf4;color:#16a34a}
+.badge.nota_credito{background:#f5f3ff;color:#6d28d9}
+.badge.inbatch{background:#eff6ff;color:#2563eb}
+[data-theme="dark"] .badge.overdue{background:rgba(220,38,38,.15);color:#fca5a5}
+[data-theme="dark"] .badge.pending{background:rgba(217,119,6,.15);color:#fcd34d}
+[data-theme="dark"] .badge.paid{background:rgba(22,163,74,.15);color:#86efac}
+.empty{text-align:center;padding:40px;color:var(--text3)}
+.scad-day{border:0.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden}
+.scad-day-head{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--surface2);font-size:12px;font-weight:600}
+.scad-day-row{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-top:0.5px solid var(--border);font-size:12px}
+.chart-wrap{position:relative;width:100%}
+.chart-tt{display:none;position:absolute;background:var(--surface);border:0.5px solid var(--border2);border-radius:8px;padding:10px 14px;font-size:12px;pointer-events:none;z-index:10;min-width:180px;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.saldo-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:0.5px solid var(--border);font-size:12px}
+.saldo-row:last-child{border-bottom:none}
+.prog-bar{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-top:3px}
+.prog-fill{height:100%;border-radius:3px}
+.tbl-wrap{overflow-x:auto;border-radius:var(--radius);border:0.5px solid var(--border)}
+select{background:var(--surface2);border:0.5px solid var(--border);border-radius:var(--radius-sm);padding:5px 10px;color:var(--text);font-size:13px;font-weight:600;outline:none;font-family:inherit;cursor:pointer}
+select:focus{border-color:var(--accent)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 </style>
 </head>
 <body>
 
-<div id="loading"><div class="spinner"></div><span>Caricamento dati…</span></div>
-
-<header>
-  <div class="logo">
-    <div class="logo-icon">🧾</div>
-    FattureSDI <span>/ Dashboard</span>
+<div id="loading">
+  <div style="text-align:center">
+    <div class="spinner"></div>
+    <div style="font-size:13px;color:var(--text3)">Caricamento dati...</div>
   </div>
-  <div class="header-right">
-    <span class="badge-live">Live</span>
-    <span class="badge-salvato" id="hdr-salvato">—</span>
-    <span style="font-size:13px;font-weight:600;color:var(--text2)" id="hdr-azienda"></span>
-    <div class="theme-toggle" onclick="toggleTheme()">
-      <div class="tt-track"><div class="tt-thumb"></div></div>
-      <span id="theme-label">Chiaro</span>
-    </div>
-  </div>
-</header>
-
-<div class="tabs">
-  <div class="tab active" onclick="switchTab('overview')">📊 Overview</div>
-  <div class="tab" onclick="switchTab('fatture')">📋 Fatture <span class="tab-n" id="tn-fatture">0</span></div>
-  <div class="tab" onclick="switchTab('scadenzario')">📅 Scadenzario <span class="tab-n warn" id="tn-scad">0</span></div>
-  <div class="tab" onclick="switchTab('calendario')">🗓 Calendario</div>
-  <div class="tab" onclick="switchTab('concentrazione')">🎯 Pareto Fornitori</div>
-  <div class="tab" onclick="switchTab('forecast')">🔮 Forecast 3 Mesi</div>
-  <div class="tab" onclick="switchTab('flussi')">📈 Flussi Mensili</div>
-  <div class="tab" onclick="switchTab('liquidita')">💰 Liquidità</div>
-  <div class="tab" onclick="switchTab('analisi')">🔍 Analisi Mese</div>
-  <div class="tab" onclick="switchTab('fornitori')">📦 Analisi Fornitori</div>
-  <div class="tab" onclick="switchTab('rubrica')">👥 Rubrica <span class="tab-n" id="tn-rubrica">0</span></div>
 </div>
 
-<main id="app" style="display:none">
+<div id="app">
 
-  <!-- ══ OVERVIEW ══ -->
-  <div class="panel active" id="panel-overview">
-    <div class="kpi-strip" id="kpi-strip"></div>
-    <div class="grid2">
-      <div class="card"><div class="card-head">⏰ Prossime scadenze</div><div id="ov-prossime"></div></div>
-      <div class="card"><div class="card-head">🔴 Scadute non pagate</div><div id="ov-scadute"></div></div>
+<!-- HEADER fisso -->
+<div class="hdr">
+  <div style="display:flex;align-items:center">
+    <div class="logo">AP</div>
+    <div>
+      <div class="hdr-name" id="hdr-azienda">FattureSDI</div>
+      <div class="hdr-sub" id="hdr-salvato">—</div>
     </div>
-    <div class="card">
-      <div class="card-head">📊 Flusso scadenze — prossime 12 settimane</div>
-      <div class="chart-outer"><div class="chart-scroll"><div class="chart-canvas" id="ov-chart"></div></div></div>
-      <div class="chart-legend">
-        <div class="leg"><div class="leg-dot" style="background:var(--danger)"></div>Da pagare</div>
-        <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>Già pagate</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span class="badge-live">● LIVE</span>
+    <button class="theme-btn" onclick="toggleTheme()"><span id="theme-label">Scuro</span></button>
+  </div>
+</div>
+
+<!-- ══ HOME ══ -->
+<div id="view-home">
+
+  <!-- SEZIONE ACQUISTI -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <span class="section-pill" style="background:#eef2ff;color:#4338ca">📥 Acquisti — cosa ho comprato e da chi</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="cards-grid">
+
+      <!-- Panoramica -->
+      <div class="card" onclick="openDetail('overview')">
+        <div class="card-stripe" style="background:#00d4aa"></div>
+        <div class="card-title">Panoramica</div>
+        <div class="card-desc">Situazione complessiva portafoglio fatture ricevute</div>
+        <div class="card-kpi" id="hc-tot">—</div>
+        <div class="card-sub">fatture in portafoglio</div>
+        <div class="pills" id="hc-pills-ov"></div>
+        <div class="card-arrow">→</div>
       </div>
-    </div>
-  </div>
 
-  <!-- ══ FATTURE ══ -->
-  <div class="panel" id="panel-fatture">
-    <div class="filter-bar" id="fb-fatture">
-      <button class="filter-btn active" onclick="setFiltroFatture('all',this)">Tutte</button>
-      <button class="filter-btn" onclick="setFiltroFatture('pending',this)">⏳ Da pagare</button>
-      <button class="filter-btn" onclick="setFiltroFatture('overdue',this)">🔴 Scadute</button>
-      <button class="filter-btn" onclick="setFiltroFatture('paid',this)">✅ Pagate</button>
-      <button class="filter-btn" onclick="setFiltroFatture('nota_credito',this)">📝 Note credito</button>
-      <input class="search-input" type="text" placeholder="🔍 Cerca fornitore, numero…" oninput="searchFatture(this.value)">
-    </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr>
-          <th>Numero</th><th>Fornitore</th><th>P.IVA</th>
-          <th>Emissione</th><th>Scadenza</th><th>Pagamento</th>
-          <th>Tipo pag.</th><th>Stato</th><th class="r">Importo €</th>
-        </tr></thead>
-        <tbody id="tbody-fatture"></tbody>
-      </table>
-    </div>
-    <div id="fatture-empty" class="empty" style="display:none"><div class="empty-icon">📭</div><h3>Nessuna fattura</h3><p>Nessun risultato per il filtro selezionato</p></div>
-  </div>
-
-  <!-- ══ SCADENZARIO ══ -->
-  <div class="panel" id="panel-scadenzario">
-    <div class="filter-bar">
-      <button class="filter-btn active" onclick="setFiltroScad('all',this)">Tutti</button>
-      <button class="filter-btn" onclick="setFiltroScad('pending',this)">⏳ Da pagare</button>
-      <button class="filter-btn" onclick="setFiltroScad('overdue',this)">🔴 Scadute</button>
-      <button class="filter-btn" onclick="setFiltroScad('paid',this)">✅ Pagate</button>
-    </div>
-    <div id="scad-container"></div>
-  </div>
-
-
-  <!-- ══ CALENDARIO SCADENZE ══ -->
-  <div class="panel" id="panel-calendario">
-    <div class="month-nav">
-      <button class="btn-sm" onclick="calNav(-1)">‹</button>
-      <select id="cal-mese-sel" onchange="renderCalendario()"></select>
-      <select id="cal-anno-sel" onchange="renderCalendario()"></select>
-      <button class="btn-sm" onclick="calNav(+1)">›</button>
-      <button class="btn-sm" onclick="calOggi()">Oggi</button>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
-      <div class="kpi"><div class="kpi-label">Totale mese</div><div class="kpi-val warn" id="cal-k-tot">€ 0</div><div class="kpi-sub" id="cal-k-n">0 fatture</div></div>
-      <div class="kpi"><div class="kpi-label">Giorno di picco</div><div class="kpi-val danger" id="cal-k-picco">—</div><div class="kpi-sub" id="cal-k-picco-v">€ 0</div></div>
-      <div class="kpi"><div class="kpi-label">Giorni con scadenze</div><div class="kpi-val accent" id="cal-k-giorni">0</div><div class="kpi-sub">nel mese</div></div>
-      <div class="kpi"><div class="kpi-label">Scadute nel mese</div><div class="kpi-val" id="cal-k-ov" style="color:var(--danger)">0</div><div class="kpi-sub" id="cal-k-ov-v">€ 0</div></div>
-    </div>
-    <div class="card" style="margin-bottom:18px">
-      <div class="card-head" id="cal-title">Calendario scadenze</div>
-      <div id="cal-grid" style="padding:14px 16px"></div>
-    </div>
-    <div id="cal-day-detail" style="display:none" class="card">
-      <div class="card-head">
-        <span id="cal-det-title">—</span>
-        <button class="btn-sm" onclick="document.getElementById('cal-day-detail').style.display='none'">✕</button>
-      </div>
-      <div id="cal-det-body" style="padding:0"></div>
-    </div>
-  </div>
-
-  <!-- ══ CONCENTRAZIONE FORNITORI (PARETO) ══ -->
-  <div class="panel" id="panel-concentrazione">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
-      <div class="kpi"><div class="kpi-label">Fornitori totali</div><div class="kpi-val accent" id="par-k-tot">0</div><div class="kpi-sub">con fatture</div></div>
-      <div class="kpi"><div class="kpi-label">Coprono 80% spesa</div><div class="kpi-val warn" id="par-k-80">0</div><div class="kpi-sub" id="par-k-80-pct">fornitori</div></div>
-      <div class="kpi"><div class="kpi-label">Fornitore n°1</div><div class="kpi-val" id="par-k-top" style="font-size:14px;color:var(--text)">—</div><div class="kpi-sub" id="par-k-top-pct">—</div></div>
-      <div class="kpi"><div class="kpi-label">Top 3 coprono</div><div class="kpi-val danger" id="par-k-top3">0%</div><div class="kpi-sub">della spesa totale</div></div>
-    </div>
-    <div class="grid2" style="margin-bottom:18px">
-      <div class="card">
-        <div class="card-head">Curva di Pareto — concentrazione spesa</div>
-        <div style="padding:14px 16px;position:relative;height:280px">
-          <canvas id="par-chart-pareto"></canvas>
+      <!-- Acquisti del mese — WIDE -->
+      <div class="card" style="grid-column:span 2;border-color:#e0e7ff" onclick="openDetail('acquisti')">
+        <div class="card-stripe" style="background:#6366f1"></div>
+        <div class="card-title">Acquisti del mese</div>
+        <div class="card-desc">Fatture ricevute per data documento · mese corrente vs precedente</div>
+        <div style="display:flex;gap:24px;align-items:flex-start">
+          <div>
+            <div class="card-kpi" style="color:#6366f1" id="hc-acq-n">—</div>
+            <div class="card-sub" id="hc-acq-n-sub">fatture ricevute</div>
+            <div id="hc-acq-n-delta" style="margin-top:5px;font-size:11px;font-weight:600"></div>
+          </div>
+          <div class="divv"></div>
+          <div>
+            <div class="card-kpi" style="color:#6366f1" id="hc-acq-v">—</div>
+            <div class="card-sub" id="hc-acq-v-sub">importo acquistato</div>
+            <div id="hc-acq-v-delta" style="margin-top:5px;font-size:11px;font-weight:600"></div>
+          </div>
+          <div class="divv"></div>
+          <div style="flex:1">
+            <div style="font-size:9px;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">Ultimi 6 mesi (data doc.)</div>
+            <div class="minibar" id="hc-acq-bar" style="margin-top:0"></div>
+            <div style="display:flex;justify-content:space-between;margin-top:3px" id="hc-acq-bar-lbl"></div>
+          </div>
         </div>
+        <div class="card-arrow">→</div>
       </div>
-      <div class="card">
-        <div class="card-head">Distribuzione quote — top 10</div>
-        <div style="padding:14px 16px;position:relative;height:280px">
-          <canvas id="par-chart-donut"></canvas>
-        </div>
+
+      <!-- Analisi mese -->
+      <div class="card" onclick="openDetail('analisi')">
+        <div class="card-stripe" style="background:#f97316"></div>
+        <div class="card-title">Analisi mese</div>
+        <div class="card-desc">KPI mensili, confronto e distribuzione per tipo pagamento</div>
+        <div class="card-kpi" style="color:#f97316" id="hc-an-mese">—</div>
+        <div class="card-sub" id="hc-an-sub">—</div>
+        <div class="pills" id="hc-an-pills"></div>
+        <div class="card-arrow">→</div>
       </div>
-    </div>
-    <div class="card">
-      <div class="card-head">Ranking completo fornitori</div>
-      <div style="overflow-x:auto">
-        <table class="tbl-wrap" style="width:100%;border-collapse:collapse;font-size:12px" id="par-tbl">
-          <thead style="background:var(--surface2)"><tr>
-            <th style="padding:8px 12px;text-align:left;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">#</th>
-            <th style="padding:8px 12px;text-align:left;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">Fornitore</th>
-            <th style="padding:8px 12px;text-align:right;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">Importo</th>
-            <th style="padding:8px 12px;text-align:right;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">% singolo</th>
-            <th style="padding:8px 12px;text-align:right;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">% cumulato</th>
-            <th style="padding:8px 12px;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">Quota visiva</th>
-          </tr></thead>
-          <tbody id="par-tbody"></tbody>
-        </table>
+
+      <!-- Analisi fornitori -->
+      <div class="card" onclick="openDetail('fornitori')">
+        <div class="card-stripe" style="background:#22c55e"></div>
+        <div class="card-title">Analisi fornitori</div>
+        <div class="card-desc">Spesa per fornitore nel tempo · confronto mesi · proiezione</div>
+        <div class="card-kpi" style="color:#22c55e;font-size:17px" id="hc-forn-top">—</div>
+        <div class="card-sub" id="hc-forn-sub">fornitore principale</div>
+        <div class="minibar" id="hc-forn-bar"></div>
+        <div class="card-arrow">→</div>
       </div>
+
+      <!-- Concentrazione -->
+      <div class="card" onclick="openDetail('concentrazione')">
+        <div class="card-stripe" style="background:#ec4899"></div>
+        <div class="card-title">Concentrazione fornitori</div>
+        <div class="card-desc">Pareto 80/20 — chi pesa di più sulla spesa totale</div>
+        <div class="card-kpi" style="color:#ec4899" id="hc-par-n">—</div>
+        <div class="card-sub" id="hc-par-sub">fornitori coprono l'80% della spesa</div>
+        <div class="minibar" id="hc-par-bar"></div>
+        <div class="card-arrow">→</div>
+      </div>
+
     </div>
   </div>
 
-  <!-- ══ FORECAST 3 MESI ══ -->
-  <div class="panel" id="panel-forecast">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
-      <div class="kpi"><div class="kpi-label">Forecast mese +1</div><div class="kpi-val warn" id="fc-k-m1">€ 0</div><div class="kpi-sub" id="fc-k-m1-lbl">—</div></div>
-      <div class="kpi"><div class="kpi-label">Forecast mese +2</div><div class="kpi-val warn" id="fc-k-m2">€ 0</div><div class="kpi-sub" id="fc-k-m2-lbl">—</div></div>
-      <div class="kpi"><div class="kpi-label">Forecast mese +3</div><div class="kpi-val warn" id="fc-k-m3">€ 0</div><div class="kpi-sub" id="fc-k-m3-lbl">—</div></div>
-      <div class="kpi"><div class="kpi-label">Totale 3 mesi</div><div class="kpi-val accent" id="fc-k-tot">€ 0</div><div class="kpi-sub">spesa prevista</div></div>
+  <!-- SEZIONE PAGAMENTI -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <span class="section-pill" style="background:#fef3c7;color:#92400e">💸 Pagamenti — cosa devo pagare e quando</span>
+      <div class="section-line"></div>
     </div>
-    <div class="card" style="margin-bottom:18px">
-      <div class="card-head">
-        <span>Storico + Forecast — spesa mensile con intervallo di confidenza</span>
-        <div style="display:flex;gap:12px;font-size:11px;color:var(--text2)">
-          <span style="display:flex;align-items:center;gap:4px"><span style="width:24px;height:3px;background:#00d4aa;display:inline-block;border-radius:2px"></span>Storico</span>
-          <span style="display:flex;align-items:center;gap:4px"><span style="width:24px;height:3px;background:#4f8aff;display:inline-block;border-radius:2px;border:1px dashed #4f8aff"></span>Forecast</span>
-        </div>
+    <div class="cards-grid">
+
+      <!-- Fatture da pagare -->
+      <div class="card" onclick="openDetail('fatture')">
+        <div class="card-stripe" style="background:#3b82f6"></div>
+        <div class="card-title">Fatture da pagare</div>
+        <div class="card-desc">Elenco completo con filtri, ricerca e stato</div>
+        <div class="card-kpi" style="color:#dc2626" id="hc-fatt-tot">—</div>
+        <div class="card-sub" id="hc-fatt-sub">totale da pagare</div>
+        <div class="pills" id="hc-fatt-pills"></div>
+        <div class="card-arrow">→</div>
       </div>
-      <div style="padding:14px 16px;position:relative;height:300px">
-        <canvas id="fc-chart-main"></canvas>
+
+      <!-- Uscite di cassa -->
+      <div class="card" onclick="openDetail('uscite')">
+        <div class="card-stripe" style="background:#00d4aa"></div>
+        <div class="card-title">Uscite di cassa</div>
+        <div class="card-desc">Flussi di pagamento mensili e dettaglio giornaliero per scadenza</div>
+        <div class="card-kpi" style="color:#00d4aa" id="hc-usc-v">—</div>
+        <div class="card-sub" id="hc-usc-sub">—</div>
+        <div class="minibar" id="hc-usc-bar"></div>
+        <div class="card-arrow">→</div>
       </div>
-    </div>
-    <div class="grid2">
-      <div class="card">
-        <div class="card-head">Top 10 fornitori — spesa prevista mese +1</div>
-        <div id="fc-top-forn" style="padding:0"></div>
+
+      <!-- Liquidità -->
+      <div class="card" onclick="openDetail('liquidita')">
+        <div class="card-stripe" style="background:#f59e0b"></div>
+        <div class="card-title">Liquidità & proiezioni</div>
+        <div class="card-desc">Andamento saldo cassa proiettato nei prossimi mesi</div>
+        <div class="card-kpi" style="color:#d97706" id="hc-liq-v">€ 50k</div>
+        <div class="card-sub">saldo iniziale configurabile</div>
+        <div class="spark" id="hc-liq-spark"></div>
+        <div class="card-arrow">→</div>
       </div>
-      <div class="card">
-        <div class="card-head">Variazione attesa vs storico</div>
-        <div style="padding:14px 16px;position:relative;height:260px">
-          <canvas id="fc-chart-var"></canvas>
-        </div>
+
+      <!-- Forecast -->
+      <div class="card" onclick="openDetail('forecast')">
+        <div class="card-stripe" style="background:#4f8aff"></div>
+        <div class="card-title">Forecast 3 mesi</div>
+        <div class="card-desc">Proiezione spesa con trend e intervallo di confidenza</div>
+        <div class="card-kpi" style="color:#3b82f6" id="hc-fc-v">—</div>
+        <div class="card-sub" id="hc-fc-sub">spesa prevista</div>
+        <div class="minibar" id="hc-fc-bar"></div>
+        <div class="card-arrow">→</div>
       </div>
+
     </div>
   </div>
+</div><!-- /view-home -->
 
-  <!-- ══ FLUSSI MENSILI ══ -->
-  <div class="panel" id="panel-flussi">
-    <div class="month-nav">
-      <button class="btn-sm" onclick="flussiNav(-1)">‹</button>
-      <select id="flussi-mese-sel" onchange="renderFlussi()"></select>
-      <select id="flussi-anno-sel" onchange="renderFlussi()"></select>
-      <button class="btn-sm" onclick="flussiNav(+1)">›</button>
-      <button class="btn-sm" onclick="flussiOggi()">Oggi</button>
-      <div style="width:1px;height:22px;background:var(--border)"></div>
-      <button class="filter-btn active" id="fl-all"     onclick="setFlussoFiltro('all',this)">Tutti</button>
-      <button class="filter-btn"        id="fl-pending" onclick="setFlussoFiltro('pending',this)">⏳ Da pagare</button>
-      <button class="filter-btn"        id="fl-overdue" onclick="setFlussoFiltro('overdue',this)">🔴 Scadute</button>
-      <button class="filter-btn"        id="fl-paid"    onclick="setFlussoFiltro('paid',this)">✅ Pagate</button>
-    </div>
-    <!-- KPI mese -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
-      <div class="kpi"><div class="kpi-label">Totale mese</div><div class="kpi-val warn" id="fl-kpi-tot">€ 0</div><div class="kpi-sub" id="fl-kpi-tot-n">0 fatture</div></div>
-      <div class="kpi"><div class="kpi-label">Picco giornaliero</div><div class="kpi-val danger" id="fl-kpi-picco">€ 0</div><div class="kpi-sub" id="fl-kpi-picco-d">—</div></div>
-      <div class="kpi"><div class="kpi-label">Giorni con uscite</div><div class="kpi-val accent" id="fl-kpi-giorni">0</div><div class="kpi-sub">nel mese</div></div>
-      <div class="kpi"><div class="kpi-label">Media per giorno</div><div class="kpi-val blue" id="fl-kpi-media">€ 0</div><div class="kpi-sub">giorni con scadenze</div></div>
-    </div>
-    <!-- Grafico giornaliero canvas -->
-    <div class="card" style="margin-bottom:18px">
-      <div class="card-head" id="fl-chart-title">Distribuzione giornaliera</div>
-      <div style="padding:16px;position:relative">
-        <canvas id="flussi-chart" height="220"></canvas>
-        <div class="chart-tooltip" id="flussi-tooltip"></div>
-        <div id="flussi-chart-empty" style="display:none" class="empty"><div class="empty-icon">📊</div><h3>Nessuna scadenza in questo mese</h3></div>
-      </div>
-    </div>
-    <!-- Tabella riepilogo per giorno -->
-    <div class="card-head" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius) var(--radius) 0 0;padding:10px 14px">Riepilogo per data di scadenza</div>
-    <div id="flussi-container"></div>
+<!-- ══ VISTA DETTAGLIO ══ -->
+<div id="view-detail">
+  <div class="detail-hdr">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <span class="detail-title" id="detail-title">—</span>
   </div>
+  <div class="detail-body" id="detail-body"></div>
+</div>
 
-  <!-- ══ LIQUIDITÀ ══ -->
-  <div class="panel" id="panel-liquidita">
-    <!-- Input saldo + soglia + orizzonte -->
-    <div style="background:var(--surface);border:1px solid rgba(0,212,170,.3);border-radius:var(--radius);padding:16px 20px;margin-bottom:18px;display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap">
-      <div>
-        <div class="kpi-label" style="margin-bottom:8px">💰 Saldo iniziale di cassa (€)</div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--accent)">€</span>
-          <input type="number" id="liq-saldo" value="50000" min="0" step="100" oninput="renderLiquidita()"
-            style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 12px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;width:180px;outline:none">
-        </div>
-      </div>
-      <div>
-        <div class="kpi-label" style="margin-bottom:8px">Soglia critica (€)</div>
-        <input type="number" id="liq-soglia" value="5000" min="0" step="500" oninput="renderLiquidita()"
-          style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 12px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;width:140px;outline:none">
-      </div>
-      <div>
-        <div class="kpi-label" style="margin-bottom:8px">Orizzonte</div>
-        <select id="liq-mesi" onchange="renderLiquidita()" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none">
-          <option value="3">3 mesi</option>
-          <option value="6" selected>6 mesi</option>
-          <option value="12">12 mesi</option>
-        </select>
-      </div>
-    </div>
-    <!-- KPI liquidità -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
-      <div class="kpi"><div class="kpi-label">Saldo attuale</div><div class="kpi-val accent" id="liq-k-saldo">€ 0</div><div class="kpi-sub">dopo scadenze passate</div></div>
-      <div class="kpi"><div class="kpi-label">Uscite prossimi 30gg</div><div class="kpi-val warn" id="liq-k-30">€ 0</div><div class="kpi-sub" id="liq-k-30-n">0 fatture</div></div>
-      <div class="kpi"><div class="kpi-label">Giorni sotto soglia</div><div class="kpi-val danger" id="liq-k-rischio">0</div><div class="kpi-sub">nei prossimi mesi</div></div>
-      <div class="kpi"><div class="kpi-label">Saldo minimo previsto</div><div class="kpi-val" id="liq-k-min">€ 0</div><div class="kpi-sub" id="liq-k-min-d">—</div></div>
-    </div>
-    <!-- Grafico saldo progressivo -->
-    <div class="card" style="margin-bottom:18px">
-      <div class="card-head">📈 Saldo progressivo di cassa · soglia critica in rosso tratteggiato</div>
-      <div style="padding:16px;position:relative">
-        <div class="canvas-wrap"><canvas id="liq-chart"></canvas><div class="chart-tooltip" id="liq-tooltip"></div></div>
-        <div id="liq-chart-empty" style="display:none" class="empty"><div class="empty-icon">📈</div><h3>Nessuna scadenza</h3></div>
-      </div>
-    </div>
-    <!-- Proiezioni -->
-    <div class="kpi-label" style="margin-bottom:10px">Proiezione mesi futuri (media storica)</div>
-    <div id="liq-proiezioni"></div>
-  </div>
+</div><!-- /app -->
 
-  <!-- ══ ANALISI MESE ══ -->
-  <div class="panel" id="panel-analisi">
-    <div class="month-nav">
-      <button class="btn-sm" onclick="analisiNav(-1)">‹</button>
-      <select id="an-mese-sel" onchange="renderAnalisi()"></select>
-      <select id="an-anno-sel" onchange="renderAnalisi()"></select>
-      <button class="btn-sm" onclick="analisiNav(+1)">›</button>
-      <button class="btn-sm" onclick="analisiOggi()">Mese corrente</button>
-    </div>
-    <!-- KPI vs mese precedente -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
-      <div class="kpi"><div class="kpi-label">Totale mese</div><div class="kpi-val warn" id="an-k-tot">€ 0</div><div class="kpi-sub" id="an-k-tot-d">vs mese prec.</div></div>
-      <div class="kpi"><div class="kpi-label">N° fatture</div><div class="kpi-val accent" id="an-k-n">0</div><div class="kpi-sub" id="an-k-n-d">vs mese prec.</div></div>
-      <div class="kpi"><div class="kpi-label">Importo medio</div><div class="kpi-val danger" id="an-k-media">€ 0</div><div class="kpi-sub">per fattura</div></div>
-      <div class="kpi"><div class="kpi-label">Fornitori attivi</div><div class="kpi-val green" id="an-k-forn">0</div><div class="kpi-sub" id="an-k-forn-d">vs mese prec.</div></div>
-    </div>
-    <!-- Concentrazione + Tipo pagamento -->
-    <div class="grid2" style="margin-bottom:18px">
-      <div class="card"><div class="card-head">📐 Concentrazione fornitori (80/20)</div><div style="padding:16px" id="an-concentrazione"></div></div>
-      <div class="card"><div class="card-head">💳 Distribuzione tipo pagamento</div><div style="padding:16px" id="an-tipo-pag"></div></div>
-    </div>
-    <!-- Confronto mese precedente -->
-    <div class="card" style="margin-bottom:18px">
-      <div class="card-head">📊 Confronto con mese precedente</div>
-      <div style="padding:16px" id="an-confronto"></div>
-    </div>
-    <!-- Ranking fornitori -->
-    <div class="kpi-label" style="margin-bottom:10px">🏆 Ranking fornitori del mese</div>
-    <div id="an-ranking"></div>
-  </div>
-
-  <!-- ══ RUBRICA ══ -->
-  <div class="panel" id="panel-rubrica">
-    <div class="filter-bar">
-      <input class="search-input" type="text" placeholder="🔍 Cerca fornitore, P.IVA…" oninput="renderRubrica(this.value)" style="margin-left:0">
-    </div>
-    <div class="rubrica-grid" id="rubrica-container"></div>
-    <div id="rubrica-empty" class="empty" style="display:none"><div class="empty-icon">👥</div><h3>Rubrica vuota</h3><p>Nessun fornitore nel file JSON</p></div>
-  </div>
-
-</main>
-
-
-  <!-- ══ ANALISI FORNITORI ══ -->
-  <div class="panel" id="panel-fornitori">
-    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
-      <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.07em">Periodo:</div>
-      <select id="af-mesi-storico" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-family:'IBM Plex Sans',sans-serif;outline:none">
-        <option value="6">Ultimi 6 mesi</option>
-        <option value="12" selected>Ultimi 12 mesi</option>
-        <option value="24">Ultimi 24 mesi</option>
-      </select>
-      <div style="width:1px;height:22px;background:var(--border)"></div>
-      <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.07em">Proiezione:</div>
-      <select id="af-mesi-proiezione" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-family:'IBM Plex Sans',sans-serif;outline:none">
-        <option value="0">Nessuna</option>
-        <option value="3">+ 3 mesi</option>
-        <option value="6" selected>+ 6 mesi</option>
-        <option value="12">+ 12 mesi</option>
-      </select>
-      <div style="width:1px;height:22px;background:var(--border)"></div>
-      <select id="af-top-n" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-family:'IBM Plex Sans',sans-serif;outline:none">
-        <option value="5">Top 5 fornitori</option>
-        <option value="10" selected>Top 10 fornitori</option>
-        <option value="20">Top 20 fornitori</option>
-        <option value="0">Tutti</option>
-      </select>
-      <select id="af-sort" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);font-family:'IBM Plex Sans',sans-serif;outline:none">
-        <option value="totale">Totale spesa ↓</option>
-        <option value="media">Media mensile ↓</option>
-        <option value="nome">Nome A→Z</option>
-        <option value="variazione">Variazione % ↓</option>
-      </select>
-      <input type="text" id="af-search" placeholder="🔍 Cerca fornitore…" oninput="renderAnalisiFor()" style="padding:6px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:12px;outline:none;min-width:180px">
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
-      <div class="kpi"><div class="kpi-label">Fornitori attivi</div><div class="kpi-val accent" id="af-k-forn">0</div><div class="kpi-sub">nel periodo</div></div>
-      <div class="kpi"><div class="kpi-label">Spesa totale periodo</div><div class="kpi-val warn" id="af-k-tot">€ 0</div><div class="kpi-sub" id="af-k-tot-sub">—</div></div>
-      <div class="kpi"><div class="kpi-label">Fornitore principale</div><div class="kpi-val blue" id="af-k-top" style="font-size:15px">—</div><div class="kpi-sub" id="af-k-top-sub">—</div></div>
-      <div class="kpi"><div class="kpi-label">Spesa proiettata</div><div class="kpi-val green" id="af-k-proj">€ 0</div><div class="kpi-sub" id="af-k-proj-sub">—</div></div>
-    </div>
-    <div class="card" style="margin-bottom:18px">
-      <div class="card-head">
-        <span>📊 Andamento mensile — storico (pieno) + proiezione (tratteggiato)</span>
-        <div style="display:flex;gap:8px;flex-wrap:wrap" id="af-chart-legend"></div>
-      </div>
-      <div style="padding:16px;position:relative">
-        <canvas id="af-chart" style="width:100%;display:block"></canvas>
-        <div id="af-chart-tooltip" style="display:none;position:absolute;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;pointer-events:none;z-index:10;min-width:210px;box-shadow:0 4px 20px rgba(0,0,0,.3)"></div>
-        <div id="af-chart-empty" style="display:none" class="empty"><div class="empty-icon">📊</div><h3>Nessun dato nel periodo</h3></div>
-      </div>
-    </div>
-    <div class="kpi-label" style="margin-bottom:10px">Dettaglio spesa per fornitore</div>
-    <div id="af-tabella-container"></div>
-    <div id="af-dettaglio-fornitore" style="display:none;margin-top:16px;background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:20px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div style="font-size:15px;font-weight:700;color:var(--accent)" id="af-det-nome">—</div>
-        <button class="btn-sm" onclick="chiudiDettaglioFor()">✕ Chiudi</button>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px" id="af-det-kpi"></div>
-      <canvas id="af-det-chart" style="width:100%;display:block;margin-bottom:16px"></canvas>
-      <div id="af-det-fatture"></div>
-    </div>
-  </div>
-
-<footer>
-  <span>FattureSDI Dashboard · Sola lettura · Dati da <strong>dati-fatture-sdi.json</strong></span>
-  <span>Per aggiornare: sostituisci il JSON su <a href="https://github.com/micdimartino1977-creator/sito_leggendario" target="_blank">GitHub</a></span>
-</footer>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-// ══════════════════════════════════════════════
-// GLOBALS
-// ══════════════════════════════════════════════
+// ── GLOBALS ──────────────────────────────────────────────────
 let fatture = [], rubrica = [], ordinante = {};
-let filtroFatture = 'all', searchQ = '', filtroScad = 'all';
-let flussoFiltro = 'all';
 const MESI_IT = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-
-// ── UTILS ──────────────────────────────────────
-const eur = v => '€\u202f' + Number(v||0).toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2});
-const dt  = d => d ? new Date(d+'T00:00:00').toLocaleDateString('it-IT') : '—';
-const oggi = () => { const d=new Date(); d.setHours(0,0,0,0); return d; };
+const eur   = v => '€\u202f' + Number(v||0).toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2});
+const dt    = d => d ? new Date(d+'T00:00:00').toLocaleDateString('it-IT') : '—';
+const oggi  = () => { const d=new Date(); d.setHours(0,0,0,0); return d; };
 const addDays = (d,n) => { const r=new Date(d); r.setDate(r.getDate()+n); return r; };
-
+const fmtEur = v => eur(v);
+const STATO_LBL = {paid:'✅ Pagata',pending:'⏳ In attesa',overdue:'🔴 Scaduta',inbatch:'📦 In batch',nota_credito:'📝 Nota credito'};
+const MP_LBL = {MP01:'Contanti',MP02:'Assegno',MP05:'Bonifico',MP09:'RID',MP10:'RID',MP19:'SEPA',MP20:'SEPA',MP21:'SEPA',MP22:'SEPA',MP24:'SEPA'};
+const mpLabel = mp => MP_LBL[mp]||mp||'—';
+const AF_PALETTE = ['#00d4aa','#4f8aff','#ffaa00','#ff4d6d','#a855f7','#f97316','#ec4899','#22c55e','#06b6d4','#eab308','#8b5cf6','#14b8a6'];
 function statoEff(f) {
   if (f.stato==='paid') return 'paid';
   if (f.isNotaCredito||f.stato==='nota_credito') return 'nota_credito';
@@ -575,10 +331,7 @@ function statoEff(f) {
   if (f.dataScadenza && new Date(f.dataScadenza+'T00:00:00') < oggi()) return 'overdue';
   return 'pending';
 }
-const STATO_LBL = {paid:'✅ Pagata',pending:'⏳ In attesa',overdue:'🔴 Scaduta',inbatch:'📦 In batch',nota_credito:'📝 Nota credito'};
 const badgeStato = f => { const s=statoEff(f); return `<span class="badge ${s}">${STATO_LBL[s]||s}</span>`; };
-const MP_LBL = {MP01:'Contanti',MP02:'Assegno',MP05:'Bonifico',MP09:'RID',MP10:'RID',MP19:'SEPA',MP20:'SEPA',MP21:'SEPA',MP22:'SEPA',MP24:'SEPA'};
-const mpLabel = mp => MP_LBL[mp]||mp||'—';
 function catPag(mp) {
   if (!mp) return 'altro';
   if (['MP05','MP06','MP07','MP08','MP12','MP23'].includes(mp)) return 'bonifico';
@@ -587,190 +340,515 @@ function catPag(mp) {
   if (['MP01','MP02'].includes(mp)) return 'contanti';
   return 'altro';
 }
-const delta = (c,p) => {
-  if (!p) return '';
-  const d=c-p, pct=((d/p)*100).toFixed(1);
-  const col = d>0?'var(--danger)':'var(--green)';
-  return `<span style="color:${col};font-size:11px">${d>0?'▲':'▼'} ${Math.abs(d)>100?eur(Math.abs(d)):Math.abs(d)} (${Math.abs(pct)}%)</span>`;
-};
-
-// ── TEMA ───────────────────────────────────────
 function toggleTheme() {
-  const isLight = document.documentElement.getAttribute('data-theme')==='light';
-  const newTheme = isLight ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', newTheme);
-  document.getElementById('theme-label').textContent = isLight ? 'Chiaro' : 'Scuro';
-  // ridisegna canvas se attivi
-  if (document.getElementById('panel-liquidita').classList.contains('active')) renderLiquidita();
-  if (document.getElementById('panel-flussi').classList.contains('active')) renderFlussi();
+  const light = document.documentElement.getAttribute('data-theme')==='light';
+  document.documentElement.setAttribute('data-theme', light?'dark':'light');
+  document.getElementById('theme-label').textContent = light?'Chiaro':'Scuro';
+}
+function mkLabel(mk) { const [y,m]=mk.split('-'); return MESI_IT[parseInt(m)-1].slice(0,3)+' '+y.slice(2); }
+
+// ── NAVIGAZIONE ───────────────────────────────────────────────
+let currentDetail = null;
+const DETAIL_TITLES = {
+  overview:'Panoramica', acquisti:'Acquisti del mese', analisi:'Analisi mese',
+  fornitori:'Analisi fornitori', concentrazione:'Concentrazione fornitori',
+  fatture:'Fatture da pagare', uscite:'Uscite di cassa',
+  liquidita:'Liquidità & proiezioni', forecast:'Forecast 3 mesi'
+};
+function openDetail(name) {
+  currentDetail = name;
+  document.getElementById('view-home').style.display = 'none';
+  document.getElementById('view-detail').style.display = 'block';
+  document.getElementById('detail-title').textContent = DETAIL_TITLES[name] || name;
+  window.scrollTo(0,0);
+  renderDetail(name);
+}
+function goHome() {
+  document.getElementById('view-home').style.display = 'block';
+  document.getElementById('view-detail').style.display = 'none';
+  currentDetail = null;
+  // Distruggi eventuali chart attivi
+  ['_chUsc','_chLiq','_chPareto','_chDonut','_chFcMain','_chFcVar','_chAfMain','_chAfDet'].forEach(k=>{
+    if(window[k]){window[k].destroy();window[k]=null;}
+  });
+}
+function renderDetail(name) {
+  const body = document.getElementById('detail-body');
+  body.innerHTML = '<div class="empty">Caricamento...</div>';
+  setTimeout(() => {
+    if (name==='overview')        body.innerHTML = buildOverview();
+    if (name==='acquisti')        buildAcquisti(body);
+    if (name==='analisi')         buildAnalisi(body);
+    if (name==='fornitori')       buildFornitori(body);
+    if (name==='concentrazione')  buildConcentrazione(body);
+    if (name==='fatture')         buildFatture(body);
+    if (name==='uscite')          buildUscite(body);
+    if (name==='liquidita')       buildLiquidita(body);
+    if (name==='forecast')        buildForecast(body);
+  }, 30);
 }
 
-// ── TABS ───────────────────────────────────────
-function switchTab(name) {
-  const tabs = ['overview','fatture','scadenzario','calendario','concentrazione','forecast','flussi','liquidita','analisi','fornitori','rubrica'];
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', tabs[i]===name));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-'+name).classList.add('active');
-  if (name==='flussi')    { initMeseSelettori('flussi'); renderFlussi(); }
-  if (name==='liquidita') renderLiquidita();
-  if (name==='analisi')   { initMeseSelettori('analisi'); renderAnalisi(); }
-  if (name==='fornitori') renderAnalisiFor();
-  if (name==='rubrica')   renderRubrica();
-  if (name==='scadenzario')    renderScadenzario();
-  if (name==='calendario')     renderCalendario();
-  if (name==='concentrazione') renderConcentrazione();
-  if (name==='forecast')       renderForecast();
-}
-
-// ── LOAD DATA ──────────────────────────────────
+// ── LOAD DATA ─────────────────────────────────────────────────
 async function loadData() {
   const url = 'https://raw.githubusercontent.com/micdimartino1977-creator/sito_leggendario/main/dati-fatture-sdi.json';
   try {
     const res = await fetch(url+'?t='+Date.now());
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const payload = await res.json();
-    fatture   = Array.isArray(payload.fatture) ? payload.fatture : [];
-    rubrica   = Array.isArray(payload.rubrica) ? payload.rubrica : [];
-    ordinante = payload.ordinante || {};
+    if (!res.ok) throw new Error('HTTP '+res.status);
+    const p = await res.json();
+    fatture   = Array.isArray(p.fatture) ? p.fatture : [];
+    rubrica   = Array.isArray(p.rubrica) ? p.rubrica : [];
+    ordinante = p.ordinante || {};
     if (ordinante.ragione) document.getElementById('hdr-azienda').textContent = ordinante.ragione;
-    if (payload._salvato) document.getElementById('hdr-salvato').textContent = 'Salvato: '+new Date(payload._salvato).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
-    document.getElementById('tn-fatture').textContent = fatture.length;
-    const nScad = fatture.filter(f=>['pending','overdue'].includes(statoEff(f))).length;
-    const tn = document.getElementById('tn-scad'); tn.textContent = nScad;
-    if (fatture.filter(f=>statoEff(f)==='overdue').length) tn.classList.add('danger');
-    document.getElementById('tn-rubrica').textContent = rubrica.length;
-    renderOverview(); renderFatture();
+    if (p._salvato) document.getElementById('hdr-salvato').textContent =
+      'Salvato: '+new Date(p._salvato).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    updateHomeCards();
     document.getElementById('loading').style.opacity='0';
-    setTimeout(()=>{ document.getElementById('loading').style.display='none'; document.getElementById('app').style.display='block'; },350);
+    setTimeout(()=>{ document.getElementById('loading').style.display='none'; document.getElementById('app').style.display='block'; },300);
   } catch(err) {
-    document.getElementById('loading').innerHTML=`<div style="text-align:center;font-family:'IBM Plex Mono',monospace"><div style="font-size:36px;margin-bottom:14px">⚠️</div><div style="color:var(--danger);margin-bottom:8px">Impossibile caricare i dati</div><div style="font-size:11px;color:var(--text2);margin-bottom:12px">${err.message}</div><div style="font-size:11px;color:var(--text3);max-width:380px;line-height:1.8">Assicurati che <strong style="color:var(--text)">dati-fatture-sdi.json</strong> esista nel repository GitHub e che sia pubblico.<br>Poi carica questo file aggiornato su GitHub.</div></div>`;
+    document.getElementById('loading').innerHTML=`<div style="text-align:center;padding:40px"><div style="font-size:36px;margin-bottom:14px">⚠️</div><div style="color:var(--danger);margin-bottom:8px;font-weight:600">Impossibile caricare i dati</div><div style="font-size:12px;color:var(--text3)">${err.message}</div><div style="font-size:11px;color:var(--text3);margin-top:12px;max-width:360px;margin-left:auto;margin-right:auto;line-height:1.7">Verifica che <strong>dati-fatture-sdi.json</strong> esista nel repo GitHub e che sia pubblico.</div></div>`;
   }
 }
 
-// ── OVERVIEW ───────────────────────────────────
-function renderOverview() {
-  const oggi_ = oggi();
+// ── AGGIORNA CARD HOME ────────────────────────────────────────
+function updateHomeCards() {
+  const now = new Date(); now.setDate(1); now.setHours(0,0,0,0);
+  const mAtt = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const mPrec = (() => { const d=new Date(now); d.setMonth(d.getMonth()-1); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; })();
+
+  const pending = fatture.filter(f=>statoEff(f)==='pending');
+  const overdue = fatture.filter(f=>statoEff(f)==='overdue');
+  const nc      = fatture.filter(f=>statoEff(f)==='nota_credito');
+  const daPag   = fatture.filter(f=>!['paid','nota_credito'].includes(statoEff(f)));
+  const totDaPag= daPag.reduce((s,f)=>s+f.importo,0);
+  const totOv   = overdue.reduce((s,f)=>s+f.importo,0);
+  const totPend = pending.reduce((s,f)=>s+f.importo,0);
+
+  // Panoramica
+  document.getElementById('hc-tot').textContent = fatture.length.toLocaleString('it-IT');
+  document.getElementById('hc-pills-ov').innerHTML =
+    `<span class="pill pill-r">${overdue.length} scadute</span>
+     <span class="pill pill-y">${pending.length} in attesa</span>
+     ${nc.length?`<span class="pill pill-v">${nc.length} NC</span>`:''}`;
+
+  // Acquisti del mese (data documento)
+  const acqAtt = fatture.filter(f=>f.data&&!f.isNotaCredito&&f.data.startsWith(mAtt));
+  const acqPrec= fatture.filter(f=>f.data&&!f.isNotaCredito&&f.data.startsWith(mPrec));
+  const acqAttV = acqAtt.reduce((s,f)=>s+f.importo,0);
+  const acqPrecV= acqPrec.reduce((s,f)=>s+f.importo,0);
+  const pctN = acqPrec.length ? Math.round((acqAtt.length-acqPrec.length)/acqPrec.length*100) : null;
+  const pctV = acqPrecV ? Math.round((acqAttV-acqPrecV)/acqPrecV*100) : null;
+  document.getElementById('hc-acq-n').textContent = acqAtt.length;
+  document.getElementById('hc-acq-n-sub').textContent = `fatture ricevute · ${MESI_IT[now.getMonth()].slice(0,3)} ${now.getFullYear()}`;
+  document.getElementById('hc-acq-v').textContent = eur(acqAttV);
+  document.getElementById('hc-acq-v-sub').textContent = `importo acquistato · ${MESI_IT[now.getMonth()].slice(0,3)} ${now.getFullYear()}`;
+  if (pctN!==null) document.getElementById('hc-acq-n-delta').innerHTML = `<span style="color:${pctN>0?'var(--warn)':'var(--green)'}">${pctN>0?'▲':'▼'} ${Math.abs(pctN)}% vs ${MESI_IT[now.getMonth()-1<0?11:now.getMonth()-1].slice(0,3)} (${acqPrec.length})</span>`;
+  if (pctV!==null) document.getElementById('hc-acq-v-delta').innerHTML = `<span style="color:${pctV>0?'var(--warn)':'var(--green)'}">${pctV>0?'▲':'▼'} ${Math.abs(pctV)}% vs ${MESI_IT[now.getMonth()-1<0?11:now.getMonth()-1].slice(0,3)} (${eur(acqPrecV)})</span>`;
+  // Minibar acquisti 6 mesi
+  const acqMesi = [];
+  for (let i=5;i>=0;i--) { const d=new Date(now); d.setMonth(d.getMonth()-i); const mk=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; const tot=fatture.filter(f=>f.data&&!f.isNotaCredito&&f.data.startsWith(mk)).reduce((s,f)=>s+f.importo,0); acqMesi.push({mk,tot}); }
+  const maxAcq = Math.max(...acqMesi.map(m=>m.tot),1);
+  document.getElementById('hc-acq-bar').innerHTML = acqMesi.map((m,i)=>`<div class="mb" style="height:${Math.round(m.tot/maxAcq*100)}%;background:${i===5?'#6366f1':'rgba(99,102,241,0.3)'}"></div>`).join('');
+  document.getElementById('hc-acq-bar-lbl').innerHTML = acqMesi.map((m,i)=>`<span style="font-size:9px;color:${i===5?'#6366f1':'var(--text3)'}${i===5?';font-weight:700':''}">${mkLabel(m.mk).split(' ')[0]}</span>`).join('');
+
+  // Analisi mese
+  const anno = now.getFullYear(), mese = now.getMonth();
+  const inMese = fatture.filter(f=>{if(!f.dataScadenza||f.isNotaCredito)return false;const d=new Date(f.dataScadenza+'T00:00:00');return d.getFullYear()===anno&&d.getMonth()===mese;});
+  const totM = inMese.reduce((s,f)=>s+f.importo,0);
+  const inPrec = fatture.filter(f=>{if(!f.dataScadenza||f.isNotaCredito)return false;const d=new Date(f.dataScadenza+'T00:00:00');const mp=mese===0?11:mese-1,ap=mese===0?anno-1:anno;return d.getFullYear()===ap&&d.getMonth()===mp;});
+  const totMP= inPrec.reduce((s,f)=>s+f.importo,0);
+  const varM = totMP?Math.round((totM-totMP)/totMP*100):null;
+  document.getElementById('hc-an-mese').textContent = MESI_IT[mese]+' '+anno;
+  document.getElementById('hc-an-sub').textContent = `${eur(totM)} · ${inMese.length} fatture`;
+  document.getElementById('hc-an-pills').innerHTML = varM!==null?`<span class="pill ${varM>0?'pill-r':'pill-g'}">${varM>0?'▲':'▼'} ${Math.abs(varM)}% vs mese prec.</span>`:'';
+
+  // Analisi fornitori — top fornitore
+  const byF={};
+  fatture.forEach(f=>{if(f.isNotaCredito)return;const k=f.piva||f.ragioneSociale;if(!byF[k])byF[k]={nome:f.ragioneSociale,tot:0,mesi:{}};byF[k].tot+=f.importo;const d=new Date((f.dataScadenza||f.data)+'T00:00:00');const mk=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;byF[k].mesi[mk]=(byF[k].mesi[mk]||0)+f.importo;});
+  const top=Object.values(byF).sort((a,b)=>b.tot-a.tot)[0];
+  if(top){
+    document.getElementById('hc-forn-top').textContent=top.nome.split(' ').slice(0,3).join(' ');
+    document.getElementById('hc-forn-sub').textContent=`fornitore n°1 · ${eur(top.tot)}`;
+    const mesiF=Object.entries(top.mesi).sort(([a],[b])=>a.localeCompare(b)).slice(-6);
+    const maxF=Math.max(...mesiF.map(([,v])=>v),1);
+    document.getElementById('hc-forn-bar').innerHTML=mesiF.map(([,v])=>`<div class="mb" style="height:${Math.round(v/maxF*100)}%;background:rgba(34,197,94,0.5)"></div>`).join('');
+  }
+
+  // Concentrazione
+  const lista=Object.values(byF).sort((a,b)=>b.tot-a.tot);
+  const totAll=lista.reduce((s,f)=>s+f.tot,0);
+  let cum=0,n80=0;
+  lista.forEach(f=>{cum+=f.tot;if(cum/totAll<=0.80001)n80++;});
+  document.getElementById('hc-par-n').textContent=n80;
+  document.getElementById('hc-par-sub').textContent=`fornitori su ${lista.length} coprono l'80%`;
+  const top7=lista.slice(0,7),maxP=top7[0]?.tot||1;
+  document.getElementById('hc-par-bar').innerHTML=top7.map(f=>`<div class="mb" style="height:${Math.round(f.tot/maxP*100)}%;background:rgba(236,72,153,0.4)"></div>`).join('');
+
+  // Fatture da pagare
+  document.getElementById('hc-fatt-tot').textContent=eur(totDaPag);
+  document.getElementById('hc-fatt-sub').textContent=`${daPag.length} fatture da pagare`;
+  document.getElementById('hc-fatt-pills').innerHTML=`<span class="pill pill-r">${eur(totOv)} scaduto</span><span class="pill pill-y">${eur(totPend)} in attesa</span>`;
+
+  // Uscite di cassa — ultimi 9 mesi per scadenza
+  const uscMesi=[];
+  for(let i=8;i>=0;i--){const d=new Date(now);d.setMonth(d.getMonth()-i);const mk=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;const tot=fatture.filter(f=>f.dataScadenza&&!f.isNotaCredito&&f.dataScadenza.startsWith(mk)).reduce((s,f)=>s+f.importo,0);uscMesi.push({mk,tot});}
+  const curUsc=uscMesi[uscMesi.length-1];
+  document.getElementById('hc-usc-v').textContent=eur(curUsc.tot);
+  document.getElementById('hc-usc-sub').textContent=`scadenze ${mkLabel(curUsc.mk)} · picco ${eur(Math.max(...uscMesi.map(m=>m.tot)))}`;
+  const maxU=Math.max(...uscMesi.map(m=>m.tot),1);
+  document.getElementById('hc-usc-bar').innerHTML=uscMesi.map((m,i)=>`<div class="mb" style="height:${Math.round(m.tot/maxU*100)}%;background:${i===8?'#00d4aa':'rgba(0,212,170,0.35)'}"></div>`).join('');
+
+  // Forecast
+  const fcMesi=[];
+  for(let i=5;i>=0;i--){const d=new Date(now);d.setMonth(d.getMonth()-i);const mk=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;const tot=fatture.filter(f=>f.dataScadenza&&!f.isNotaCredito&&f.dataScadenza.startsWith(mk)).reduce((s,f)=>s+f.importo,0);fcMesi.push(tot);}
+  const fcValid=fcMesi.filter(v=>v>0);
+  const fcMedia=fcValid.length?fcValid.reduce((s,v)=>s+v,0)/fcValid.length:0;
+  const fc3=Math.round(fcMedia*3);
+  document.getElementById('hc-fc-v').textContent=eur(fc3);
+  const d1=new Date(now);d1.setMonth(d1.getMonth()+1);
+  const d3=new Date(now);d3.setMonth(d3.getMonth()+3);
+  document.getElementById('hc-fc-sub').textContent=`${MESI_IT[d1.getMonth()].slice(0,3)}–${MESI_IT[d3.getMonth()].slice(0,3)} ${d3.getFullYear()}`;
+  const maxFC=Math.max(...fcMesi,fcMedia,1);
+  document.getElementById('hc-fc-bar').innerHTML=fcMesi.map((v,i)=>`<div class="mb" style="height:${Math.round(v/maxFC*100)}%;background:rgba(0,212,170,0.4)"></div>`).join('')
+    +[1,2,3].map(()=>`<div class="mb" style="height:${Math.round(fcMedia/maxFC*100)}%;background:rgba(79,138,255,0.4);border:0.5px dashed #4f8aff"></div>`).join('');
+
+  // Liq spark (placeholder)
+  const liqBars=['100%','85%','65%','50%','35%','20%'];
+  document.getElementById('hc-liq-spark').innerHTML=liqBars.map((h,i)=>`<div class="sp" style="height:${h};background:${i<3?'rgba(245,158,11,0.4)':'rgba(239,68,68,0.5)'}"></div>`).join('');
+}
+
+// ── DETAIL BUILDERS ───────────────────────────────────────────
+// Wrapper che adattano le render function esistenti al nuovo layout
+
+function buildOverview() {
   const pending = fatture.filter(f=>statoEff(f)==='pending');
   const overdue = fatture.filter(f=>statoEff(f)==='overdue');
   const paid    = fatture.filter(f=>statoEff(f)==='paid');
-  const totP = pending.reduce((s,f)=>s+f.importo,0);
-  const totO = overdue.reduce((s,f)=>s+f.importo,0);
-  const totPaid = paid.reduce((s,f)=>s+f.importo,0);
-  const tot30 = pending.filter(f=>f.dataScadenza&&new Date(f.dataScadenza+'T00:00:00')<=addDays(oggi_,30)).reduce((s,f)=>s+f.importo,0);
-  document.getElementById('kpi-strip').innerHTML = `
-    <div class="kpi"><div class="kpi-label">Totale fatture</div><div class="kpi-val blue">${fatture.length}</div><div class="kpi-sub">${rubrica.length} in rubrica</div></div>
-    <div class="kpi"><div class="kpi-label">Da pagare</div><div class="kpi-val warn">${eur(totP)}</div><div class="kpi-sub">${pending.length} fatture</div></div>
-    <div class="kpi"><div class="kpi-label">Scadute</div><div class="kpi-val danger">${eur(totO)}</div><div class="kpi-sub">${overdue.length} fatture</div></div>
-    <div class="kpi"><div class="kpi-label">Già pagate</div><div class="kpi-val green">${eur(totPaid)}</div><div class="kpi-sub">${paid.length} fatture</div></div>
-    <div class="kpi"><div class="kpi-label">Scadono entro 30gg</div><div class="kpi-val ${tot30>0?'warn':'green'}">${eur(tot30)}</div><div class="kpi-sub">prossimo mese</div></div>`;
-  const prox = [...pending,...overdue].filter(f=>f.dataScadenza).sort((a,b)=>new Date(a.dataScadenza)-new Date(b.dataScadenza)).slice(0,5);
-  document.getElementById('ov-prossime').innerHTML = prox.length ? prox.map(f=>`<div class="scad-day-row"><div><div style="font-weight:600;font-size:12px">${f.ragioneSociale}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2)">${f.numero}</div></div><div style="text-align:right"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:${statoEff(f)==='overdue'?'var(--danger)':'var(--warn)'}">${eur(f.importo)}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2)">${dt(f.dataScadenza)}</div></div></div>`).join('') : '<div class="empty"><div class="empty-icon">🎉</div><h3>Nessuna scadenza!</h3></div>';
-  document.getElementById('ov-scadute').innerHTML = overdue.length ? overdue.slice(0,6).map(f=>`<div class="scad-day-row"><div><div style="font-weight:600;font-size:12px">${f.ragioneSociale}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2)">${f.numero}</div></div><div style="text-align:right"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--danger)">${eur(f.importo)}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--danger)">${dt(f.dataScadenza)}</div></div></div>`).join('') : '<div class="empty"><div class="empty-icon">✅</div><h3>Nessuna scaduta!</h3></div>';
-  // mini chart 12 settimane
-  const weeks = [];
-  for (let w=0;w<12;w++) {
-    const from=addDays(oggi_,w*7), to=addDays(oggi_,w*7+6);
-    const label=from.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit'});
-    const u=fatture.filter(f=>{if(!f.dataScadenza||f.stato==='paid')return false;const d=new Date(f.dataScadenza+'T00:00:00');return d>=from&&d<=to;}).reduce((s,f)=>s+f.importo,0);
-    const p=fatture.filter(f=>{if(!f.dataPagamento)return false;const d=new Date(f.dataPagamento+'T00:00:00');return d>=from&&d<=to;}).reduce((s,f)=>s+f.importo,0);
-    weeks.push({label,u,p});
-  }
-  const maxV=Math.max(...weeks.map(w=>Math.max(w.u,w.p)),1);
-  document.getElementById('ov-chart').innerHTML=weeks.map(w=>{
-    const hU=Math.round((w.u/maxV)*130),hP=Math.round((w.p/maxV)*130);
-    return `<div class="bar-col"><div class="bar-pair">${w.u>0?`<div class="bar out" style="height:${hU}px" data-tip="Da pagare: ${eur(w.u)}"></div>`:'<div style="flex:1"></div>'}${w.p>0?`<div class="bar in" style="height:${hP}px" data-tip="Pagate: ${eur(w.p)}"></div>`:'<div style="flex:1"></div>'}</div><div class="bar-label">${w.label}</div></div>`;
-  }).join('');
+  const nc      = fatture.filter(f=>statoEff(f)==='nota_credito');
+  const totOv   = overdue.reduce((s,f)=>s+f.importo,0);
+  const totPend = pending.reduce((s,f)=>s+f.importo,0);
+  const totAll  = fatture.reduce((s,f)=>s+f.importo,0);
+  const oggi_   = oggi();
+  const prox    = fatture.filter(f=>f.dataScadenza&&['pending','overdue'].includes(statoEff(f))&&new Date(f.dataScadenza+'T00:00:00')<=addDays(oggi_,7)).sort((a,b)=>new Date(a.dataScadenza)-new Date(b.dataScadenza)).slice(0,8);
+  return `
+    <div class="kpi-strip">
+      <div class="kpi"><div class="kpi-label">Totale portafoglio</div><div class="kpi-val">${fatture.length}</div><div class="kpi-sub">fatture importate</div></div>
+      <div class="kpi"><div class="kpi-label">Scaduto</div><div class="kpi-val" style="color:var(--danger)">${eur(totOv)}</div><div class="kpi-sub">${overdue.length} fatture</div></div>
+      <div class="kpi"><div class="kpi-label">In attesa</div><div class="kpi-val" style="color:var(--warn)">${eur(totPend)}</div><div class="kpi-sub">${pending.length} fatture</div></div>
+      <div class="kpi"><div class="kpi-label">Note credito</div><div class="kpi-val" style="color:#8b5cf6">${nc.length}</div><div class="kpi-sub">in portafoglio</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card-box">
+        <div class="card-box-head">Scadenze prossimi 7 giorni</div>
+        <div class="card-box-body" style="padding:0">
+          ${prox.length?prox.map(f=>`<div class="scad-day-row"><div><span style="font-weight:600;font-size:12px">${f.ragioneSociale}</span><br><span class="mono" style="font-size:10px;color:var(--text3)">${f.numero}</span></div><div style="text-align:right">${badgeStato(f)}<div class="mono" style="font-size:13px;font-weight:600;margin-top:2px">${eur(f.importo)}</div><div style="font-size:10px;color:var(--text3)">${dt(f.dataScadenza)}</div></div></div>`).join(''):`<div class="empty">🎉 Nessuna scadenza nei prossimi 7 giorni</div>`}
+        </div>
+      </div>
+      <div class="card-box">
+        <div class="card-box-head">Distribuzione stati</div>
+        <div class="card-box-body">
+          ${[['Scaduto',totOv,totAll,'var(--danger)'],['In attesa',totPend,totAll,'var(--warn)'],['Pagato',paid.reduce((s,f)=>s+f.importo,0),totAll,'var(--green)']].map(([l,v,t,c])=>`
+          <div style="margin-bottom:14px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:${c}">${l}</span><span class="mono">${eur(v)} · ${t?Math.round(v/t*100):0}%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:${t?Math.round(v/t*100):0}%;background:${c}"></div></div>
+          </div>`).join('')}
+          ${totOv>0?`<div style="background:rgba(220,38,38,.06);border:0.5px solid rgba(220,38,38,.2);border-radius:6px;padding:10px 12px;font-size:12px;color:var(--danger);margin-top:8px">⚠ ${overdue.length} fatture scadute per ${eur(totOv)} — attenzione alla liquidità</div>`:''}
+        </div>
+      </div>
+    </div>`;
 }
 
-// ── FATTURE ────────────────────────────────────
-function setFiltroFatture(f,btn) { filtroFatture=f; document.querySelectorAll('#fb-fatture .filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderFatture(); }
-function searchFatture(q) { searchQ=q.toLowerCase(); renderFatture(); }
-function renderFatture() {
-  let list=fatture.filter(f=>{
-    const s=statoEff(f);
-    if(filtroFatture!=='all'&&s!==filtroFatture)return false;
-    if(searchQ&&!`${f.ragioneSociale||''} ${f.numero||''} ${f.piva||''}`.toLowerCase().includes(searchQ))return false;
-    return true;
+function buildAcquisti(body) {
+  const now = new Date(); now.setDate(1); now.setHours(0,0,0,0);
+  // Ultimi 12 mesi per data documento
+  const mesi=[];
+  for(let i=11;i>=0;i--){const d=new Date(now);d.setMonth(d.getMonth()-i);const mk=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;const fs=fatture.filter(f=>f.data&&!f.isNotaCredito&&f.data.startsWith(mk));mesi.push({mk,n:fs.length,tot:fs.reduce((s,f)=>s+f.importo,0)});}
+  const cur=mesi[mesi.length-1], prec=mesi[mesi.length-2];
+  const pctN=prec.n?Math.round((cur.n-prec.n)/prec.n*100):null;
+  const pctV=prec.tot?Math.round((cur.tot-prec.tot)/prec.tot*100):null;
+  body.innerHTML=`
+    <div class="kpi-strip">
+      <div class="kpi"><div class="kpi-label">Fatture ricevute (mese)</div><div class="kpi-val" style="color:#6366f1">${cur.n}</div><div class="kpi-sub">${pctN!==null?`<span style="color:${pctN>0?'var(--warn)':'var(--green)'}">${pctN>0?'▲':'▼'} ${Math.abs(pctN)}% vs mese prec.</span>`:''}</div></div>
+      <div class="kpi"><div class="kpi-label">Importo acquistato</div><div class="kpi-val" style="color:#6366f1">${eur(cur.tot)}</div><div class="kpi-sub">${pctV!==null?`<span style="color:${pctV>0?'var(--warn)':'var(--green)'}">${pctV>0?'▲':'▼'} ${Math.abs(pctV)}% vs mese prec.</span>`:''}</div></div>
+      <div class="kpi"><div class="kpi-label">Media mensile</div><div class="kpi-val">${eur(Math.round(mesi.filter(m=>m.tot>0).reduce((s,m)=>s+m.tot,0)/Math.max(mesi.filter(m=>m.tot>0).length,1)))}</div><div class="kpi-sub">ultimi 12 mesi attivi</div></div>
+      <div class="kpi"><div class="kpi-label">Mese con più acquisti</div><div class="kpi-val" style="font-size:16px">${mkLabel(mesi.reduce((a,b)=>b.tot>a.tot?b:a).mk)}</div><div class="kpi-sub">${eur(Math.max(...mesi.map(m=>m.tot)))}</div></div>
+    </div>
+    <div class="card-box" style="margin-bottom:16px">
+      <div class="card-box-head">Fatture ricevute per mese (data documento) — ultimi 12 mesi</div>
+      <div style="padding:16px;position:relative;height:280px"><canvas id="acq-chart"></canvas></div>
+    </div>
+    <div class="card-box">
+      <div class="card-box-head">Dettaglio fatture ricevute — ${mkLabel(cur.mk)}</div>
+      <div style="overflow-x:auto">${buildFattureTable(fatture.filter(f=>f.data&&!f.isNotaCredito&&f.data.startsWith(cur.mk)))}</div>
+    </div>`;
+  // Chart acquisti
+  const labels=mesi.map(m=>mkLabel(m.mk));
+  const dataN=mesi.map(m=>m.n);
+  const dataV=mesi.map(m=>Math.round(m.tot));
+  new Chart(document.getElementById('acq-chart'),{
+    type:'bar',
+    data:{labels,datasets:[
+      {type:'bar',label:'Importo (€)',data:dataV,backgroundColor:'rgba(99,102,241,0.5)',borderRadius:4,yAxisID:'y',order:2},
+      {type:'line',label:'N° fatture',data:dataN,borderColor:'#f97316',borderWidth:2,pointRadius:3,fill:false,yAxisID:'y2',tension:0.3,order:1}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.datasetIndex===0?'€ '+c.raw.toLocaleString('it-IT'):c.raw+' fatture'}}},scales:{y:{position:'left',ticks:{callback:v=>'€'+(v>=1000?Math.round(v/1000)+'k':v)},grid:{color:'rgba(128,128,128,0.1)'}},y2:{position:'right',grid:{display:false},ticks:{callback:v=>v+' fatt.'}},x:{grid:{display:false},ticks:{maxRotation:45,font:{size:10}}}}}
   });
-  document.getElementById('tbody-fatture').innerHTML=list.map(f=>`<tr><td class="mono">${f.numero||'—'}</td><td><strong>${f.ragioneSociale||'—'}</strong><br><span style="font-size:11px;color:var(--text2)">${f.citta||''}</span></td><td class="mono">${f.piva||'—'}</td><td class="mono">${dt(f.data)}</td><td class="mono" style="${statoEff(f)==='overdue'?'color:var(--danger);font-weight:600':''}">${dt(f.dataScadenza)}</td><td class="mono">${f.dataPagamento?dt(f.dataPagamento):'—'}</td><td style="font-size:11px;color:var(--text2)">${mpLabel(f.modalitaPagamento)}</td><td>${badgeStato(f)}</td><td class="importo ${f.isNotaCredito?'in':'out'}">${eur(f.importo)}</td></tr>`).join('');
-  document.getElementById('fatture-empty').style.display=list.length?'none':'block';
 }
 
-// ── SCADENZARIO ────────────────────────────────
-function setFiltroScad(f,btn) { filtroScad=f; document.querySelectorAll('#panel-scadenzario .filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderScadenzario(); }
-function renderScadenzario() {
-  let list=fatture.filter(f=>{if(f.isNotaCredito)return false;const s=statoEff(f);if(filtroScad!=='all'&&s!==filtroScad)return false;return!!f.dataScadenza;}).sort((a,b)=>new Date(a.dataScadenza)-new Date(b.dataScadenza));
-  const byDate={};
-  list.forEach(f=>{if(!byDate[f.dataScadenza])byDate[f.dataScadenza]=[];byDate[f.dataScadenza].push(f);});
-  const container=document.getElementById('scad-container');
-  if(!list.length){container.innerHTML='<div class="empty"><div class="empty-icon">📅</div><h3>Nessuna scadenza</h3><p>Cambia filtro</p></div>';return;}
-  container.innerHTML=Object.entries(byDate).map(([d,fs])=>{
-    const tot=fs.reduce((s,f)=>s+f.importo,0);
-    const isOv=new Date(d+'T00:00:00')<oggi();
-    return `<div class="scad-day"><div class="scad-day-head"><span class="scad-day-date">${dt(d)} · ${fs.length} fattura${fs.length>1?'e':''}</span><span class="scad-day-tot ${isOv?'danger':'warn'}">${eur(tot)}</span></div>${fs.map(f=>`<div class="scad-day-row"><div><span style="font-weight:600">${f.ragioneSociale}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);margin-left:8px">${f.numero}</span></div><div style="display:flex;align-items:center;gap:10px">${badgeStato(f)}<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:${isOv?'var(--danger)':'var(--warn)'}">${eur(f.importo)}</span></div></div>`).join('')}</div>`;
-  }).join('');
+function buildFattureTable(list) {
+  if(!list.length) return '<div class="empty">Nessuna fattura</div>';
+  list=list.sort((a,b)=>new Date(b.data||0)-new Date(a.data||0));
+  return `<table><thead><tr><th>N° Fattura</th><th>Fornitore</th><th>Data doc.</th><th>Scadenza</th><th class="r">Importo</th><th>Stato</th></tr></thead><tbody>${list.map(f=>`<tr><td class="mono" style="font-size:11px">${f.numero||'—'}</td><td><span style="font-weight:600">${f.ragioneSociale}</span><br><span class="mono" style="font-size:10px;color:var(--text3)">${f.piva||''}</span></td><td class="mono" style="font-size:11px">${dt(f.data)}</td><td class="mono" style="font-size:11px;color:${statoEff(f)==='overdue'?'var(--danger)':'inherit'}">${dt(f.dataScadenza)}</td><td class="mono r" style="font-weight:600">${eur(f.importo)}</td><td>${badgeStato(f)}</td></tr>`).join('')}</tbody></table>`;
 }
 
-// ── FLUSSI MENSILI ─────────────────────────────
-function initMeseSelettori(prefix) {
-  const selM=document.getElementById(prefix==='flussi'?'flussi-mese-sel':'an-mese-sel');
-  const selA=document.getElementById(prefix==='flussi'?'flussi-anno-sel':'an-anno-sel');
-  if(selM.options.length)return;
+let _filtFatt='all', _searchFatt='';
+function buildFatture(body) {
+  body.innerHTML=`
+    <div class="filter-bar">
+      <button class="fbtn active" onclick="filtFatt('all',this)">Tutte (${fatture.length})</button>
+      <button class="fbtn" onclick="filtFatt('overdue',this)">🔴 Scadute (${fatture.filter(f=>statoEff(f)==='overdue').length})</button>
+      <button class="fbtn" onclick="filtFatt('pending',this)">⏳ In attesa (${fatture.filter(f=>statoEff(f)==='pending').length})</button>
+      <button class="fbtn" onclick="filtFatt('paid',this)">✅ Pagate</button>
+      <button class="fbtn" onclick="filtFatt('nota_credito',this)">📝 Note credito</button>
+      <input class="search-box" placeholder="🔍 Cerca fornitore, numero..." oninput="_searchFatt=this.value;renderFattList()" value="${_searchFatt}">
+    </div>
+    <div id="fatt-list"></div>`;
+  renderFattList();
+}
+function filtFatt(f,btn){_filtFatt=f;document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderFattList();}
+function renderFattList(){
+  let list=fatture.filter(f=>{const s=statoEff(f);if(_filtFatt!=='all'&&s!==_filtFatt)return false;if(_searchFatt){const q=_searchFatt.toLowerCase();if(!f.ragioneSociale?.toLowerCase().includes(q)&&!f.numero?.toLowerCase().includes(q)&&!f.piva?.includes(q))return false;}return true;});
+  list.sort((a,b)=>new Date(a.dataScadenza||0)-new Date(b.dataScadenza||0));
+  const el=document.getElementById('fatt-list');
+  if(!el)return;
+  const tot=list.reduce((s,f)=>s+f.importo,0);
+  el.innerHTML=`<div class="tbl-wrap">${buildFattureTable(list)}</div><div style="font-size:11px;color:var(--text3);margin-top:8px;text-align:right">${list.length} fatture · ${eur(tot)}</div>`;
+}
+
+function buildAnalisi(body) {
   const now=new Date();
-  MESI_IT.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===now.getMonth())o.selected=true;selM.appendChild(o);});
-  const years=[...new Set(fatture.map(f=>f.dataScadenza?new Date(f.dataScadenza).getFullYear():null).filter(Boolean))];
-  const yr=now.getFullYear();
-  [...new Set([...years,yr-1,yr,yr+1])].sort().forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;if(y===yr)o.selected=true;selA.appendChild(o);});
+  const anno=now.getFullYear(), mese=now.getMonth();
+  const inMese=fatture.filter(f=>{if(!f.dataScadenza||f.isNotaCredito)return false;const d=new Date(f.dataScadenza+'T00:00:00');return d.getFullYear()===anno&&d.getMonth()===mese;});
+  const mp=mese===0?11:mese-1,ap=mese===0?anno-1:anno;
+  const inPrec=fatture.filter(f=>{if(!f.dataScadenza||f.isNotaCredito)return false;const d=new Date(f.dataScadenza+'T00:00:00');return d.getFullYear()===ap&&d.getMonth()===mp;});
+  const totM=inMese.reduce((s,f)=>s+f.importo,0),totP=inPrec.reduce((s,f)=>s+f.importo,0);
+  const fornAttM=new Set(inMese.map(f=>f.piva||f.ragioneSociale)).size;
+  const fornAttP=new Set(inPrec.map(f=>f.piva||f.ragioneSociale)).size;
+  const dv=(c,p)=>p?`<span style="font-size:11px;color:${c>p?'var(--danger)':'var(--green)'}">${c>p?'▲':'▼'} ${Math.abs(Math.round((c-p)/p*100))}%</span>`:'';
+  // Distribuzione per tipo pagamento
+  const byTipo={};
+  inMese.forEach(f=>{const c=catPag(f.modalitaPagamento);byTipo[c]=(byTipo[c]||0)+f.importo;});
+  const tipoLabels={'bonifico':'Bonifico','rid':'RID/SEPA','riba':'Ri.Ba.','contanti':'Contanti','altro':'Altro'};
+  const tipoColors={'bonifico':'#3b82f6','rid':'#22c55e','riba':'#f97316','contanti':'#94a3b8','altro':'#a78bfa'};
+  // Top fornitori del mese
+  const byFM={};
+  inMese.forEach(f=>{const k=f.piva||f.ragioneSociale;if(!byFM[k])byFM[k]={nome:f.ragioneSociale,tot:0};byFM[k].tot+=f.importo;});
+  const topFM=Object.values(byFM).sort((a,b)=>b.tot-a.tot).slice(0,8);
+  const maxTF=topFM[0]?.tot||1;
+  body.innerHTML=`
+    <div class="kpi-strip">
+      <div class="kpi"><div class="kpi-label">Totale mese</div><div class="kpi-val" style="color:var(--warn)">${eur(totM)}</div><div class="kpi-sub">${dv(totM,totP)} vs mese prec.</div></div>
+      <div class="kpi"><div class="kpi-label">N° fatture</div><div class="kpi-val">${inMese.length}</div><div class="kpi-sub">${dv(inMese.length,inPrec.length)} vs mese prec.</div></div>
+      <div class="kpi"><div class="kpi-label">Importo medio</div><div class="kpi-val">${eur(Math.round(inMese.length?totM/inMese.length:0))}</div><div class="kpi-sub">per fattura</div></div>
+      <div class="kpi"><div class="kpi-label">Fornitori attivi</div><div class="kpi-val">${fornAttM}</div><div class="kpi-sub">${dv(fornAttM,fornAttP)} vs mese prec.</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card-box">
+        <div class="card-box-head">Distribuzione per tipo pagamento</div>
+        <div style="padding:16px;position:relative;height:240px"><canvas id="an-tipo-chart"></canvas></div>
+      </div>
+      <div class="card-box">
+        <div class="card-box-head">Top fornitori del mese</div>
+        <div class="card-box-body" style="padding:0">
+          <table><tbody>${topFM.map((f,i)=>`<tr><td style="padding:7px 12px;font-size:10px;color:var(--text3)">${i+1}</td><td style="padding:7px 12px;font-weight:600;font-size:12px">${f.nome}</td><td style="padding:7px 12px;min-width:130px"><div style="display:flex;align-items:center;gap:6px"><div class="prog-bar" style="flex:1"><div class="prog-fill" style="width:${Math.round(f.tot/maxTF*100)}%;background:#f97316"></div></div><span class="mono" style="font-size:11px;font-weight:600;min-width:72px;text-align:right">${eur(f.tot)}</span></div></td></tr>`).join('')}</tbody></table>
+        </div>
+      </div>
+    </div>`;
+  const tipiUsati=Object.entries(byTipo).filter(([,v])=>v>0);
+  new Chart(document.getElementById('an-tipo-chart'),{type:'doughnut',data:{labels:tipiUsati.map(([k])=>tipoLabels[k]||k),datasets:[{data:tipiUsati.map(([,v])=>Math.round(v)),backgroundColor:tipiUsati.map(([k])=>tipoColors[k]||'#94a3b8'),borderWidth:1,borderColor:'var(--surface)'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10}},tooltip:{callbacks:{label:c=>`${c.label}: ${eur(c.raw)} (${(c.raw/totM*100).toFixed(1)}%)`}}}}});
 }
-function flussiNav(d){const sm=document.getElementById('flussi-mese-sel'),sa=document.getElementById('flussi-anno-sel');let m=parseInt(sm.value)+d,a=parseInt(sa.value);if(m<0){m=11;a--;}if(m>11){m=0;a++;}sm.value=m;sa.value=a;renderFlussi();}
-function flussiOggi(){document.getElementById('flussi-mese-sel').value=new Date().getMonth();document.getElementById('flussi-anno-sel').value=new Date().getFullYear();renderFlussi();}
-function setFlussoFiltro(f,btn){flussoFiltro=f;document.querySelectorAll('#panel-flussi .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderFlussi();}
 
-function renderFlussi() {
-  const mese=parseInt(document.getElementById('flussi-mese-sel')?.value??new Date().getMonth());
-  const anno=parseInt(document.getElementById('flussi-anno-sel')?.value??new Date().getFullYear());
-  document.getElementById('fl-chart-title').textContent=`Distribuzione giornaliera — ${MESI_IT[mese]} ${anno}`;
-
-  const inMese=fatture.filter(f=>{
-    if(!f.dataScadenza||f.isNotaCredito)return false;
-    const d=new Date(f.dataScadenza+'T00:00:00');
-    if(d.getFullYear()!==anno||d.getMonth()!==mese)return false;
-    const s=statoEff(f);
-    if(flussoFiltro==='all')return true;
-    return s===flussoFiltro;
-  });
-
-  const tot=inMese.reduce((s,f)=>s+f.importo,0);
-  document.getElementById('fl-kpi-tot').textContent=eur(tot);
-  document.getElementById('fl-kpi-tot-n').textContent=`${inMese.length} fatture`;
-
-  // Per giorno
+function buildUscite(body) {
+  const now=new Date();
+  body.innerHTML=`
+    <div class="month-nav" id="usc-nav">
+      <button class="btn-sm" onclick="uscNav(-1)">‹</button>
+      <select id="usc-mese" onchange="renderUscite()"></select>
+      <select id="usc-anno" onchange="renderUscite()"></select>
+      <button class="btn-sm" onclick="uscNav(+1)">›</button>
+      <button class="btn-sm" onclick="uscOggi()">Mese corrente</button>
+    </div>
+    <div class="kpi-strip">
+      <div class="kpi"><div class="kpi-label">Totale mese</div><div class="kpi-val warn" id="usc-k-tot">€ 0</div><div class="kpi-sub" id="usc-k-n">0 fatture</div></div>
+      <div class="kpi"><div class="kpi-label">Picco giornaliero</div><div class="kpi-val" style="color:var(--danger)" id="usc-k-picco">—</div><div class="kpi-sub" id="usc-k-picco-v">—</div></div>
+      <div class="kpi"><div class="kpi-label">Giorni con uscite</div><div class="kpi-val accent" id="usc-k-giorni">0</div><div class="kpi-sub">nel mese</div></div>
+      <div class="kpi"><div class="kpi-label">Media per giorno attivo</div><div class="kpi-val" id="usc-k-media">€ 0</div><div class="kpi-sub">giorni con scadenze</div></div>
+    </div>
+    <div class="card-box" style="margin-bottom:16px">
+      <div class="card-box-head" id="usc-chart-title">Distribuzione giornaliera</div>
+      <div style="padding:16px;position:relative;height:240px">
+        <canvas id="usc-chart"></canvas>
+        <div class="chart-tt" id="usc-tt"></div>
+      </div>
+    </div>
+    <div id="usc-list"></div>`;
+  // Init selettori
+  const sm=document.getElementById('usc-mese'),sa=document.getElementById('usc-anno');
+  MESI_IT.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===now.getMonth())o.selected=true;sm.appendChild(o);});
+  const years=[...new Set(fatture.map(f=>f.dataScadenza?new Date(f.dataScadenza+'T00:00:00').getFullYear():null).filter(Boolean))];
+  [...new Set([...years,now.getFullYear()])].sort().forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;if(y===now.getFullYear())o.selected=true;sa.appendChild(o);});
+  renderUscite();
+}
+function uscNav(d){const sm=document.getElementById('usc-mese'),sa=document.getElementById('usc-anno');if(!sm)return;let m=parseInt(sm.value)+d,a=parseInt(sa.value);if(m<0){m=11;a--;}if(m>11){m=0;a++;}sm.value=m;sa.value=a;renderUscite();}
+function uscOggi(){const n=new Date();const sm=document.getElementById('usc-mese'),sa=document.getElementById('usc-anno');if(sm)sm.value=n.getMonth();if(sa)sa.value=n.getFullYear();renderUscite();}
+function renderUscite(){
+  const sm=document.getElementById('usc-mese'),sa=document.getElementById('usc-anno');
+  if(!sm||!sa)return;
+  const mese=parseInt(sm.value),anno=parseInt(sa.value);
+  document.getElementById('usc-chart-title').textContent=`Distribuzione giornaliera — ${MESI_IT[mese]} ${anno}`;
+  const inMese=fatture.filter(f=>{if(!f.dataScadenza||f.isNotaCredito)return false;const d=new Date(f.dataScadenza+'T00:00:00');return d.getFullYear()===anno&&d.getMonth()===mese;});
   const byDay={};
   inMese.forEach(f=>{const d=new Date(f.dataScadenza+'T00:00:00').getDate();if(!byDay[d])byDay[d]=[];byDay[d].push(f);});
-  const giorni=Object.keys(byDay).map(Number).sort((a,b)=>a-b);
-  const picco=giorni.reduce((mx,d)=>{const t=byDay[d].reduce((s,f)=>s+f.importo,0);return t>mx.val?{val:t,d}:mx},{val:0,d:0});
-  document.getElementById('fl-kpi-picco').textContent=eur(picco.val);
-  document.getElementById('fl-kpi-picco-d').textContent=picco.d?`il ${picco.d} ${MESI_IT[mese].slice(0,3)}`:'—';
-  document.getElementById('fl-kpi-giorni').textContent=giorni.length;
-  document.getElementById('fl-kpi-media').textContent=giorni.length?eur(tot/giorni.length):'€ 0';
-
-  // Grafico canvas
-  const canvas=document.getElementById('flussi-chart');
-  const isEmpty=!giorni.length;
-  document.getElementById('flussi-chart-empty').style.display=isEmpty?'block':'none';
-  canvas.style.display=isEmpty?'none':'block';
-  if(!isEmpty) drawBarChart(canvas,'flussi-tooltip',giorni.map(d=>({label:String(d),value:byDay[d].reduce((s,f)=>s+f.importo,0),tip:byDay[d].map(f=>`${f.ragioneSociale}: ${eur(f.importo)}`).join('<br>')})));
-
-  // Tabella per giorno
-  const rows=giorni.map(d=>{
-    const fs=byDay[d];
+  const tot=inMese.reduce((s,f)=>s+f.importo,0);
+  const giorni=Object.keys(byDay).length;
+  const dayTots=Object.entries(byDay).map(([d,fs])=>({d:parseInt(d),tot:fs.reduce((s,f)=>s+f.importo,0)}));
+  const picco=dayTots.reduce((a,b)=>b.tot>a.tot?b:a,{d:0,tot:0});
+  document.getElementById('usc-k-tot').textContent=eur(tot);
+  document.getElementById('usc-k-n').textContent=`${inMese.length} fatture`;
+  document.getElementById('usc-k-picco').textContent=picco.d?`${picco.d} ${MESI_IT[mese].slice(0,3)}`:'—';
+  document.getElementById('usc-k-picco-v').textContent=picco.d?eur(picco.tot):'—';
+  document.getElementById('usc-k-giorni').textContent=giorni;
+  document.getElementById('usc-k-media').textContent=giorni?eur(Math.round(tot/giorni)):'—';
+  // Canvas
+  const giorniMese=new Date(anno,mese+1,0).getDate();
+  const labels=Array.from({length:giorniMese},(_,i)=>i+1);
+  const data=labels.map(d=>{const fs=byDay[d]||[];return Math.round(fs.reduce((s,f)=>s+f.importo,0));});
+  const oggi_=oggi();
+  const bgColors=labels.map(d=>{const dd=new Date(anno,mese,d);return dd<oggi_?'rgba(248,113,113,0.6)':'rgba(251,191,36,0.6)';});
+  if(window._chUsc){window._chUsc.destroy();window._chUsc=null;}
+  const cv=document.getElementById('usc-chart');
+  if(cv)window._chUsc=new Chart(cv,{type:'bar',data:{labels,datasets:[{data,backgroundColor:bgColors,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:t=>`${t[0].label} ${MESI_IT[mese]} ${anno}`,label:c=>'€ '+c.raw.toLocaleString('it-IT')}}},scales:{y:{ticks:{callback:v=>'€'+(v>=1000?Math.round(v/1000)+'k':v)},grid:{color:'rgba(128,128,128,0.08)'}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+  // Lista per giorno
+  const listEl=document.getElementById('usc-list');
+  if(!listEl)return;
+  const sorted=Object.entries(byDay).sort(([a],[b])=>parseInt(a)-parseInt(b));
+  listEl.innerHTML=sorted.map(([d,fs])=>{
     const tot=fs.reduce((s,f)=>s+f.importo,0);
-    return `<div class="scad-day"><div class="scad-day-head"><span class="scad-day-date">${d} ${MESI_IT[mese]} ${anno}</span><span class="scad-day-tot warn">${eur(tot)}</span></div>${fs.map(f=>`<div class="scad-day-row"><div><span style="font-weight:600">${f.ragioneSociale}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);margin-left:8px">${f.numero}</span></div><div style="display:flex;align-items:center;gap:10px">${badgeStato(f)}<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--warn)">${eur(f.importo)}</span></div></div>`).join('')}</div>`;
+    const isOv=new Date(anno,mese,parseInt(d))<oggi_;
+    return `<div class="scad-day"><div class="scad-day-head"><span>${parseInt(d)} ${MESI_IT[mese]} ${anno} · ${fs.length} fattura${fs.length>1?'e':''}</span><span class="mono" style="color:${isOv?'var(--danger)':'var(--warn)'}">${eur(tot)}</span></div>${fs.map(f=>`<div class="scad-day-row"><div><span style="font-weight:600">${f.ragioneSociale}</span> <span class="mono" style="font-size:11px;color:var(--text3)">${f.numero}</span></div><div style="display:flex;align-items:center;gap:10px">${badgeStato(f)}<span class="mono" style="font-weight:600;color:${isOv?'var(--danger)':'var(--warn)'}">${eur(f.importo)}</span></div></div>`).join('')}</div>`;
   }).join('');
-  document.getElementById('flussi-container').innerHTML=rows||'<div class="empty"><div class="empty-icon">📊</div><h3>Nessuna scadenza</h3><p>Nessuna fattura in questo mese</p></div>';
 }
 
-// ── LIQUIDITÀ ──────────────────────────────────
+
+function buildLiquidita(body) {
+  body.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;padding:14px 16px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius)">
+      <div><label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">Saldo iniziale (€)</label>
+        <input type="number" id="liq-saldo" value="50000" min="0" step="1000" oninput="renderLiquidita()" style="width:100%;background:var(--surface2);border:0.5px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-family:monospace;font-size:13px;outline:none"></div>
+      <div><label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">Soglia critica (€)</label>
+        <input type="number" id="liq-soglia" value="5000" min="0" step="500" oninput="renderLiquidita()" style="width:100%;background:var(--surface2);border:0.5px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-family:monospace;font-size:13px;outline:none"></div>
+      <div><label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">Orizzonte</label>
+        <select id="liq-mesi" onchange="renderLiquidita()" style="width:100%;background:var(--surface2);border:0.5px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-size:13px;outline:none">
+          <option value="3">3 mesi</option><option value="6" selected>6 mesi</option><option value="12">12 mesi</option>
+        </select></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
+      <div class="kpi"><div class="kpi-label">Saldo attuale</div><div class="kpi-val" id="liq-k-saldo">—</div><div class="kpi-sub">al netto scaduti</div></div>
+      <div class="kpi"><div class="kpi-label">Uscite 30gg</div><div class="kpi-val" style="color:var(--warn)" id="liq-k-30">—</div><div class="kpi-sub" id="liq-k-30-n">—</div></div>
+      <div class="kpi"><div class="kpi-label">Giorni sotto soglia</div><div class="kpi-val" style="color:var(--danger)" id="liq-k-crit">0</div><div class="kpi-sub">nei prossimi mesi</div></div>
+      <div class="kpi"><div class="kpi-label">Saldo minimo previsto</div><div class="kpi-val" id="liq-k-min">—</div><div class="kpi-sub">punto più basso</div></div>
+    </div>
+    <div class="card-box" style="margin-bottom:16px">
+      <div class="card-box-head">Andamento saldo cassa proiettato</div>
+      <div style="padding:16px;position:relative;height:260px">
+        <canvas id="liq-chart"></canvas>
+        <div class="chart-tt" id="liq-tt"></div>
+      </div>
+    </div>
+    <div id="liq-proiezioni"></div>`;
+  renderLiquidita();
+}
+
+function buildFornitori(body) {
+  body.innerHTML = `
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px;padding:12px 16px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius)">
+      <select id="af-mesi-storico" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:0.5px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);outline:none">
+        <option value="6">Ultimi 6 mesi</option><option value="12" selected>Ultimi 12 mesi</option><option value="24">Ultimi 24 mesi</option>
+      </select>
+      <select id="af-mesi-proiezione" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:0.5px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);outline:none">
+        <option value="0">Nessuna proiezione</option><option value="3">+ 3 mesi</option><option value="6" selected>+ 6 mesi</option><option value="12">+ 12 mesi</option>
+      </select>
+      <select id="af-top-n" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:0.5px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);outline:none">
+        <option value="5">Top 5</option><option value="10" selected>Top 10</option><option value="20">Top 20</option><option value="0">Tutti</option>
+      </select>
+      <select id="af-sort" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:0.5px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);outline:none">
+        <option value="totale">Totale ↓</option><option value="media">Media/mese ↓</option><option value="nome">Nome A→Z</option><option value="variazione">Variazione ↓</option>
+      </select>
+      <input type="text" id="af-search" placeholder="🔍 Cerca fornitore..." oninput="renderAnalisiFor()" style="padding:6px 12px;background:var(--surface2);border:0.5px solid var(--border);border-radius:20px;color:var(--text);font-size:12px;outline:none;min-width:180px">
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
+      <div class="kpi"><div class="kpi-label">Fornitori attivi</div><div class="kpi-val" id="af-k-forn">—</div><div class="kpi-sub">nel periodo</div></div>
+      <div class="kpi"><div class="kpi-label">Spesa totale</div><div class="kpi-val" style="color:var(--warn)" id="af-k-tot">—</div><div class="kpi-sub" id="af-k-tot-sub">—</div></div>
+      <div class="kpi"><div class="kpi-label">Fornitore principale</div><div class="kpi-val" style="font-size:14px" id="af-k-top">—</div><div class="kpi-sub" id="af-k-top-sub">—</div></div>
+      <div class="kpi"><div class="kpi-label">Spesa proiettata</div><div class="kpi-val" id="af-k-proj">—</div><div class="kpi-sub" id="af-k-proj-sub">—</div></div>
+    </div>
+    <div class="card-box" style="margin-bottom:16px">
+      <div class="card-box-head"><span>Andamento mensile per fornitore</span><div style="display:flex;gap:8px;flex-wrap:wrap" id="af-chart-legend"></div></div>
+      <div style="padding:16px;position:relative;height:300px">
+        <canvas id="af-chart"></canvas>
+        <div class="chart-tt" id="af-chart-tooltip"></div>
+        <div id="af-chart-empty" style="display:none" class="empty">Nessun dato nel periodo</div>
+      </div>
+    </div>
+    <div id="af-tabella-container"></div>
+    <div id="af-dettaglio-fornitore" style="display:none;margin-top:16px;background:var(--surface);border:0.5px solid var(--accent);border-radius:var(--radius);padding:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-size:15px;font-weight:700;color:#6366f1" id="af-det-nome">—</div>
+        <button class="btn-sm" onclick="chiudiDettaglioFor()">✕ Chiudi</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px" id="af-det-kpi"></div>
+      <canvas id="af-det-chart" style="width:100%;display:block;margin-bottom:16px"></canvas>
+      <div id="af-det-fatture"></div>
+    </div>`;
+  renderAnalisiFor();
+}
+
+function buildConcentrazione(body) {
+  body.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
+      <div class="kpi"><div class="kpi-label">Fornitori totali</div><div class="kpi-val" id="par-k-tot">—</div><div class="kpi-sub">con fatture</div></div>
+      <div class="kpi"><div class="kpi-label">Coprono 80% spesa</div><div class="kpi-val" style="color:var(--warn)" id="par-k-80">—</div><div class="kpi-sub" id="par-k-80-pct">—</div></div>
+      <div class="kpi"><div class="kpi-label">Fornitore n°1</div><div class="kpi-val" style="font-size:14px" id="par-k-top">—</div><div class="kpi-sub" id="par-k-top-pct">—</div></div>
+      <div class="kpi"><div class="kpi-label">Top 3 coprono</div><div class="kpi-val" style="color:var(--danger)" id="par-k-top3">—</div><div class="kpi-sub">della spesa totale</div></div>
+    </div>
+    <div class="grid2" style="margin-bottom:16px">
+      <div class="card-box"><div class="card-box-head">Curva di Pareto</div><div style="padding:16px;position:relative;height:280px"><canvas id="par-chart-pareto"></canvas></div></div>
+      <div class="card-box"><div class="card-box-head">Distribuzione quote top 10</div><div style="padding:16px;position:relative;height:280px"><canvas id="par-chart-donut"></canvas></div></div>
+    </div>
+    <div class="tbl-wrap"><table><thead><tr><th>#</th><th>Fornitore</th><th class="r">Importo</th><th class="r">%</th><th class="r">% cumulato</th><th>Quota</th></tr></thead><tbody id="par-tbody"></tbody></table></div>`;
+  renderConcentrazione();
+}
+
+function buildForecast(body) {
+  body.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
+      <div class="kpi"><div class="kpi-label">Forecast mese +1</div><div class="kpi-val" style="color:var(--warn)" id="fc-k-m1">—</div><div class="kpi-sub" id="fc-k-m1-lbl">—</div></div>
+      <div class="kpi"><div class="kpi-label">Forecast mese +2</div><div class="kpi-val" style="color:var(--warn)" id="fc-k-m2">—</div><div class="kpi-sub" id="fc-k-m2-lbl">—</div></div>
+      <div class="kpi"><div class="kpi-label">Forecast mese +3</div><div class="kpi-val" style="color:var(--warn)" id="fc-k-m3">—</div><div class="kpi-sub" id="fc-k-m3-lbl">—</div></div>
+      <div class="kpi"><div class="kpi-label">Totale 3 mesi</div><div class="kpi-val" id="fc-k-tot">—</div><div class="kpi-sub">spesa prevista</div></div>
+    </div>
+    <div class="card-box" style="margin-bottom:16px">
+      <div class="card-box-head">Storico + Forecast con intervallo di confidenza</div>
+      <div style="padding:16px;position:relative;height:300px"><canvas id="fc-chart-main"></canvas></div>
+    </div>
+    <div class="grid2">
+      <div class="card-box"><div class="card-box-head">Top fornitori — spesa prevista mese +1</div><div id="fc-top-forn" style="padding:0"></div></div>
+      <div class="card-box"><div class="card-box-head">Variazione attesa vs storico</div><div style="padding:16px;position:relative;height:260px"><canvas id="fc-chart-var"></canvas></div></div>
+    </div>`;
+  renderForecast();
+}
+
+
+// ── FUNZIONI RENDER ESISTENTI ────────────────────────────────
 function renderLiquidita() {
   const saldo0=parseFloat(document.getElementById('liq-saldo')?.value)||0;
   const soglia=parseFloat(document.getElementById('liq-soglia')?.value)||0;
@@ -980,15 +1058,7 @@ function renderRubrica(q='') {
 // ── START ──────────────────────────────────────
 loadData();
 
-// fmtEur e badgeStato già definiti nel dashboard — alias per funzioni AF
-const fmtEur = v => eur(v);
 
-const AF_PALETTE = [
-  '#00d4aa','#4f8aff','#ffaa00','#ff4d6d','#a855f7',
-  '#f97316','#ec4899','#22c55e','#06b6d4','#eab308',
-  '#8b5cf6','#14b8a6','#f43f5e','#84cc16','#3b82f6',
-  '#fb923c','#c084fc','#34d399','#60a5fa','#fbbf24'
-];
 
 // Raggruppa fatture per fornitore → per mese
 function buildAfData() {
@@ -1806,6 +1876,8 @@ function renderForecast() {
   });
 }
 
+
+loadData();
 </script>
 </body>
 </html>
