@@ -52,10 +52,10 @@ a{color:inherit;text-decoration:none}
 .card:hover{border-color:var(--border2);box-shadow:0 2px 16px rgba(0,0,0,.07)}
 [data-theme="dark"] .card:hover{box-shadow:0 2px 16px rgba(0,0,0,.3)}
 .card-stripe{position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0}
-.card-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
-.card-desc{font-size:11px;color:var(--text3);margin-bottom:14px;line-height:1.5}
-.card-kpi{font-size:24px;font-weight:700;font-family:'IBM Plex Mono',monospace;margin-bottom:2px}
-.card-sub{font-size:11px;color:var(--text3)}
+.card-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;text-align:center}
+.card-desc{font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.5;text-align:center}
+.card-kpi{font-size:26px;font-weight:700;font-family:'IBM Plex Mono',monospace;margin-bottom:2px}
+.card-sub{font-size:12px;color:var(--text3)}
 .card-arrow{position:absolute;bottom:14px;right:16px;font-size:13px;color:var(--border2);transition:color .15s}
 .card:hover .card-arrow{color:var(--accent)}
 .pills{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
@@ -152,8 +152,13 @@ select:focus{border-color:var(--accent)}
       <div class="hdr-sub" id="hdr-salvato">—</div>
     </div>
   </div>
-  <div style="display:flex;align-items:center;gap:12px">
+  <div style="display:flex;align-items:center;gap:10px">
     <span class="badge-live">● LIVE</span>
+    <div style="display:flex;align-items:center;gap:4px;border:0.5px solid var(--border2);border-radius:var(--radius-sm);padding:2px 4px">
+      <button onclick="changeFontSize(-1)" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:14px;padding:2px 6px;line-height:1" title="Riduci testo">A−</button>
+      <span style="font-size:10px;color:var(--text3);min-width:20px;text-align:center" id="font-size-label">M</span>
+      <button onclick="changeFontSize(+1)" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:14px;padding:2px 6px;line-height:1" title="Ingrandisci testo">A+</button>
+    </div>
     <button class="theme-btn" onclick="toggleTheme()"><span id="theme-label">Scuro</span></button>
   </div>
 </div>
@@ -284,10 +289,10 @@ select:focus{border-color:var(--accent)}
         <div class="card-arrow">→</div>
       </div>
 
-      <!-- Forecast -->
+      <!-- Previsione spese future -->
       <div class="card" onclick="openDetail('forecast')">
         <div class="card-stripe" style="background:#4f8aff"></div>
-        <div class="card-title">Forecast 3 mesi</div>
+        <div class="card-title">Previsione spese future</div>
         <div class="card-desc">Proiezione spesa con trend e intervallo di confidenza</div>
         <div class="card-kpi" style="color:#3b82f6" id="hc-fc-v">—</div>
         <div class="card-sub" id="hc-fc-sub">spesa prevista</div>
@@ -340,6 +345,29 @@ function catPag(mp) {
   if (['MP01','MP02'].includes(mp)) return 'contanti';
   return 'altro';
 }
+// ── DIMENSIONE CARATTERI ──────────────────────────────────────
+const FONT_SIZES = [
+  {label:'S', base:'13px', kpi:'22px', title:'13px'},
+  {label:'M', base:'14px', kpi:'26px', title:'14px'},
+  {label:'L', base:'15px', kpi:'28px', title:'15px'},
+  {label:'XL', base:'16px', kpi:'30px', title:'16px'},
+];
+let _fsIdx = 1; // default M
+function changeFontSize(dir) {
+  _fsIdx = Math.max(0, Math.min(FONT_SIZES.length-1, _fsIdx+dir));
+  const fs = FONT_SIZES[_fsIdx];
+  document.documentElement.style.setProperty('--font-base', fs.base);
+  document.documentElement.style.setProperty('--font-kpi',  fs.kpi);
+  document.documentElement.style.setProperty('--font-title', fs.title);
+  document.getElementById('font-size-label').textContent = fs.label;
+  // Aggiorna CSS dinamicamente
+  document.querySelectorAll('.card-title').forEach(el=>el.style.fontSize=fs.title);
+  document.querySelectorAll('.card-desc').forEach(el=>el.style.fontSize=fs.base);
+  document.querySelectorAll('.card-sub').forEach(el=>el.style.fontSize=fs.base);
+  document.querySelectorAll('.kpi-label').forEach(el=>el.style.fontSize='11px');
+  document.querySelectorAll('body').forEach(el=>el.style.fontSize=fs.base);
+}
+
 function toggleTheme() {
   const light = document.documentElement.getAttribute('data-theme')==='light';
   document.documentElement.setAttribute('data-theme', light?'dark':'light');
@@ -353,7 +381,7 @@ const DETAIL_TITLES = {
   overview:'Panoramica', acquisti:'Acquisti del mese', analisi:'Analisi mese',
   fornitori:'Analisi fornitori', concentrazione:'Concentrazione fornitori',
   fatture:'Fatture da pagare', uscite:'Uscite di cassa',
-  liquidita:'Liquidità & proiezioni', forecast:'Forecast 3 mesi'
+  liquidita:'Liquidità & proiezioni', forecast:'Previsione spese future — Forecast'
 };
 function openDetail(name) {
   currentDetail = name;
@@ -774,14 +802,11 @@ function buildFornitori(body) {
       <select id="af-mesi-storico" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:0.5px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);outline:none">
         <option value="6">Ultimi 6 mesi</option><option value="12" selected>Ultimi 12 mesi</option><option value="24">Ultimi 24 mesi</option>
       </select>
-      <select id="af-mesi-proiezione" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:0.5px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);outline:none">
-        <option value="0">Nessuna proiezione</option><option value="3">+ 3 mesi</option><option value="6" selected>+ 6 mesi</option><option value="12">+ 12 mesi</option>
-      </select>
       <select id="af-top-n" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:0.5px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);outline:none">
         <option value="5">Top 5</option><option value="10" selected>Top 10</option><option value="20">Top 20</option><option value="0">Tutti</option>
       </select>
       <select id="af-sort" onchange="renderAnalisiFor()" style="font-size:13px;font-weight:600;padding:5px 10px;border:0.5px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text);outline:none">
-        <option value="totale">Totale ↓</option><option value="media">Media/mese ↓</option><option value="nome">Nome A→Z</option><option value="variazione">Variazione ↓</option>
+        <option value="totale">Totale spesa ↓</option><option value="media">Media/mese ↓</option><option value="nome">Nome A→Z</option>
       </select>
       <input type="text" id="af-search" placeholder="🔍 Cerca fornitore..." oninput="renderAnalisiFor()" style="padding:6px 12px;background:var(--surface2);border:0.5px solid var(--border);border-radius:20px;color:var(--text);font-size:12px;outline:none;min-width:180px">
     </div>
@@ -789,28 +814,24 @@ function buildFornitori(body) {
       <div class="kpi"><div class="kpi-label">Fornitori attivi</div><div class="kpi-val" id="af-k-forn">—</div><div class="kpi-sub">nel periodo</div></div>
       <div class="kpi"><div class="kpi-label">Spesa totale</div><div class="kpi-val" style="color:var(--warn)" id="af-k-tot">—</div><div class="kpi-sub" id="af-k-tot-sub">—</div></div>
       <div class="kpi"><div class="kpi-label">Fornitore principale</div><div class="kpi-val" style="font-size:14px" id="af-k-top">—</div><div class="kpi-sub" id="af-k-top-sub">—</div></div>
-      <div class="kpi"><div class="kpi-label">Spesa proiettata</div><div class="kpi-val" id="af-k-proj">—</div><div class="kpi-sub" id="af-k-proj-sub">—</div></div>
+      <div class="kpi"><div class="kpi-label">Media mensile totale</div><div class="kpi-val" id="af-k-media">—</div><div class="kpi-sub">su tutti i fornitori</div></div>
     </div>
     <div class="card-box" style="margin-bottom:16px">
-      <div class="card-box-head"><span>Andamento mensile per fornitore</span><div style="display:flex;gap:8px;flex-wrap:wrap" id="af-chart-legend"></div></div>
+      <div class="card-box-head">
+        <span>Andamento spesa mensile — top fornitori</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="af-chart-legend"></div>
+      </div>
       <div style="padding:16px;position:relative;height:300px">
         <canvas id="af-chart"></canvas>
         <div class="chart-tt" id="af-chart-tooltip"></div>
         <div id="af-chart-empty" style="display:none" class="empty">Nessun dato nel periodo</div>
       </div>
     </div>
-    <div id="af-tabella-container"></div>
-    <div id="af-dettaglio-fornitore" style="display:none;margin-top:16px;background:var(--surface);border:0.5px solid var(--accent);border-radius:var(--radius);padding:20px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div style="font-size:15px;font-weight:700;color:#6366f1" id="af-det-nome">—</div>
-        <button class="btn-sm" onclick="chiudiDettaglioFor()">✕ Chiudi</button>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px" id="af-det-kpi"></div>
-      <canvas id="af-det-chart" style="width:100%;display:block;margin-bottom:16px"></canvas>
-      <div id="af-det-fatture"></div>
-    </div>`;
+    <div style="font-size:11px;color:var(--text3);margin-bottom:10px">Clicca su un fornitore per vedere il dettaglio e tutte le sue fatture</div>
+    <div id="af-tabella-container"></div>`;
   renderAnalisiFor();
 }
+
 
 function buildConcentrazione(body) {
   body.innerHTML = `
@@ -831,9 +852,9 @@ function buildConcentrazione(body) {
 function buildForecast(body) {
   body.innerHTML = `
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
-      <div class="kpi"><div class="kpi-label">Forecast mese +1</div><div class="kpi-val" style="color:var(--warn)" id="fc-k-m1">—</div><div class="kpi-sub" id="fc-k-m1-lbl">—</div></div>
-      <div class="kpi"><div class="kpi-label">Forecast mese +2</div><div class="kpi-val" style="color:var(--warn)" id="fc-k-m2">—</div><div class="kpi-sub" id="fc-k-m2-lbl">—</div></div>
-      <div class="kpi"><div class="kpi-label">Forecast mese +3</div><div class="kpi-val" style="color:var(--warn)" id="fc-k-m3">—</div><div class="kpi-sub" id="fc-k-m3-lbl">—</div></div>
+      <div class="kpi"><div class="kpi-label">Prev. mese +1</div><div class="kpi-val" style="color:var(--warn)" id="fc-k-m1">—</div><div class="kpi-sub" id="fc-k-m1-lbl">—</div></div>
+      <div class="kpi"><div class="kpi-label">Prev. mese +2</div><div class="kpi-val" style="color:var(--warn)" id="fc-k-m2">—</div><div class="kpi-sub" id="fc-k-m2-lbl">—</div></div>
+      <div class="kpi"><div class="kpi-label">Prev. mese +3</div><div class="kpi-val" style="color:var(--warn)" id="fc-k-m3">—</div><div class="kpi-sub" id="fc-k-m3-lbl">—</div></div>
       <div class="kpi"><div class="kpi-label">Totale 3 mesi</div><div class="kpi-val" id="fc-k-tot">—</div><div class="kpi-sub">spesa prevista</div></div>
     </div>
     <div class="card-box" style="margin-bottom:16px">
@@ -1140,162 +1161,81 @@ function mkLabel(mk) {
 }
 
 function renderAnalisiFor() {
-  const { topFornitori, mesiLabels, mesiProiezLabels, mesiProiez, allFornitori } = buildAfData();
-
-  // ── KPI strip ────────────────────────────────────────────────
-  const totPeriodo = allFornitori.reduce((s,f) => s+f.totale, 0);
-  const top1       = allFornitori[0];
-  const totProiez  = topFornitori.reduce((s,f) => s + f.valsProiez.reduce((a,b)=>a+b,0), 0);
-  document.getElementById('af-k-forn').textContent    = allFornitori.length;
-  document.getElementById('af-k-tot').textContent     = fmtEur(totPeriodo);
+  const { topFornitori, mesiLabels, allFornitori } = buildAfData();
+  const totPeriodo = allFornitori.reduce((s,f)=>s+f.totale,0);
+  const mediaGen   = mesiLabels.length ? Math.round(totPeriodo/mesiLabels.length) : 0;
+  const top1 = allFornitori[0];
+  document.getElementById('af-k-forn').textContent = allFornitori.length;
+  document.getElementById('af-k-tot').textContent  = fmtEur(totPeriodo);
   document.getElementById('af-k-tot-sub').textContent = `in ${mesiLabels.length} mesi`;
-  document.getElementById('af-k-top').textContent     = top1 ? top1.ragione.split(' ').slice(0,2).join(' ') : '—';
+  document.getElementById('af-k-top').textContent  = top1 ? top1.ragione.split(' ').slice(0,3).join(' ') : '—';
   document.getElementById('af-k-top-sub').textContent = top1 ? fmtEur(top1.totale) : '—';
-  document.getElementById('af-k-proj').textContent    = mesiProiez > 0 ? fmtEur(totProiez) : '—';
-  document.getElementById('af-k-proj-sub').textContent= mesiProiez > 0 ? `proiezione ${mesiProiez} mesi` : 'nessuna proiezione';
+  document.getElementById('af-k-media').textContent = fmtEur(mediaGen);
 
   if (!topFornitori.length) {
     document.getElementById('af-chart-empty').style.display = 'block';
-    document.getElementById('af-chart').style.display       = 'none';
-    document.getElementById('af-tabella-container').innerHTML = `<div class="empty-state"><div class="empty-icon">📦</div><h3>Nessun dato</h3><p>Nessuna fattura nel periodo selezionato</p></div>`;
+    document.getElementById('af-chart').style.display = 'none';
+    document.getElementById('af-tabella-container').innerHTML = '<div class="empty">Nessun dato nel periodo</div>';
     return;
   }
   document.getElementById('af-chart-empty').style.display = 'none';
-  document.getElementById('af-chart').style.display       = 'block';
+  document.getElementById('af-chart').style.display = 'block';
 
-  // ── Legenda colori ──────────────────────────────────────────
-  const legend = document.getElementById('af-chart-legend');
-  legend.innerHTML = topFornitori.map((f,i) => `
-    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);cursor:pointer" onclick="apriDettaglioFor('${f.piva||f.ragione}')">
-      <div style="width:10px;height:10px;border-radius:2px;background:${AF_PALETTE[i%AF_PALETTE.length]};flex-shrink:0"></div>
-      <span>${f.ragione.slice(0,22)}</span>
-    </div>`).join('');
+  // Legenda
+  document.getElementById('af-chart-legend').innerHTML = topFornitori.slice(0,6).map((f,i) =>
+    `<span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)">
+      <span style="width:20px;height:2px;background:${AF_PALETTE[i%AF_PALETTE.length]};display:inline-block;border-radius:1px"></span>
+      ${f.ragione.split(' ')[0]}
+    </span>`).join('');
 
-  // ── Grafico canvas ──────────────────────────────────────────
-  drawAfChart(topFornitori, mesiLabels, mesiProiezLabels);
+  // Grafico a linee (più leggibile di barre raggruppate)
+  drawAfLineChart(topFornitori, mesiLabels);
 
-  // ── Tabella ─────────────────────────────────────────────────
-  renderAfTabella(topFornitori, mesiLabels, mesiProiezLabels);
+  // Tabella ranking
+  renderAfTabella(topFornitori, mesiLabels, []);
 }
 
-// ── Disegna grafico a barre raggruppate (storico + proiezione) ─
-function drawAfChart(fornitori, mesiLabels, mesiProiezLabels) {
-  const canvas   = document.getElementById('af-chart');
-  const tipEl    = document.getElementById('af-chart-tooltip');
-  const allMesi  = [...mesiLabels, ...mesiProiezLabels];
-  const nMesi    = allMesi.length;
-  const nForn    = fornitori.length;
 
-  const isLight  = document.documentElement.getAttribute('data-theme') === 'light';
-  const textCol  = isLight ? '#5a6478' : '#8892a4';
-  const gridCol  = isLight ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.04)';
-  const splitCol = isLight ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.2)';
-
-  const W = canvas.offsetWidth || 900;
-  const H = Math.max(280, Math.min(420, 40 + nMesi * 30));
-  canvas.width  = W;
-  canvas.height = H;
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0,0,W,H);
-
-  const PAD  = { top: 16, right: 20, bottom: 52, left: 82 };
-  const cW   = W - PAD.left - PAD.right;
-  const cH   = H - PAD.top  - PAD.bottom;
-
-  // max valore per scala Y (somma per mese)
-  const mesiTotals = allMesi.map((mk, mi) => {
-    const isProiez = mi >= mesiLabels.length;
-    return fornitori.reduce((s,f) => s + (isProiez ? (f.valsProiez[mi-mesiLabels.length]||0) : (f.vals[mi]||0)), 0);
-  });
-  const maxVal = Math.max(...mesiTotals, 1);
-
-  const barGroupW = cW / nMesi;
-  const barW      = Math.max(4, Math.min(28, barGroupW / (nForn + 1)));
-  const groupPad  = (barGroupW - barW * nForn) / 2;
-
-  const scaleY = v => PAD.top + cH - (v / maxVal) * cH;
-  const scaleX = mi => PAD.left + mi * barGroupW;
-
-  // Griglia Y
-  for (let i = 0; i <= 4; i++) {
-    const v = maxVal * (i / 4);
-    const y = scaleY(v);
-    ctx.strokeStyle = gridCol; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left + cW, y); ctx.stroke();
-    ctx.fillStyle = textCol; ctx.font = '10px IBM Plex Mono,monospace'; ctx.textAlign = 'right';
-    ctx.fillText('€' + (v >= 1000 ? Math.round(v/1000) + 'k' : Math.round(v).toLocaleString('it-IT')), PAD.left - 5, y + 4);
-  }
-
-  // Linea divisoria storico / proiezione
-  if (mesiProiezLabels.length > 0) {
-    const xSplit = PAD.left + mesiLabels.length * barGroupW;
-    ctx.strokeStyle = splitCol; ctx.lineWidth = 1.5; ctx.setLineDash([5,4]);
-    ctx.beginPath(); ctx.moveTo(xSplit, PAD.top - 6); ctx.lineTo(xSplit, PAD.top + cH); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = isLight ? 'rgba(79,138,255,0.7)' : 'rgba(79,138,255,0.8)';
-    ctx.font = '10px IBM Plex Mono,monospace'; ctx.textAlign = 'left';
-    ctx.fillText('▶ Proiezione', xSplit + 4, PAD.top + 10);
-  }
-
-  // Barre
-  allMesi.forEach((mk, mi) => {
-    const isProiez = mi >= mesiLabels.length;
-    fornitori.forEach((f, fi) => {
-      const val = isProiez ? (f.valsProiez[mi - mesiLabels.length] || 0) : (f.vals[mi] || 0);
-      if (val === 0) return;
-      const x   = scaleX(mi) + groupPad + fi * barW;
-      const y   = scaleY(val);
-      const bH  = PAD.top + cH - y;
-      const col = AF_PALETTE[fi % AF_PALETTE.length];
-      ctx.fillStyle = isProiez ? col + '55' : col;
-      // bordo tratteggiato per proiezione
-      if (isProiez) {
-        ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.setLineDash([3,2]);
-        ctx.strokeRect(x, y, barW - 1, bH);
-        ctx.setLineDash([]);
+function drawAfLineChart(fornitori, mesiLabels) {
+  if (window._chAfMain) { window._chAfMain.destroy(); window._chAfMain=null; }
+  const canvas = document.getElementById('af-chart');
+  if (!canvas) return;
+  const labels  = mesiLabels.map(mk=>mkLabel(mk));
+  const datasets = fornitori.slice(0,8).map((f,i) => ({
+    label: f.ragione.split(' ').slice(0,2).join(' '),
+    data:  mesiLabels.map((_,mi) => Math.round(f.vals[mi]||0)),
+    borderColor: AF_PALETTE[i%AF_PALETTE.length],
+    backgroundColor: AF_PALETTE[i%AF_PALETTE.length]+'22',
+    borderWidth: 2,
+    pointRadius: 3,
+    pointHoverRadius: 6,
+    fill: false,
+    tension: 0.3,
+  }));
+  window._chAfMain = new Chart(canvas, {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${eur(c.raw)}` } }
+      },
+      scales: {
+        y: { ticks: { callback: v => '€'+(v>=1000?Math.round(v/1000)+'k':v) }, grid: { color:'rgba(128,128,128,0.08)' } },
+        x: { grid: { display: false }, ticks: { maxRotation: 45, font: { size: 10 } } }
       }
-      ctx.fillRect(x, y, barW - 1, bH);
-    });
-    // etichetta mese X
-    ctx.fillStyle = isLight ? (mi >= mesiLabels.length ? 'rgba(79,138,255,0.7)' : '#5a6478') :
-                               (mi >= mesiLabels.length ? 'rgba(79,138,255,0.8)' : '#8892a4');
-    ctx.font = '9px IBM Plex Mono,monospace'; ctx.textAlign = 'center';
-    ctx.fillText(mkLabel(mk), scaleX(mi) + barGroupW/2, H - PAD.bottom + 14);
+    }
   });
-
-  // Tooltip hover
-  canvas.onmousemove = e => {
-    const rect = canvas.getBoundingClientRect();
-    const mx   = e.clientX - rect.left;
-    const mi   = Math.floor((mx - PAD.left) / barGroupW);
-    if (mi < 0 || mi >= allMesi.length) { tipEl.style.display = 'none'; return; }
-    const mk       = allMesi[mi];
-    const isProiez = mi >= mesiLabels.length;
-    const rows     = fornitori.map((f, fi) => {
-      const val = isProiez ? (f.valsProiez[mi-mesiLabels.length]||0) : (f.vals[mi]||0);
-      if (val === 0) return '';
-      return `<div style="display:flex;align-items:center;gap:6px;margin-top:3px">
-        <div style="width:8px;height:8px;border-radius:2px;background:${AF_PALETTE[fi%AF_PALETTE.length]};flex-shrink:0"></div>
-        <span style="flex:1;color:var(--text2);font-size:11px">${f.ragione.slice(0,22)}</span>
-        <strong style="font-family:monospace;font-size:11px">${fmtEur(val)}</strong>
-      </div>`;
-    }).filter(Boolean).join('');
-    const totMese  = fornitori.reduce((s,f,fi) => s + (isProiez ? (f.valsProiez[mi-mesiLabels.length]||0) : (f.vals[mi]||0)), 0);
-    tipEl.style.display = 'block';
-    tipEl.style.left    = Math.min(mx + 12, W - 230) + 'px';
-    tipEl.style.top     = '10px';
-    tipEl.innerHTML     = `
-      <div style="font-weight:700;color:var(--text);margin-bottom:6px">${mkLabel(mk)}${isProiez ? ' <span style="color:var(--accent2);font-size:10px">(stima)</span>' : ''}</div>
-      ${rows}
-      <div style="border-top:1px solid var(--border);margin-top:6px;padding-top:4px;display:flex;justify-content:space-between">
-        <span style="color:var(--text2);font-size:11px">Totale</span>
-        <strong style="font-family:monospace">${fmtEur(totMese)}</strong>
-      </div>`;
-  };
-  canvas.onmouseleave = () => { tipEl.style.display = 'none'; };
 }
 
-// ── Tabella riepilogo per fornitore ─────────────────────────────
+// Mantieni drawAfChart come alias per compatibilità
+function drawAfChart(fornitori, mesiLabels, mesiProiezLabels) {
+  drawAfLineChart(fornitori, mesiLabels);
+}
+
+
 function renderAfTabella(fornitori, mesiLabels, mesiProiezLabels) {
   const container = document.getElementById('af-tabella-container');
   // Mostra solo ultimi 6 mesi storici in tabella (evita scroll orizzontale)
@@ -1373,131 +1313,93 @@ function renderAfTabella(fornitori, mesiLabels, mesiProiezLabels) {
 
 // ── Dettaglio singolo fornitore ─────────────────────────────────
 function apriDettaglioFor(key) {
-  const { topFornitori, mesiLabels, mesiProiezLabels } = buildAfData();
+  const { topFornitori, mesiLabels } = buildAfData();
   const f = topFornitori.find(x => (x.piva||x.ragione) === key);
   if (!f) return;
 
-  document.getElementById('af-det-nome').textContent = f.ragione + (f.piva ? ` · ${f.piva}` : '');
-
-  // KPI del fornitore
+  // KPI
   const last  = f.vals[f.vals.length-1];
   const prevs = f.vals.slice(0,-1).filter(v=>v>0);
   const avg   = prevs.length ? prevs.reduce((s,v)=>s+v,0)/prevs.length : 0;
   const trend = avg ? ((last-avg)/avg*100).toFixed(1) : null;
+  const trendCol = trend===null?'var(--text)':parseFloat(trend)>5?'var(--danger)':parseFloat(trend)<-5?'var(--green)':'var(--text)';
+
+  document.getElementById('af-det-nome').textContent = f.ragione + (f.piva ? ` · ${f.piva}` : '');
   document.getElementById('af-det-kpi').innerHTML = `
-    <div class="kpi"><div class="kpi-label">Spesa totale</div><div class="kpi-val">${fmtEur(f.totale)}</div><div class="kpi-sub">${mesiLabels.length} mesi</div></div>
-    <div class="kpi"><div class="kpi-label">Media mensile</div><div class="kpi-val">${fmtEur(f.media)}</div><div class="kpi-sub">${f.mesiAttivi} mesi attivi</div></div>
-    <div class="kpi"><div class="kpi-label">Trend ultimo mese</div><div class="kpi-val" style="color:${trend===null?'var(--text2)':parseFloat(trend)>5?'var(--danger)':parseFloat(trend)<-5?'var(--green)':'var(--text)'}">${trend!==null?(parseFloat(trend)>0?'▲ +':'▼ ')+trend+'%':'—'}</div><div class="kpi-sub">vs media storica</div></div>
-  `;
+    <div class="kpi"><div class="kpi-label">Spesa totale periodo</div><div class="kpi-val" style="color:var(--warn)">${fmtEur(f.totale)}</div><div class="kpi-sub">${mesiLabels.length} mesi analizzati</div></div>
+    <div class="kpi"><div class="kpi-label">Media mensile</div><div class="kpi-val">${fmtEur(Math.round(f.media))}</div><div class="kpi-sub">${f.mesiAttivi} mesi con fatture</div></div>
+    <div class="kpi"><div class="kpi-label">Trend ultimo mese</div><div class="kpi-val" style="color:${trendCol}">${trend!==null?(parseFloat(trend)>0?'▲ +':'▼ ')+trend+'%':'—'}</div><div class="kpi-sub">vs media storica</div></div>`;
 
-  // Mini grafico linea per il fornitore
-  drawAfDetChart(f, mesiLabels, mesiProiezLabels);
+  // Grafico a barre mensili del singolo fornitore
+  drawAfDetChart(f, mesiLabels, []);
 
-  // Lista fatture del fornitore
-  const fatt = f.fatture.sort((a,b) => new Date(b.dataScadenza)-new Date(a.dataScadenza));
+  // Tabella fatture completa e ordinata per scadenza
+  const fatt = [...f.fatture].sort((a,b)=>new Date(b.dataScadenza||0)-new Date(a.dataScadenza||0));
+  const totFatt = fatt.reduce((s,ft)=>s+ft.importo,0);
   document.getElementById('af-det-fatture').innerHTML = `
-    <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Fatture nel periodo (${fatt.length})</div>
-    <div style="overflow-x:auto;border-radius:8px;border:1px solid var(--border)">
-      <table style="width:100%;border-collapse:collapse">
-        <thead style="background:var(--surface2)"><tr>
-          <th style="padding:7px 12px;font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;text-align:left">N° Fattura</th>
-          <th style="padding:7px 12px;font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;text-align:left">Scadenza</th>
-          <th style="padding:7px 12px;font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;text-align:right">Importo</th>
-          <th style="padding:7px 12px;font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">Stato</th>
+    <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">
+      Fatture nel periodo (${fatt.length}) · totale ${fmtEur(totFatt)}
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>N° Fattura</th>
+          <th>Data doc.</th>
+          <th>Scadenza</th>
+          <th class="r">Importo</th>
+          <th>Modalità</th>
+          <th>Stato</th>
         </tr></thead>
-        <tbody>
-          ${fatt.map(ft=>`<tr style="border-top:1px solid var(--border)">
-            <td style="padding:7px 12px;font-family:monospace;font-size:12px">${ft.numero}</td>
-            <td style="padding:7px 12px;font-family:monospace;font-size:12px">${dt(ft.dataScadenza)}</td>
-            <td style="padding:7px 12px;font-family:monospace;font-size:13px;font-weight:600;text-align:right">${fmtEur(ft.importo)}</td>
-            <td style="padding:7px 12px">${badgeStato(ft)}</td>
-          </tr>`).join('')}
-        </tbody>
+        <tbody>${fatt.map(ft=>`<tr>
+          <td class="mono" style="font-size:11px">${ft.numero||'—'}</td>
+          <td class="mono" style="font-size:11px;color:var(--text3)">${dt(ft.data)}</td>
+          <td class="mono" style="font-size:11px;color:${statoEff(ft)==='overdue'?'var(--danger)':'inherit'}">${dt(ft.dataScadenza)}</td>
+          <td class="mono r" style="font-weight:600">${fmtEur(ft.importo)}</td>
+          <td style="font-size:11px;color:var(--text3)">${mpLabel(ft.modalitaPagamento)}</td>
+          <td>${badgeStato(ft)}</td>
+        </tr>`).join('')}</tbody>
       </table>
     </div>`;
 
   const el = document.getElementById('af-dettaglio-fornitore');
   el.style.display = 'block';
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  el.scrollIntoView({ behavior:'smooth', block:'start' });
 }
+
 
 function chiudiDettaglioFor() {
   document.getElementById('af-dettaglio-fornitore').style.display = 'none';
 }
 
 function drawAfDetChart(f, mesiLabels, mesiProiezLabels) {
-  const canvas   = document.getElementById('af-det-chart');
-  const allMesi  = [...mesiLabels, ...mesiProiezLabels];
-  const allVals  = [...f.vals, ...f.valsProiez];
-  const isLight  = document.documentElement.getAttribute('data-theme') === 'light';
-  const textCol  = isLight ? '#5a6478' : '#8892a4';
-  const gridCol  = isLight ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.04)';
-  const W = canvas.offsetWidth || 600;
-  const H = 160;
-  canvas.width = W; canvas.height = H;
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0,0,W,H);
-  const PAD = { top:10, right:20, bottom:34, left:78 };
-  const cW = W-PAD.left-PAD.right, cH = H-PAD.top-PAD.bottom;
-  const maxV = Math.max(...allVals, 1);
-  const sY = v => PAD.top + cH - (v/maxV)*cH;
-  const sX = i => PAD.left + (i/(allMesi.length-1||1))*cW;
-
-  // Griglia
-  for (let i=0;i<=3;i++) {
-    const v=maxV*(i/3), y=sY(v);
-    ctx.strokeStyle=gridCol; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(PAD.left,y); ctx.lineTo(PAD.left+cW,y); ctx.stroke();
-    ctx.fillStyle=textCol; ctx.font='9px IBM Plex Mono,monospace'; ctx.textAlign='right';
-    ctx.fillText('€'+(v>=1000?Math.round(v/1000)+'k':Math.round(v).toLocaleString('it-IT')), PAD.left-4, y+4);
-  }
-
-  // Linea divisoria storico/proiezione
-  if (mesiProiezLabels.length > 0) {
-    const xi = sX(mesiLabels.length-1);
-    ctx.strokeStyle='rgba(79,138,255,0.4)'; ctx.lineWidth=1; ctx.setLineDash([4,3]);
-    ctx.beginPath(); ctx.moveTo(xi,PAD.top); ctx.lineTo(xi,PAD.top+cH); ctx.stroke();
-    ctx.setLineDash([]);
-  }
-
-  // Area sotto la linea storica
-  ctx.beginPath(); ctx.moveTo(sX(0),sY(f.vals[0]||0));
-  f.vals.forEach((v,i) => ctx.lineTo(sX(i),sY(v)));
-  ctx.lineTo(sX(f.vals.length-1),H-PAD.bottom); ctx.lineTo(sX(0),H-PAD.bottom); ctx.closePath();
-  const grad=ctx.createLinearGradient(0,PAD.top,0,H-PAD.bottom);
-  grad.addColorStop(0,'rgba(0,212,170,0.2)'); grad.addColorStop(1,'rgba(0,212,170,0.01)');
-  ctx.fillStyle=grad; ctx.fill();
-
-  // Linea storica
-  ctx.beginPath(); ctx.strokeStyle='#00d4aa'; ctx.lineWidth=2;
-  f.vals.forEach((v,i)=>{ const x=sX(i),y=sY(v); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); }); ctx.stroke();
-
-  // Linea proiezione (tratteggiata)
-  if (f.valsProiez.length>0) {
-    ctx.beginPath(); ctx.strokeStyle='rgba(79,138,255,0.8)'; ctx.lineWidth=2; ctx.setLineDash([5,4]);
-    const lastHistIdx=f.vals.length-1;
-    ctx.moveTo(sX(lastHistIdx), sY(f.vals[lastHistIdx]||0));
-    f.valsProiez.forEach((v,i) => ctx.lineTo(sX(lastHistIdx+1+i),sY(v)));
-    ctx.stroke(); ctx.setLineDash([]);
-  }
-
-  // Punti
-  allVals.forEach((v,i) => {
-    if (v===0) return;
-    const isProiez = i >= mesiLabels.length;
-    ctx.beginPath(); ctx.arc(sX(i),sY(v),3,0,Math.PI*2);
-    ctx.fillStyle = isProiez ? 'rgba(79,138,255,0.8)' : '#00d4aa'; ctx.fill();
+  if (window._chAfDet) { window._chAfDet.destroy(); window._chAfDet=null; }
+  const canvas = document.getElementById('af-det-chart');
+  if (!canvas) return;
+  canvas.style.height = '180px';
+  canvas.style.display = 'block';
+  const labels = mesiLabels.map(mk=>mkLabel(mk));
+  const data   = mesiLabels.map((_,i)=>Math.round(f.vals[i]||0));
+  const oggi_  = new Date(); oggi_.setDate(1); oggi_.setHours(0,0,0,0);
+  const colors = mesiLabels.map(mk=>{
+    const [y,m]=mk.split('-');
+    const d=new Date(parseInt(y),parseInt(m)-1,1);
+    return d < oggi_ ? 'rgba(99,102,241,0.6)' : 'rgba(251,191,36,0.6)';
   });
-
-  // Etichette X
-  ctx.fillStyle=textCol; ctx.font='9px IBM Plex Mono,monospace'; ctx.textAlign='center';
-  const step=Math.max(1,Math.floor(allMesi.length/8));
-  allMesi.forEach((mk,i)=>{ if(i%step===0) ctx.fillText(mkLabel(mk),sX(i),H-PAD.bottom+12); });
+  window._chAfDet = new Chart(canvas, {
+    type: 'bar',
+    data: { labels, datasets:[{ data, backgroundColor:colors, borderRadius:4 }] },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: { legend:{display:false}, tooltip:{callbacks:{label:c=>'€ '+c.raw.toLocaleString('it-IT')}} },
+      scales: {
+        y: { ticks:{callback:v=>'€'+(v>=1000?Math.round(v/1000)+'k':v)}, grid:{color:'rgba(128,128,128,0.08)'} },
+        x: { grid:{display:false}, ticks:{maxRotation:45,font:{size:10}} }
+      }
+    }
+  });
 }
 
 
-// ═══════════════════════════════════════════════════════════════
-// CALENDARIO SCADENZE
-// ═══════════════════════════════════════════════════════════════
 function calInitSel() {
   const sm = document.getElementById('cal-mese-sel');
   const sa = document.getElementById('cal-anno-sel');
